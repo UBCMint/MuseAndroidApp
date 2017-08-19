@@ -4,41 +4,38 @@ import android.Manifest;
 import android.annotation.TargetApi;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
+import android.databinding.DataBindingUtil;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.Toast;
 
 import com.choosemuse.libmuse.Muse;
-import com.choosemuse.libmuse.MuseDataPacketType;
 import com.choosemuse.libmuse.MuseManagerAndroid;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
+import ca.ubc.best.mint.museandroidapp.databinding.ActivityRecordingBinding;
+import ca.ubc.best.mint.museandroidapp.vm.RecordingViewModel;
 import eeg.useit.today.eegtoolkit.io.StreamingDeviceRecorder;
 import eeg.useit.today.eegtoolkit.vm.MuseListViewModel;
-import eeg.useit.today.eegtoolkit.vm.StreamingDeviceViewModel;
 
 public class RecordingActivity extends AppCompatActivity {
   final private int REQUEST_CODE_ASK_MULTIPLE_PERMISSIONS = 124;
 
-  /** ViewModel for muse devices found during scan. */
-  public final MuseListViewModel viewModel = new MuseListViewModel();
+  /** ViewModel for this activity. */
+  public final RecordingViewModel recordingViewModel = new RecordingViewModel();
 
-  /** ViewModel for single device we're using. */
-  public StreamingDeviceViewModel device = new StreamingDeviceViewModel();
+  /** ViewModel for muse devices found during scan. */
+  public final MuseListViewModel listViewModel = new MuseListViewModel();
 
   /** Object that performs the recorder, or null if no recording is happening. */
   private StreamingDeviceRecorder recorder;
@@ -48,7 +45,8 @@ public class RecordingActivity extends AppCompatActivity {
     super.onCreate(savedInstanceState);
     MuseManagerAndroid.getInstance().setContext(RecordingActivity.this);
 
-    setContentView(R.layout.activity_recording);
+    ActivityRecordingBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_recording);
+    binding.setRecordVM(recordingViewModel);
     getSupportActionBar().setTitle("Record EEG");
 
     askPermissions();
@@ -66,18 +64,18 @@ public class RecordingActivity extends AppCompatActivity {
         scanButton.setText("Scanning...");
         scanButton.setEnabled(false);
         Log.i("App", "Starting recording activity, listening to muse...");
-        viewModel.setListener(new MuseListViewModel.MuseListListener() {
+        listViewModel.setListener(new MuseListViewModel.MuseListListener() {
           @Override
           public void onScanForDevicesFinished() {
-            if (viewModel.getDevices().isEmpty()) {
+            if (listViewModel.getDevices().isEmpty()) {
               scanButton.setEnabled(true);
               scanButton.setText("Scan");
               Toast.makeText(
                   RecordingActivity.this, "No devices found :(", Toast.LENGTH_LONG
               ).show();
             } else {
-              Muse muse = viewModel.getDevices().get(0);
-              RecordingActivity.this.device.setMuse(muse);
+              Muse muse = listViewModel.getDevices().get(0);
+              RecordingActivity.this.recordingViewModel.getDevice().setMuse(muse);
               ((ViewGroup) scanButton.getParent()).removeView(scanButton);
               RecordingActivity.this.getSupportActionBar().setTitle("Device: " + muse.getName());
               Log.i("MINT", "Setting record section to visible...");
@@ -89,7 +87,7 @@ public class RecordingActivity extends AppCompatActivity {
             // Ignore, just chose the first.
           }
         });
-        viewModel.scan(5);
+        listViewModel.scan(5);
       }
     });
   }
@@ -110,18 +108,7 @@ public class RecordingActivity extends AppCompatActivity {
           // Start recording!
           Log.i("MINT", "Starting recording!");
 
-          Set<MuseDataPacketType> types = new HashSet<>();
-          if (((CheckBox) findViewById(R.id.useRaw)).isChecked()) {
-            types.add(MuseDataPacketType.EEG);
-          }
-          if (((CheckBox) findViewById(R.id.useConnection)).isChecked()) {
-            types.add(MuseDataPacketType.HSI_PRECISION);
-          }
-          if (((CheckBox) findViewById(R.id.useRelativeAlpha)).isChecked()) {
-            types.add(MuseDataPacketType.ALPHA_RELATIVE);
-          }
-          Log.i("MINT", "Recording " + types.size() + " channels");
-          recorder = new StreamingDeviceRecorder(RecordingActivity.this, "data", device, types);
+          recorder = recordingViewModel.createRecorder(RecordingActivity.this);
           recorder.start();
           // HMMM...not sure why this hides everything...
           // ((Button) findViewById(R.id.recordButton)).setText("Stop");
