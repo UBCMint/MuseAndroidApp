@@ -9,6 +9,7 @@
     <data>
         <import type="android.view.View"/>
 
+        <variable name="activity" type="ca.ubc.best.mint.museandroidapp.RecordingActivity" />
         <variable name="recordVM" type="ca.ubc.best.mint.museandroidapp.vm.RecordingViewModel" />
     </data>
 
@@ -97,6 +98,7 @@
                 android:id="@+id/recordButton"
                 android:enabled="@{recordVM.canRecord() || recordVM.canStopRecording()}"
                 android:text='@{recordVM.canStopRecording() ? "Stop recording" : "Record"}'
+                android:onClick="@{() -> activity.handleRecordClicked()}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"

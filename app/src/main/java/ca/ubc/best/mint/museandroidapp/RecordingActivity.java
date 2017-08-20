@@ -41,13 +41,13 @@ public class RecordingActivity extends AppCompatActivity {
     MuseManagerAndroid.getInstance().setContext(RecordingActivity.this);
 
     ActivityRecordingBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_recording);
+    binding.setActivity(this);
     binding.setRecordVM(recordingViewModel);
     getSupportActionBar().setTitle("Record EEG");
 
     askPermissions();
 
     configureScanButton();
-    configureRecordButton();
   }
 
   // Set up what to do when the scan button is pressed: Scan, then connect to the muse found.
@@ -85,23 +85,19 @@ public class RecordingActivity extends AppCompatActivity {
     });
   }
 
-  // Set up what to do when the record button is pressed: find what to record, and record it.
-  private void configureRecordButton() {
-    final Button recordButton = (Button) findViewById(R.id.recordButton);
-    recordButton.setOnClickListener(new View.OnClickListener() {
-      @Override public void onClick(View view) {
-        if (recordingViewModel.canStopRecording()) {
-          // Stop recording!
-          Log.i("MINT", "Stop recording!");
-          String path = recordingViewModel.stopRecordingAndSave();
-          Toast.makeText(RecordingActivity.this, "Recorded! To: " + path, Toast.LENGTH_LONG).show();
-        } else {
-          // Start recording!
-          Log.i("MINT", "Starting recording!");
-          recordingViewModel.startRecording(RecordingActivity.this);
-        }
-      }
-    });
+  /** Handles the record button being clicked - either start or stop recording. */
+  public void handleRecordClicked() {
+    if (recordingViewModel.canRecord()) {
+      // Start recording!
+      Log.i("MINT", "Starting recording!");
+      recordingViewModel.startRecording(RecordingActivity.this);
+    } else if (recordingViewModel.canStopRecording()) {
+      // Stop recording!
+      Log.i("MINT", "Stop recording!");
+      String path = recordingViewModel.stopRecordingAndSave();
+      // TODO: Enable sharing the file that was just recorded. Currently just flash message:
+      Toast.makeText(RecordingActivity.this, "Recorded! To: " + path, Toast.LENGTH_LONG).show();
+    }
   }
 
 
