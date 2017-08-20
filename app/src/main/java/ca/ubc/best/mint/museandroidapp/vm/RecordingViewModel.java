@@ -13,6 +13,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 import eeg.useit.today.eegtoolkit.io.StreamingDeviceRecorder;
+import eeg.useit.today.eegtoolkit.vm.MuseListViewModel;
+import eeg.useit.today.eegtoolkit.vm.MuseListViewModel.MuseListListener;
 import eeg.useit.today.eegtoolkit.vm.StreamingDeviceViewModel;
 
 /**
@@ -29,9 +31,35 @@ public class RecordingViewModel extends BaseObservable {
   /** Object performing the recording, or null if no recording is taking place. */
   private StreamingDeviceRecorder recorder = null;
 
+  /** Object performing the device scan, or null if no scan is taking place. */
+  private MuseListViewModel listViewModel = null;
+
+  /** Scan for devices for some time, call onDeviceSelected when done. */
+  public void scanForDevice(int scanLengthSec, final MuseListListener listener) {
+    assert this.canStartScan();
+    listViewModel = new MuseListViewModel();
+    listViewModel.setListener(new MuseListListener() {
+      @Override public void onScanForDevicesFinished() {
+        if (listViewModel.getDevices().isEmpty()) {
+          // No devices found :(
+          listener.onDeviceSelected(null);
+        } else {
+          // Default to first device, for convenience.
+          Muse muse = listViewModel.getDevices().get(0);
+          attachMuse(muse);
+          listener.onDeviceSelected(muse);
+        }
+        listViewModel = null;
+      }
+      @Override public void onDeviceSelected(Muse muse) { /* ignore */ }
+    });
+    listViewModel.scan(scanLengthSec);
+    notifyChange();
+  }
+
   /** @return A new recorder for the device, based on what is selected. */
   public StreamingDeviceRecorder startRecording(Context ctx) {
-    assert canRecord(); // Make sure you can record first...
+    assert canStartRecording(); // Make sure you can record first...
     Log.i("MINT", "Recording " + channelsSelected.size() + " channels");
     recorder = new StreamingDeviceRecorder(ctx, "data", device, channelsSelected);
     recorder.start();
@@ -49,14 +77,21 @@ public class RecordingViewModel extends BaseObservable {
 
   // GETTERS
 
-  // You can start a scan if there's no device, i.e. if the device address is null. */
-  public boolean canScanStart() {
-    return device.getMacAddress() == null;
+  /** @return Whether the streaming device is attached to a muse. */
+  public boolean hasDevice() {
+    // TODO: Add this to StreamingDeviceViewModel, rather than using mac address.
+    return device.getMacAddress() != null;
+  }
+
+  // You can only start scanning if there's no devices and we're not already scanning. */
+  public boolean canStartScan() {
+    boolean isScanning = listViewModel != null;
+    return !hasDevice() && !isScanning;
   }
 
   // You can only record if there's a device to measure, and at least one selected channel. */
-  public boolean canRecord() {
-    return device.getMacAddress() != null && !channelsSelected.isEmpty() && recorder == null;
+  public boolean canStartRecording() {
+    return hasDevice() && !channelsSelected.isEmpty() && recorder == null;
   }
 
   public boolean canStopRecording() {

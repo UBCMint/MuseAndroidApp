@@ -2,6 +2,7 @@ package ca.ubc.best.mint.museandroidapp;
 
 import android.Manifest;
 import android.annotation.TargetApi;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.databinding.DataBindingUtil;
@@ -10,8 +11,6 @@ import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.View;
-import android.widget.Button;
 import android.widget.Toast;
 
 import com.choosemuse.libmuse.Muse;
@@ -28,12 +27,10 @@ import eeg.useit.today.eegtoolkit.vm.MuseListViewModel;
 
 public class RecordingActivity extends AppCompatActivity {
   final private int REQUEST_CODE_ASK_MULTIPLE_PERMISSIONS = 124;
+  final private int SCAN_LENGTH_SEC = 5;
 
   /** ViewModel for this activity. */
   public final RecordingViewModel recordingViewModel = new RecordingViewModel();
-
-  /** ViewModel for muse devices found during scan. */
-  public final MuseListViewModel listViewModel = new MuseListViewModel();
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -45,54 +42,34 @@ public class RecordingActivity extends AppCompatActivity {
     binding.setRecordVM(recordingViewModel);
     getSupportActionBar().setTitle("Record EEG");
 
-    askPermissions();
-
-    configureScanButton();
+    maybeAskPermissions();
   }
 
-  // Set up what to do when the scan button is pressed: Scan, then connect to the muse found.
-  private void configureScanButton() {
-    final Button scanButton = (Button) findViewById(R.id.scanButton);
-    scanButton.setOnClickListener(new View.OnClickListener() {
+  /** Handles the scan button being clicked: starts the scan for muse devices. */
+  public void handleScanClicked() {
+    final Context ctx = this;
+    recordingViewModel.scanForDevice(SCAN_LENGTH_SEC, new MuseListViewModel.MuseListListener() {
       @Override
-      public void onClick(View view) {
-        scanButton.setText("Scanning...");
-        scanButton.setEnabled(false);
-        Log.i("App", "Starting recording activity, listening to muse...");
-        listViewModel.setListener(new MuseListViewModel.MuseListListener() {
-          @Override
-          public void onScanForDevicesFinished() {
-            if (listViewModel.getDevices().isEmpty()) {
-              scanButton.setEnabled(true);
-              scanButton.setText("Scan");
-              Toast.makeText(
-                  RecordingActivity.this, "No devices found :(", Toast.LENGTH_LONG
-              ).show();
-            } else {
-              Muse muse = listViewModel.getDevices().get(0);
-              RecordingActivity.this.recordingViewModel.attachMuse(muse);
-              RecordingActivity.this.getSupportActionBar().setTitle("Device: " + muse.getName());
-              Log.i("MINT", "Setting record section to visible...");
-            }
-          }
-          @Override
-          public void onDeviceSelected(Muse muse) {
-            // Ignore, just chose the first.
-          }
-        });
-        listViewModel.scan(5);
+      public void onScanForDevicesFinished() { /* not called */ }
+
+      @Override
+      public void onDeviceSelected(Muse muse) {
+        if (muse == null) {
+          Toast.makeText(ctx, "No devices found :(", Toast.LENGTH_LONG).show();
+        } else {
+          getSupportActionBar().setTitle("Device: " + muse.getName());
+        }
       }
     });
   }
 
   /** Handles the record button being clicked - either start or stop recording. */
   public void handleRecordClicked() {
-    if (recordingViewModel.canRecord()) {
-      // Start recording!
+    if (recordingViewModel.canStartRecording()) {
       Log.i("MINT", "Starting recording!");
       recordingViewModel.startRecording(RecordingActivity.this);
+
     } else if (recordingViewModel.canStopRecording()) {
-      // Stop recording!
       Log.i("MINT", "Stop recording!");
       String path = recordingViewModel.stopRecordingAndSave();
       // TODO: Enable sharing the file that was just recorded. Currently just flash message:
@@ -136,7 +113,7 @@ public class RecordingActivity extends AppCompatActivity {
   }
 
   @TargetApi(Build.VERSION_CODES.M)
-  private void askPermissions() {
+  private void maybeAskPermissions() {
     List<String> permissionsNeeded = new ArrayList<>();
     final List<String> permissionsList = new ArrayList<>();
     if (!addPermission(permissionsList, Manifest.permission.ACCESS_FINE_LOCATION)) {
