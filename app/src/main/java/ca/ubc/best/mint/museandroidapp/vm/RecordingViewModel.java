@@ -50,6 +50,7 @@ public class RecordingViewModel extends BaseObservable {
           listener.onDeviceSelected(muse);
         }
         listViewModel = null;
+        notifyChange();
       }
       @Override public void onDeviceSelected(Muse muse) { /* ignore */ }
     });

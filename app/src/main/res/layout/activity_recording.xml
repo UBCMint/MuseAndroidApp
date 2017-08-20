@@ -21,8 +21,8 @@
         <Button
             android:id="@+id/scanButton"
             android:visibility="@{recordVM.hasDevice() ? View.GONE : View.VISIBLE}"
-            android:text='@{recordVM.canScanStart() ? "Scan for Device" : "Scanning"}'
-            android:enabled="@{recordVM.canScanStart()}"
+            android:text='@{recordVM.canStartScan() ? "Scan for Device" : "Scanning"}'
+            android:enabled="@{recordVM.canStartScan()}"
             android:onClick="@{() -> activity.handleScanClicked()}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -98,7 +98,7 @@
 
             <Button
                 android:id="@+id/recordButton"
-                android:enabled="@{recordVM.canRecord() || recordVM.canStopRecording()}"
+                android:enabled="@{recordVM.canStartRecording() || recordVM.canStopRecording()}"
                 android:text='@{recordVM.canStopRecording() ? "Stop recording" : "Record"}'
                 android:onClick="@{() -> activity.handleRecordClicked()}"
                 android:layout_width="wrap_content"
