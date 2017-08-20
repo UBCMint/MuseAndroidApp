@@ -11,7 +11,6 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -25,7 +24,6 @@ import java.util.Map;
 
 import ca.ubc.best.mint.museandroidapp.databinding.ActivityRecordingBinding;
 import ca.ubc.best.mint.museandroidapp.vm.RecordingViewModel;
-import eeg.useit.today.eegtoolkit.io.StreamingDeviceRecorder;
 import eeg.useit.today.eegtoolkit.vm.MuseListViewModel;
 
 public class RecordingActivity extends AppCompatActivity {
@@ -36,9 +34,6 @@ public class RecordingActivity extends AppCompatActivity {
 
   /** ViewModel for muse devices found during scan. */
   public final MuseListViewModel listViewModel = new MuseListViewModel();
-
-  /** Object that performs the recorder, or null if no recording is happening. */
-  private StreamingDeviceRecorder recorder;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -75,11 +70,9 @@ public class RecordingActivity extends AppCompatActivity {
               ).show();
             } else {
               Muse muse = listViewModel.getDevices().get(0);
-              RecordingActivity.this.recordingViewModel.getDevice().setMuse(muse);
-              ((ViewGroup) scanButton.getParent()).removeView(scanButton);
+              RecordingActivity.this.recordingViewModel.attachMuse(muse);
               RecordingActivity.this.getSupportActionBar().setTitle("Device: " + muse.getName());
               Log.i("MINT", "Setting record section to visible...");
-              findViewById(R.id.recordButton).setEnabled(true);
             }
           }
           @Override
@@ -97,21 +90,15 @@ public class RecordingActivity extends AppCompatActivity {
     final Button recordButton = (Button) findViewById(R.id.recordButton);
     recordButton.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View view) {
-        if (recorder != null) {
+        if (recordingViewModel.canStopRecording()) {
           // Stop recording!
           Log.i("MINT", "Stop recording!");
-          assert recorder.isRunning();
-          String path = recorder.stopAndSave();
+          String path = recordingViewModel.stopRecordingAndSave();
           Toast.makeText(RecordingActivity.this, "Recorded! To: " + path, Toast.LENGTH_LONG).show();
-          recordButton.setEnabled(false);
         } else {
           // Start recording!
           Log.i("MINT", "Starting recording!");
-
-          recorder = recordingViewModel.createRecorder(RecordingActivity.this);
-          recorder.start();
-          // HMMM...not sure why this hides everything...
-          // ((Button) findViewById(R.id.recordButton)).setText("Stop");
+          recordingViewModel.startRecording(RecordingActivity.this);
         }
       }
     });

@@ -7,6 +7,8 @@
     tools:context="ca.ubc.best.mint.museandroidapp.RecordingActivity">
 
     <data>
+        <import type="android.view.View"/>
+
         <variable name="recordVM" type="ca.ubc.best.mint.museandroidapp.vm.RecordingViewModel" />
     </data>
 
@@ -20,6 +22,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Scan"
+            android:visibility="@{recordVM.canScanStart() ? View.VISIBLE : View.INVISIBLE}"
             android:layout_marginRight="8dp"
             app:layout_constraintRight_toRightOf="parent"
             android:layout_marginLeft="8dp"
@@ -92,13 +95,13 @@
 
             <Button
                 android:id="@+id/recordButton"
-                android:enabled="false"
+                android:enabled="@{recordVM.canRecord() || recordVM.canStopRecording()}"
+                android:text='@{recordVM.canStopRecording() ? "Stop recording" : "Record"}'
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
                 android:layout_marginTop="32dp"
-                android:text="Record"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/useRelativeAlpha"/>

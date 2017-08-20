@@ -6,12 +6,12 @@ import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 
+import com.choosemuse.libmuse.Muse;
 import com.choosemuse.libmuse.MuseDataPacketType;
 
 import java.util.HashSet;
 import java.util.Set;
 
-import eeg.useit.today.eegtoolkit.common.FrequencyBands;
 import eeg.useit.today.eegtoolkit.io.StreamingDeviceRecorder;
 import eeg.useit.today.eegtoolkit.vm.StreamingDeviceViewModel;
 
@@ -21,76 +21,85 @@ import eeg.useit.today.eegtoolkit.vm.StreamingDeviceViewModel;
  */
 public class RecordingViewModel extends BaseObservable {
   /** ViewModel for single device we're using. */
-  public StreamingDeviceViewModel device = new StreamingDeviceViewModel();
+  private final StreamingDeviceViewModel device = new StreamingDeviceViewModel();
 
-  // Which channels to record:
-  private boolean rawSelected;
-  private boolean connectionSelected;
-  private Set<FrequencyBands.Band> bandsSelected = new HashSet<>();
+  /** Which channels to record: */
+  private final Set<MuseDataPacketType> channelsSelected = new HashSet<>();
+
+  /** Object performing the recording, or null if no recording is taking place. */
+  private StreamingDeviceRecorder recorder = null;
 
   /** @return A new recorder for the device, based on what is selected. */
-  public StreamingDeviceRecorder createRecorder(Context ctx) {
-    Set<MuseDataPacketType> types = new HashSet<>();
-    if (isRawSelected()) {
-      types.add(MuseDataPacketType.EEG);
-    }
-    if (isConnectionSelected()) {
-      types.add(MuseDataPacketType.HSI_PRECISION);
-    }
-    if (isAlphaSelected()) {
-      types.add(MuseDataPacketType.ALPHA_RELATIVE);
-    }
-    Log.i("MINT", "Recording " + types.size() + " channels");
-    return new StreamingDeviceRecorder(ctx, "data", device, types);
+  public StreamingDeviceRecorder startRecording(Context ctx) {
+    assert canRecord(); // Make sure you can record first...
+    Log.i("MINT", "Recording " + channelsSelected.size() + " channels");
+    recorder = new StreamingDeviceRecorder(ctx, "data", device, channelsSelected);
+    recorder.start();
+    notifyChange();
+    return recorder;
+  }
+
+  /** Stop recording, and return the path it was written to. */
+  public String stopRecordingAndSave() {
+    String path = recorder.stopAndSave();
+    recorder = null;
+    notifyChange();
+    return path;
   }
 
   // GETTERS
 
-  public StreamingDeviceViewModel getDevice() {
-    return device;
+  // You can start a scan if there's no device, i.e. if the device address is null. */
+  public boolean canScanStart() {
+    return device.getMacAddress() == null;
+  }
+
+  // You can only record if there's a device to measure, and at least one selected channel. */
+  public boolean canRecord() {
+    return device.getMacAddress() != null && !channelsSelected.isEmpty() && recorder == null;
+  }
+
+  public boolean canStopRecording() {
+    return recorder != null && recorder.isRunning();
   }
 
   public boolean isRawSelected() {
-    return rawSelected;
+    return channelsSelected.contains(MuseDataPacketType.EEG);
   }
 
   public boolean isConnectionSelected() {
-    return connectionSelected;
+    return channelsSelected.contains(MuseDataPacketType.HSI_PRECISION);
   }
 
   public boolean isAlphaSelected() {
-    return isFrequencySelected(FrequencyBands.Band.ALPHA);
-  }
-
-  // Utility to reuse for all the frequencies.
-  private boolean isFrequencySelected(FrequencyBands.Band band) {
-    return bandsSelected.contains(band);
+    return channelsSelected.contains(MuseDataPacketType.ALPHA_RELATIVE);
   }
 
   // SETTERS
 
-  public void onClickRaw(View view) {
-    boolean newValue = ((CheckBox)view).isChecked();
-    rawSelected = newValue;
+  public void attachMuse(Muse muse) {
+    this.device.setMuse(muse);
     notifyChange();
+  }
+
+  public void onClickRaw(View view) {
+    updateFromView((CheckBox) view, MuseDataPacketType.EEG);
   }
 
   public void onClickConnection(View view) {
-    boolean newValue = ((CheckBox)view).isChecked();
-    connectionSelected = newValue;
-    notifyChange();
+    updateFromView((CheckBox) view, MuseDataPacketType.HSI_PRECISION);
   }
 
   public void onClickAlpha(View view) {
-    setFrequencySelected(FrequencyBands.Band.ALPHA, ((CheckBox)view).isChecked());
+    updateFromView((CheckBox) view, MuseDataPacketType.ALPHA_RELATIVE);
   }
 
-  // Utility to reuse for all the frequencies.
-  private void setFrequencySelected(FrequencyBands.Band band, boolean newValue) {
-    if (newValue) {
-      bandsSelected.add(band);
+  // Utility to do all the common updates from a checkbox:
+  private void updateFromView(CheckBox view, MuseDataPacketType type) {
+    if (view.isChecked()) {
+      channelsSelected.add(type);
     } else {
-      bandsSelected.remove(band);
+      channelsSelected.remove(type);
     }
     notifyChange();
   }
