@@ -13,6 +13,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import eeg.useit.today.eegtoolkit.io.StreamingDeviceRecorder;
+import eeg.useit.today.eegtoolkit.vm.ConnectionStrengthViewModel;
 import eeg.useit.today.eegtoolkit.vm.MuseListViewModel;
 import eeg.useit.today.eegtoolkit.vm.MuseListViewModel.MuseListListener;
 import eeg.useit.today.eegtoolkit.vm.StreamingDeviceViewModel;
@@ -24,6 +25,9 @@ import eeg.useit.today.eegtoolkit.vm.StreamingDeviceViewModel;
 public class RecordingViewModel extends BaseObservable {
   /** ViewModel for single device we're using. */
   private final StreamingDeviceViewModel device = new StreamingDeviceViewModel();
+
+  /** ViewModel for the live connection strength values. */
+  private final ConnectionStrengthViewModel connectionVM = new ConnectionStrengthViewModel(device);
 
   /** Which channels to record: */
   private final Set<MuseDataPacketType> channelsSelected = new HashSet<>();
@@ -88,6 +92,10 @@ public class RecordingViewModel extends BaseObservable {
   public boolean canStartScan() {
     boolean isScanning = listViewModel != null;
     return !hasDevice() && !isScanning;
+  }
+
+  public ConnectionStrengthViewModel getConnectionStrength() {
+    return this.connectionVM;
   }
 
   // You can only record if there's a device to measure, and at least one selected channel. */
