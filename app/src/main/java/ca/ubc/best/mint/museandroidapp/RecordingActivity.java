@@ -4,19 +4,25 @@ import android.Manifest;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.databinding.DataBindingUtil;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.Toast;
+import android.widget.Button;
 
 import com.choosemuse.libmuse.Muse;
 import com.choosemuse.libmuse.MuseManagerAndroid;
 
+import java.io.File;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -74,9 +80,15 @@ public class RecordingActivity extends AppCompatActivity {
       String path = recordingViewModel.stopRecordingAndSave();
       // TODO: Enable sharing the file that was just recorded. Currently just flash message:
       Toast.makeText(RecordingActivity.this, "Recorded! To: " + path, Toast.LENGTH_LONG).show();
+      File test = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS).getAbsolutePath() + File.separator + path);
+      if (test.exists()) {
+        Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto", "", null));
+        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "MUSE " + Calendar.getInstance().getTime().toString());
+        emailIntent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(test));
+        startActivity(Intent.createChooser(emailIntent, "Choose an email client:"));
+      }
     }
   }
-
 
   // HACK - permissions:
   //
@@ -121,6 +133,9 @@ public class RecordingActivity extends AppCompatActivity {
     }
     if (!addPermission(permissionsList, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
       permissionsNeeded.add("Write to file");
+    }
+    if (!addPermission(permissionsList, Manifest.permission.READ_EXTERNAL_STORAGE)) {
+      permissionsNeeded.add("Read file");
     }
 
     if (permissionsList.size() > 0) {
