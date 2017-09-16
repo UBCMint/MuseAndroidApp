@@ -11,6 +11,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -174,7 +175,7 @@ public class RecordingActivity extends AppCompatActivity {
 
   @TargetApi(Build.VERSION_CODES.M)
   private boolean addPermission(List<String> permissionsList, String permission) {
-    if (checkSelfPermission(permission) != PackageManager.PERMISSION_GRANTED) {
+    if (ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED) {
       permissionsList.add(permission);
       // Check for Rationale Option
       if (!shouldShowRequestPermissionRationale(permission)) {
