@@ -90,6 +90,12 @@ public class RecordingActivity extends AppCompatActivity {
     }
   }
 
+  /** Handles the flanker launch button being clicked: Change to the Flanker activity. */
+  public void handleLaunchFlanker() {
+    Intent intent = new Intent(this, FlankerActivity.class);
+    startActivity(intent);
+  }
+
   // HACK - permissions:
   //
   // Permissions code below. See

@@ -1,0 +1,70 @@
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="ca.ubc.best.mint.museandroidapp.FlankerActivity">
+
+    <data>
+        <import type="android.view.View"/>
+
+        <variable name="flankerVM" type="ca.ubc.best.mint.museandroidapp.vm.FlankerViewModel" />
+    </data>
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/fullscreenContent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#0099cc">
+
+        <!-- Part that is visible when the cues are shown. -->
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/cueSection"
+            android:visibility="@{flankerVM.showCue() ? View.VISIBLE : View.GONE}"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView android:id="@+id/cueText"
+                      android:layout_width="0dp"
+                      android:layout_height="0dp"
+                      android:keepScreenOn="true"
+                      android:textSize="50sp"
+                      android:gravity="center"
+                      android:text="CUE GOES HERE"
+                      app:layout_constraintBottom_toBottomOf="parent"
+                      app:layout_constraintLeft_toLeftOf="parent"
+                      app:layout_constraintRight_toRightOf="parent"
+                      app:layout_constraintTop_toTopOf="parent" />
+        </android.support.constraint.ConstraintLayout>
+
+        <!-- Part that is visible when the arrows are shown. -->
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/arrowsSection"
+            android:visibility="@{flankerVM.showArrows() ? View.VISIBLE : View.GONE}"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView android:id="@+id/arrowsText"
+                      android:layout_width="0dp"
+                      android:layout_height="0dp"
+                      android:keepScreenOn="true"
+                      android:textSize="50sp"
+                      android:gravity="center"
+                      android:text="ARROWS GO HERE"
+                      app:layout_constraintBottom_toBottomOf="parent"
+                      app:layout_constraintLeft_toLeftOf="parent"
+                      app:layout_constraintRight_toRightOf="parent"
+                      app:layout_constraintTop_toTopOf="parent" />
+        </android.support.constraint.ConstraintLayout>
+
+
+
+    </android.support.constraint.ConstraintLayout>
+</layout>
