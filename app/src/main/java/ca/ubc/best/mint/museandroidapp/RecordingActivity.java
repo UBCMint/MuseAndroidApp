@@ -2,6 +2,7 @@ package ca.ubc.best.mint.museandroidapp;
 
 import android.Manifest;
 import android.annotation.TargetApi;
+import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -36,6 +37,11 @@ public class RecordingActivity extends AppCompatActivity {
   final private int REQUEST_CODE_ASK_MULTIPLE_PERMISSIONS = 124;
   final private int SCAN_LENGTH_SEC = 5;
 
+  private BluetoothAdapter mBluetoothAdapter;
+  private int REQUEST_ENABLE_BT = 1; //requestCode
+  private boolean btEnabled = false;
+  private boolean btPermissionGranted = false;
+
   /** ViewModel for this activity. */
   public final RecordingViewModel recordingViewModel = new RecordingViewModel();
 
@@ -55,6 +61,28 @@ public class RecordingActivity extends AppCompatActivity {
   /** Handles the scan button being clicked: starts the scan for muse devices. */
   public void handleScanClicked() {
     final Context ctx = this;
+    this.mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+    if(mBluetoothAdapter == null) {
+        Toast.makeText(ctx, "Bluetooth is not supported on this device :(", Toast.LENGTH_LONG).show();
+    }
+
+    else {
+
+        if(this.mBluetoothAdapter.isEnabled() == false) {
+            enableBluetooth(ctx);
+        }
+        else {
+            scanForDevices();
+
+        }
+    }
+
+
+  }
+
+  private void scanForDevices() {
+
+    final Context ctx = this;
     recordingViewModel.scanForDevice(SCAN_LENGTH_SEC, new MuseListViewModel.MuseListListener() {
       @Override
       public void onScanForDevicesFinished() { /* not called */ }
@@ -68,6 +96,8 @@ public class RecordingActivity extends AppCompatActivity {
         }
       }
     });
+
+
   }
 
   /** Handles the record button being clicked - either start or stop recording. */
@@ -184,4 +214,24 @@ public class RecordingActivity extends AppCompatActivity {
     }
     return true;
   }
+
+
+  private void enableBluetooth (Context ctx) {
+          Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+          startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
+
+  }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == this.REQUEST_ENABLE_BT) {
+            if (resultCode == RESULT_OK) {
+              scanForDevices();
+            }
+        }
+
+
+    }
 }
