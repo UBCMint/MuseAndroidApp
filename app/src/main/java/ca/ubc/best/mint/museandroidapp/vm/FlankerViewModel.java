@@ -12,13 +12,20 @@ import java.util.Random;
  * the stage we're in, and the results of everything recorded so far.
  */
 public class FlankerViewModel extends BaseObservable {
+  public static interface CompletionHandler {
+    void onComplete(FlankerViewModel viewModel);
+  }
+
+  /** How many cue-stimulus pairs to perform. */
+  private static final int FLANKER_TRIAL_RUNS = 3; // HACK - works for now.
+
   // TODO - remove once we have ordering done.
   private static Random rand = new Random();
   private static int COLOR_CUE_ON = Color.rgb(255, 255, 50);
   private static int COLOR_CUE_OFF = Color.rgb(30, 50, 255);
 
-  /** How many cue-stimulus pairs to perform. */
-  private static final int FLANKER_TRIAL_RUNS = 3; // HACK - works for now.
+  /** Called when the experiment is over. */
+  private final CompletionHandler completionHandler;
 
   /** Used for scheduling timed progression between states. */
   private final Handler timingHandler = new Handler();
@@ -29,7 +36,8 @@ public class FlankerViewModel extends BaseObservable {
   /** Which run through the stimulus we're at. */
   private int runAt;
 
-  public FlankerViewModel() {
+  public FlankerViewModel(CompletionHandler completionHandler) {
+    this.completionHandler = completionHandler;
     stage = null;
     runAt = -1;
   }
@@ -41,7 +49,7 @@ public class FlankerViewModel extends BaseObservable {
     if (stage == FlankerStage.PRE_CUE) {
       runAt++;
       if (runAt == FLANKER_TRIAL_RUNS) {
-        // TODO: call some finish handler with results.
+        completionHandler.onComplete(this);
         return;
       }
     }

@@ -15,7 +15,6 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.Toast;
-import android.widget.Button;
 
 import com.choosemuse.libmuse.Muse;
 import com.choosemuse.libmuse.MuseManagerAndroid;

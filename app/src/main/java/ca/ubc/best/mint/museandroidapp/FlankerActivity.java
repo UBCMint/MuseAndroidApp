@@ -1,6 +1,7 @@
 package ca.ubc.best.mint.museandroidapp;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.os.Handler;
@@ -13,12 +14,12 @@ import ca.ubc.best.mint.museandroidapp.vm.FlankerStage;
 import ca.ubc.best.mint.museandroidapp.vm.FlankerViewModel;
 
 /** Activity to draw the stimuli for the Flanker task, and record results. */
-public class FlankerActivity extends AppCompatActivity {
+public class FlankerActivity extends AppCompatActivity implements FlankerViewModel.CompletionHandler {
   /** Initial delay for animating going full-screen. */
   private static final int UI_ANIMATION_DELAY = 100;
 
   private final Handler hideHandler = new Handler();
-  private final FlankerViewModel viewModel = new FlankerViewModel();
+  private final FlankerViewModel viewModel = new FlankerViewModel(this);
 
   private View rootView; // Root of the view heirarchy, used for switching to fullscreen.
 
@@ -66,4 +67,9 @@ public class FlankerActivity extends AppCompatActivity {
     }, UI_ANIMATION_DELAY);
   }
 
+  @Override
+  public void onComplete(FlankerViewModel viewModel) {
+    Intent finishedIntent = new Intent(this, TaskCompleteActivity.class);
+    startActivity(finishedIntent);
+  }
 }
