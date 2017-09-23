@@ -1,14 +1,22 @@
 package ca.ubc.best.mint.museandroidapp.vm;
 
 import android.databinding.BaseObservable;
+import android.graphics.Color;
 import android.os.Handler;
 import android.util.Log;
+
+import java.util.Random;
 
 /**
  * View Model for the flanker task - contains the order of tests,
  * the stage we're in, and the results of everything recorded so far.
  */
 public class FlankerViewModel extends BaseObservable {
+  // TODO - remove once we have ordering done.
+  private static Random rand = new Random();
+  private static int COLOR_CUE_ON = Color.rgb(255, 255, 50);
+  private static int COLOR_CUE_OFF = Color.rgb(30, 50, 255);
+
   /** How many cue-stimulus pairs to perform. */
   private static final int FLANKER_TRIAL_RUNS = 3; // HACK - works for now.
 
@@ -57,5 +65,33 @@ public class FlankerViewModel extends BaseObservable {
   /** @return Whether the arrow stimulus should be shown. */
   public boolean showArrows() {
     return this.stage == FlankerStage.ARROWS;
+  }
+
+  /** @return The color for the left pointer cue. */
+  public int leftPointerColor() {
+    if (!showCue()) {
+      return 0;
+    }
+
+    boolean isActive = rand.nextBoolean(); // TODO - not random.
+    return isActive ? COLOR_CUE_ON : COLOR_CUE_OFF;
+  }
+
+  /** @return The color for the right pointer cue. */
+  public int rightPointerColor() {
+    if (!showCue()) {
+      return 0;
+    }
+    boolean isActive = rand.nextBoolean(); // TODO - not random.
+    return isActive ? COLOR_CUE_ON : COLOR_CUE_OFF;
+  }
+
+  /** @return The string to display for the arrows, either left or right. */
+  public String arrowText() {
+    if (!showArrows()) {
+      return "";
+    }
+    boolean showLeft = rand.nextBoolean(); // TODO - not random.
+    return showLeft ? ">><>>" : ">>>>>";
   }
 }

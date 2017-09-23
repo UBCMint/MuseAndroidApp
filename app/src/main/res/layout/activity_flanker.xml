@@ -14,54 +14,75 @@
         android:id="@+id/fullscreenContent"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#0099cc">
+        android:background="#000">
 
         <!-- Part that is visible when the cues are shown. -->
         <android.support.constraint.ConstraintLayout
             android:id="@+id/cueSection"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:visibility="@{flankerVM.showCue() ? View.VISIBLE : View.GONE}"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <TextView android:id="@+id/cueText"
-                      android:layout_width="0dp"
-                      android:layout_height="0dp"
-                      android:keepScreenOn="true"
-                      android:textSize="50sp"
-                      android:gravity="center"
-                      android:text="CUE GOES HERE"
-                      app:layout_constraintBottom_toBottomOf="parent"
-                      app:layout_constraintLeft_toLeftOf="parent"
-                      app:layout_constraintRight_toRightOf="parent"
-                      app:layout_constraintTop_toTopOf="parent" />
+            <TextView
+                android:id="@+id/cueTextLeft"
+                android:layout_width="wrap_content"
+                android:layout_height="150sp"
+                android:layout_marginLeft="0dp"
+                android:gravity="center"
+                android:keepScreenOn="true"
+                android:text="☜"
+                android:textColor="@{flankerVM.leftPointerColor()}"
+                android:textSize="140sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@+id/cueTextRight"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginRight="32dp"/>
+
+            <TextView
+                android:id="@+id/cueTextRight"
+                android:layout_width="wrap_content"
+                android:layout_height="150sp"
+                android:gravity="center"
+                android:keepScreenOn="true"
+                android:text="☞"
+                android:textColor="@{flankerVM.rightPointerColor()}"
+                android:textSize="140sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginRight="0dp"
+                app:layout_constraintVertical_bias="0.0"/>
         </android.support.constraint.ConstraintLayout>
 
         <!-- Part that is visible when the arrows are shown. -->
         <android.support.constraint.ConstraintLayout
             android:id="@+id/arrowsSection"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:visibility="@{flankerVM.showArrows() ? View.VISIBLE : View.GONE}"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <TextView android:id="@+id/arrowsText"
-                      android:layout_width="0dp"
-                      android:layout_height="0dp"
-                      android:keepScreenOn="true"
-                      android:textSize="50sp"
-                      android:gravity="center"
-                      android:text="ARROWS GO HERE"
-                      app:layout_constraintBottom_toBottomOf="parent"
-                      app:layout_constraintLeft_toLeftOf="parent"
-                      app:layout_constraintRight_toRightOf="parent"
-                      app:layout_constraintTop_toTopOf="parent" />
+            <TextView
+                android:id="@+id/arrowsText"
+                android:layout_width="wrap_content"
+                android:layout_height="140sp"
+                android:gravity="center"
+                android:keepScreenOn="true"
+                android:text="@{flankerVM.arrowText()}"
+                android:textColor="#fff"
+                android:textSize="140sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
         </android.support.constraint.ConstraintLayout>
 
 
