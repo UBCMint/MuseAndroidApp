@@ -17,7 +17,6 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.Toast;
-import android.widget.Button;
 
 import com.choosemuse.libmuse.Muse;
 import com.choosemuse.libmuse.MuseManagerAndroid;
@@ -119,6 +118,12 @@ public class RecordingActivity extends AppCompatActivity {
         startActivity(Intent.createChooser(emailIntent, "Choose an email client:"));
       }
     }
+  }
+
+  /** Handles the flanker launch button being clicked: Change to the Flanker activity. */
+  public void handleLaunchFlanker() {
+    Intent intent = new Intent(this, FlankerActivity.class);
+    startActivity(intent);
   }
 
   // HACK - permissions:
