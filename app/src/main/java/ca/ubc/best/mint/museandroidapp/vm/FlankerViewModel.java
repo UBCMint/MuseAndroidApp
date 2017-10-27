@@ -5,6 +5,8 @@ import android.graphics.Color;
 import android.os.Handler;
 import android.util.Log;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -12,7 +14,7 @@ import java.util.Random;
  * the stage we're in, and the results of everything recorded so far.
  */
 public class FlankerViewModel extends BaseObservable {
-  public static interface CompletionHandler {
+  public interface CompletionHandler {
     void onComplete(FlankerViewModel viewModel);
   }
 
@@ -33,6 +35,15 @@ public class FlankerViewModel extends BaseObservable {
   /** Stage we're currently in. */
   private FlankerStage stage;
 
+  /** Time we started the current stage. */
+  private long stageStartMillis = -1;
+
+  /** Store the delay in this stage for when a tap was made. */
+  private TapDetails stageTap = null;
+
+  /** Stores all the delays for each run, or null if no tap was made. */
+  private final List<TapDetails> allTaps = new ArrayList<>();
+
   /** Which run through the stimulus we're at. */
   private int runAt;
 
@@ -44,8 +55,16 @@ public class FlankerViewModel extends BaseObservable {
 
   /** Run on transition to a  new stage. Calls itself to progress. */
   public void beginStage(final FlankerStage stage) {
+    // First record stuff from the previous stage if required...
+    if (stage == FlankerStage.ARROWS) {
+      allTaps.add(stageTap);
+    }
+
     Log.i("MINT", "Going to stage " + stage.name());
     this.stage = stage;
+    this.stageTap = null;
+    this.stageStartMillis = System.currentTimeMillis();
+
     if (stage == FlankerStage.PRE_CUE) {
       runAt++;
       if (runAt == FLANKER_TRIAL_RUNS) {
@@ -102,4 +121,18 @@ public class FlankerViewModel extends BaseObservable {
     boolean showLeft = rand.nextBoolean(); // TODO - not random.
     return showLeft ? ">><>>" : ">>>>>";
   }
+
+  /** Update after user tap, return true if we recorded it. */
+  public boolean handleScreenTap(boolean isOnLeft) {
+    if (stage != FlankerStage.ARROWS) {
+      return false; // Not in the part of the experiment where we care about taps.
+    } else if (stageTap != null) {
+      return false; // Tap time already recorded, so ignore.
+    }
+    long reactionMs = System.currentTimeMillis() - stageStartMillis;
+    Log.i("MINT", "Tapped on the " + (isOnLeft ? "left" : "right") + " after " + reactionMs + "ms");
+    stageTap = new TapDetails(isOnLeft, reactionMs);
+    return true;
+  }
+
 }

@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MotionEvent;
 import android.view.View;
 
 import ca.ubc.best.mint.museandroidapp.databinding.ActivityFlankerBinding;
@@ -14,7 +15,8 @@ import ca.ubc.best.mint.museandroidapp.vm.FlankerStage;
 import ca.ubc.best.mint.museandroidapp.vm.FlankerViewModel;
 
 /** Activity to draw the stimuli for the Flanker task, and record results. */
-public class FlankerActivity extends AppCompatActivity implements FlankerViewModel.CompletionHandler {
+public class FlankerActivity extends AppCompatActivity
+    implements FlankerViewModel.CompletionHandler, View.OnTouchListener {
   /** Initial delay for animating going full-screen. */
   private static final int UI_ANIMATION_DELAY = 100;
 
@@ -31,6 +33,7 @@ public class FlankerActivity extends AppCompatActivity implements FlankerViewMod
     ActivityFlankerBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_flanker);
     binding.setFlankerVM(viewModel);
     rootView = findViewById(R.id.fullscreenContent);
+    rootView.setOnTouchListener(this);
   }
 
   @Override
@@ -69,7 +72,17 @@ public class FlankerActivity extends AppCompatActivity implements FlankerViewMod
 
   @Override
   public void onComplete(FlankerViewModel viewModel) {
+    // TODO: Analyses EEG data and tap data from the viewModel...
     Intent finishedIntent = new Intent(this, TaskCompleteActivity.class);
     startActivity(finishedIntent);
+  }
+
+  @Override
+  public boolean onTouch(View rootView, MotionEvent event) {
+    if (event.getAction() == MotionEvent.ACTION_DOWN) {
+      boolean isOnLeft = event.getX() < (rootView.getWidth() / 2);
+      return viewModel.handleScreenTap(isOnLeft);
+    }
+    return false;
   }
 }
