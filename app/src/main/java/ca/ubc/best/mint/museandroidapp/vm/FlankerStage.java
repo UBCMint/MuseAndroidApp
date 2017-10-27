@@ -2,10 +2,10 @@ package ca.ubc.best.mint.museandroidapp.vm;
 
 /** Which part of a single flanker trial we're in. */
 public enum FlankerStage {
-     PRE_CUE(1000),  // Waiting to show the fingers cue.
+     PRE_CUE( 500),  // Waiting to show the fingers cue.
          CUE(1000),  // Showing the fingers cue.
-  PRE_ARROWS(1000),  // Waiting to show the arrows command.
-      ARROWS(1000);  // Showing the arrows command.
+  PRE_ARROWS( 800),  // Waiting to show the arrows command.
+      ARROWS(1300);  // Showing the arrows command.
 
   /** How long we stay in this stage for. */
   public final int durationMs;
