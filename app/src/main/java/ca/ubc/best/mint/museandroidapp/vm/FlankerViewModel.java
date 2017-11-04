@@ -21,16 +21,11 @@ import java.util.Random;
  */
 public class FlankerViewModel extends BaseObservable {
 
-  private static Double congPercent = 0.289;
-  private static Double neutralPercent = 0.289;
-  private static Double incongPercent = 0.421;
-  private static Integer totalTrials = 10;
-
   private static int stimulusIndex = 0;
 
 
  // private static EnumMap<FlankerStimulus, Integer> stimulusNumMap = new EnumMap<FlankerStimulus, Integer>(FlankerStimulus.class);
-  private static List<FlankerStimulus> stimulusArray = new ArrayList<FlankerStimulus>();
+  private static List<FlankerStimulus> stimulusArray = new ArrayList<>();
 
 
   private enum FlankerStimulus {
@@ -42,6 +37,7 @@ public class FlankerViewModel extends BaseObservable {
     private static final int SIZE = VALUES.size();
     private static final Random RANDOM = new Random();
 
+
     public static FlankerStimulus randomFlankerStimulus() {
       return VALUES.get(RANDOM.nextInt(SIZE));
     }
@@ -49,13 +45,14 @@ public class FlankerViewModel extends BaseObservable {
 
 
     public static FlankerStimulus getStimulus() {
-      stimulusIndex++;
 
       FlankerStimulus retStm = Neutral; //by default we return neutral
 
       if(stimulusIndex <= stimulusArray.size()) {
         retStm = stimulusArray.get(stimulusIndex);
       }
+
+        stimulusIndex++;
       return retStm;
 
 
@@ -65,9 +62,16 @@ public class FlankerViewModel extends BaseObservable {
 
   public static void initStimulusArray () {
 
-    int numCong = (int) (totalTrials * congPercent);
-    int numNeut = (int) (totalTrials * neutralPercent);
-    int numIncong = (int)(totalTrials * incongPercent);
+     /*
+        congPercent = 0.289;
+        neutralPercent = 0.289;
+        incongPercent = 0.421;
+        totalTrials = 10;
+       */
+
+    int numCong = 3; // totalTrials * congPercent
+    int numNeut = 3; // totalTrials * neutralPercent
+    int numIncong = 4; // totalTrials * incongPercent
 
     for(int i = 0; i < numCong; i++) {
       stimulusArray.add(FlankerStimulus.Congruent);
@@ -82,6 +86,7 @@ public class FlankerViewModel extends BaseObservable {
     }
 
     Collections.shuffle(stimulusArray); //randomize the array
+    Log.d("stimulus Array", stimulusArray.toString());
 
   }
 
