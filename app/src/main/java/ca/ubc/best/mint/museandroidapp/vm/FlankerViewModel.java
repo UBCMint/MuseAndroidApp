@@ -5,19 +5,94 @@ import android.graphics.Color;
 import android.os.Handler;
 import android.util.Log;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.EnumMap;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Random;
+
+
 
 /**
  * View Model for the flanker task - contains the order of tests,
  * the stage we're in, and the results of everything recorded so far.
  */
 public class FlankerViewModel extends BaseObservable {
+
+  private static Double congPercent = 0.289;
+  private static Double neutralPercent = 0.289;
+  private static Double incongPercent = 0.421;
+  private static Integer totalTrials = 10;
+
+  private static int stimulusIndex = 0;
+
+
+ // private static EnumMap<FlankerStimulus, Integer> stimulusNumMap = new EnumMap<FlankerStimulus, Integer>(FlankerStimulus.class);
+  private static List<FlankerStimulus> stimulusArray = new ArrayList<FlankerStimulus>();
+
+
+  private enum FlankerStimulus {
+    Congruent, // ">>>>>"
+    Neutral,  //  ">><>>"
+    Incongruent; // ">>+>>"
+
+    private static final List<FlankerStimulus> VALUES = Collections.unmodifiableList(Arrays.asList(values()));
+    private static final int SIZE = VALUES.size();
+    private static final Random RANDOM = new Random();
+
+    public static FlankerStimulus randomFlankerStimulus() {
+      return VALUES.get(RANDOM.nextInt(SIZE));
+    }
+
+
+
+    public static FlankerStimulus getStimulus() {
+      stimulusIndex++;
+
+      FlankerStimulus retStm = Neutral; //by default we return neutral
+
+      if(stimulusIndex <= stimulusArray.size()) {
+        retStm = stimulusArray.get(stimulusIndex);
+      }
+      return retStm;
+
+
+    }
+
+  }
+
+  public static void initStimulusArray () {
+
+    int numCong = (int) (totalTrials * congPercent);
+    int numNeut = (int) (totalTrials * neutralPercent);
+    int numIncong = (int)(totalTrials * incongPercent);
+
+    for(int i = 0; i < numCong; i++) {
+      stimulusArray.add(FlankerStimulus.Congruent);
+    }
+
+    for(int i = 0; i < numNeut; i++) {
+      stimulusArray.add(FlankerStimulus.Neutral);
+    }
+
+    for(int i = 0; i < numIncong; i++) {
+      stimulusArray.add(FlankerStimulus.Incongruent);
+    }
+
+    Collections.shuffle(stimulusArray); //randomize the array
+
+  }
+
+
+
   public static interface CompletionHandler {
     void onComplete(FlankerViewModel viewModel);
   }
 
   /** How many cue-stimulus pairs to perform. */
-  private static final int FLANKER_TRIAL_RUNS = 3; // HACK - works for now.
+  private static final int FLANKER_TRIAL_RUNS = 10; // HACK - works for now.
 
   // TODO - remove once we have ordering done.
   private static Random rand = new Random();
@@ -40,7 +115,19 @@ public class FlankerViewModel extends BaseObservable {
     this.completionHandler = completionHandler;
     stage = null;
     runAt = -1;
+
+    stimulusIndex = 0;
+    initStimulusArray();
   }
+
+
+  /*
+  public void initStimulus () {
+    stimulusNumMap.put(FlankerStimulus.Congruent, numCong);
+    stimulusNumMap.put(FlankerStimulus.Neutral, numNeut);
+    stimulusNumMap.put(FlankerStimulus.Incongruent, numIncong);
+  }
+  */
 
   /** Run on transition to a  new stage. Calls itself to progress. */
   public void beginStage(final FlankerStage stage) {
@@ -99,7 +186,28 @@ public class FlankerViewModel extends BaseObservable {
     if (!showArrows()) {
       return "";
     }
-    boolean showLeft = rand.nextBoolean(); // TODO - not random.
-    return showLeft ? ">><>>" : ">>>>>";
+
+    FlankerStimulus s = FlankerStimulus.getStimulus();
+
+
+
+    switch(s) {
+      case Congruent:
+        Log.d("FlankerStimulus", ">>>>>");
+        return ">>>>>";
+      case Incongruent:
+        Log.d("FlankerStimulus", ">><>>");
+        return ">><>>";
+      case Neutral:
+        Log.d("FlankerStimulus", "+++++");
+        return "+++++";
+      default:
+        Log.d("FlankerStimulus", "+++++");
+        return "+++++";
+    }
+
+
   }
+
+
 }
