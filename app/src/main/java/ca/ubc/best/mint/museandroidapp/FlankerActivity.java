@@ -7,12 +7,16 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Toast;
+
+import com.choosemuse.libmuse.Muse;
 
 import ca.ubc.best.mint.museandroidapp.databinding.ActivityFlankerBinding;
-import ca.ubc.best.mint.museandroidapp.vm.FlankerStage;
 import ca.ubc.best.mint.museandroidapp.vm.FlankerViewModel;
+import eeg.useit.today.eegtoolkit.vm.MuseListViewModel;
 
 /** Activity to draw the stimuli for the Flanker task, and record results. */
 public class FlankerActivity extends AppCompatActivity
@@ -44,6 +48,23 @@ public class FlankerActivity extends AppCompatActivity
         hideDelayed();
       }
     }, UI_ANIMATION_DELAY);
+
+    // Load the device and start once connected.
+    Util.getByMacAddress(getIntent().getStringExtra("MAC"), 10, // scanSec
+        new MuseListViewModel.MuseListListener() {
+      @Override public void onDeviceSelected(Muse muse) {
+        if (muse != null) {
+          Log.i("MINT", "Connecting!");
+          FlankerActivity.this.viewModel.attachMuse(muse);
+        } else {
+          Toast.makeText(FlankerActivity.this, "Could not connect to device :(", Toast.LENGTH_LONG)
+              .show();
+        }
+      }
+
+      // Ignore this one.
+      @Override public void onScanForDevicesFinished() { }
+    });
   }
 
   private void hideDelayed() {
@@ -64,8 +85,6 @@ public class FlankerActivity extends AppCompatActivity
             | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
             | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
             | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
-        // Actually start the first trial!
-        viewModel.beginStage(FlankerStage.PRE_CUE);
       }
     }, UI_ANIMATION_DELAY);
   }

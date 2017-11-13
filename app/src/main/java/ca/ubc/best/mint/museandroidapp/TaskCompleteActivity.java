@@ -8,7 +8,6 @@ import android.support.v7.app.AppCompatActivity;
 import ca.ubc.best.mint.museandroidapp.databinding.ActivityTaskCompleteBinding;
 
 public class TaskCompleteActivity extends AppCompatActivity {
-
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -19,8 +18,7 @@ public class TaskCompleteActivity extends AppCompatActivity {
 
 
   public void handleHomeClicked() {
-    Intent intent = new Intent(this, RecordingActivity.class);
+    Intent intent = new Intent(this, InitialActivity.class);
     startActivity(intent);
   }
-
 }

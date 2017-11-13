@@ -5,9 +5,14 @@ import android.graphics.Color;
 import android.os.Handler;
 import android.util.Log;
 
+import com.choosemuse.libmuse.Muse;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+
+import eeg.useit.today.eegtoolkit.vm.ConnectionStrengthViewModel;
+import eeg.useit.today.eegtoolkit.vm.StreamingDeviceViewModel;
 
 /**
  * View Model for the flanker task - contains the order of tests,
@@ -25,6 +30,12 @@ public class FlankerViewModel extends BaseObservable {
   private static Random rand = new Random();
   private static int COLOR_CUE_ON = Color.rgb(255, 255, 50);
   private static int COLOR_CUE_OFF = Color.rgb(30, 50, 255);
+
+  /** ViewModel for the liveDevice we're attached to. */
+  private final StreamingDeviceViewModel liveDevice = new StreamingDeviceViewModel();
+
+  /** ViewModel for the live connection strength values. */
+  private final ConnectionStrengthViewModel connectionVM = new ConnectionStrengthViewModel(liveDevice);
 
   /** Called when the experiment is over. */
   private final CompletionHandler completionHandler;
@@ -62,6 +73,19 @@ public class FlankerViewModel extends BaseObservable {
     stimulusArray = FlankerStimulus.createStimuli(FLANKER_TRIAL_RUNS);
   }
 
+  /** When connected, set the live device up with a muse. */
+  public void attachMuse(Muse muse) {
+    this.liveDevice.setMuse(muse);
+    this.notifyChange();
+  }
+
+  /** Start at the very beginning, it's the very best place to start. */
+  public void start() {
+    assert stage == null;
+    assert isConnected();
+    this.beginStage(FlankerStage.PRE_CUE);
+  }
+
   /** Run on transition to a  new stage. Calls itself to progress. */
   public void beginStage(final FlankerStage newStage) {
     // First record stuff from the previous stage if required...
@@ -92,6 +116,16 @@ public class FlankerViewModel extends BaseObservable {
 
     // And finally update the viewmodel, which causes the view to be redrawn.
     this.notifyChange();
+  }
+
+  /** @return Whether a device has connected. */
+  public boolean isConnected() {
+    return this.liveDevice.getMacAddress() != null;
+  }
+
+  /** @return Whether the pre-experiement connecting message is shown. */
+  public boolean showConnecting() {
+    return !isConnected() || (isConnected() && this.stage == null);
   }
 
   /** @return Whether the cue UI should be shown. */
@@ -132,6 +166,11 @@ public class FlankerViewModel extends BaseObservable {
     String arrowText = stimulusArray.get(stimulusIndex).asText();
     Log.d("MINT", "Flanker Stimulus: " + arrowText);
     return arrowText;
+  }
+
+  /** @return ViewModel for connection to device. */
+  public ConnectionStrengthViewModel getConnectionStrength() {
+    return this.connectionVM;
   }
 
 

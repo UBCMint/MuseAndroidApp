@@ -16,6 +16,39 @@
         android:layout_height="match_parent"
         android:background="#000">
 
+        <!-- Part that is visible while attaching to the device. -->
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/connectingSection"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="@{flankerVM.showConnecting() ? View.VISIBLE : View.GONE}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Connecting to device..."
+                android:textColor="@android:color/white"
+                android:textSize="24sp"
+                android:id="@+id/connectingText"/>
+            <Button
+                android:id="@+id/button"
+                android:text="Start"
+                android:enabled="@{flankerVM.isConnected()}"
+                android:onClick="@{() -> flankerVM.start()}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                app:layout_constraintTop_toBottomOf="@+id/connectingText"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"/>
+
+        </android.support.constraint.ConstraintLayout>
+
+
         <!-- Part that is visible when the cues are shown. -->
         <android.support.constraint.ConstraintLayout
             android:id="@+id/cueSection"
@@ -85,7 +118,20 @@
                 app:layout_constraintTop_toTopOf="parent"/>
         </android.support.constraint.ConstraintLayout>
 
-
+        <!-- Shown on all screens. -->
+        <eeg.useit.today.eegtoolkit.view.ConnectionStrengthView
+            android:id="@+id/connectionStrength"
+            android:layout_width="128dp"
+            android:layout_height="64dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="48dp"
+            android:visibility="@{flankerVM.isConnected() ? View.VISIBLE : View.GONE}"
+            app:connectionStrength="@{flankerVM.getConnectionStrength()}"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            />
 
     </android.support.constraint.ConstraintLayout>
 </layout>
