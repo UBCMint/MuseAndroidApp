@@ -6,84 +6,15 @@ import android.os.Handler;
 import android.util.Log;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.Random;
-
-
 
 /**
  * View Model for the flanker task - contains the order of tests,
  * the stage we're in, and the results of everything recorded so far.
  */
 public class FlankerViewModel extends BaseObservable {
-  private static int stimulusIndex = 0;
-  private static List<FlankerStimulus> stimulusArray = new ArrayList<>();
-  
-  private enum FlankerStimulus {
-    Congruent, // ">>>>>"
-    Neutral,  //  ">><>>"
-    Incongruent; // ">>+>>"
-
-    private static final List<FlankerStimulus> VALUES = Collections.unmodifiableList(Arrays.asList(values()));
-    private static final int SIZE = VALUES.size();
-    private static final Random RANDOM = new Random();
-
-
-    public static FlankerStimulus randomFlankerStimulus() {
-      return VALUES.get(RANDOM.nextInt(SIZE));
-    }
-
-
-
-    public static FlankerStimulus getStimulus() {
-
-      FlankerStimulus retStm = Neutral; //by default we return neutral
-
-      if(stimulusIndex <= stimulusArray.size()) {
-        retStm = stimulusArray.get(stimulusIndex);
-      }
-
-        stimulusIndex++;
-      return retStm;
-
-
-    }
-
-  }
-
-  public static void initStimulusArray () {
-     /*
-        congPercent = 0.289;
-        neutralPercent = 0.289;
-        incongPercent = 0.421;
-        totalTrials = 10;
-       */
-    int numCong = 3; // totalTrials * congPercent
-    int numNeut = 3; // totalTrials * neutralPercent
-    int numIncong = 4; // totalTrials * incongPercent
-
-    for(int i = 0; i < numCong; i++) {
-      stimulusArray.add(FlankerStimulus.Congruent);
-    }
-
-    for(int i = 0; i < numNeut; i++) {
-      stimulusArray.add(FlankerStimulus.Neutral);
-    }
-
-    for(int i = 0; i < numIncong; i++) {
-      stimulusArray.add(FlankerStimulus.Incongruent);
-    }
-
-    Collections.shuffle(stimulusArray); //randomize the array
-    Log.d("stimulus Array", stimulusArray.toString());
-
-  }
-
-
-
-  public static interface CompletionHandler {
+  public interface CompletionHandler {
     void onComplete(FlankerViewModel viewModel);
   }
 
@@ -116,28 +47,35 @@ public class FlankerViewModel extends BaseObservable {
   /** Which run through the stimulus we're at. */
   private int runAt;
 
+  /** Which stimulus we're up to. */
+  private int stimulusIndex = 0;
+
+  /** All possible stimuli in the order to show them. */
+  private final List<FlankerStimulus> stimulusArray;
+
   public FlankerViewModel(CompletionHandler completionHandler) {
     this.completionHandler = completionHandler;
     stage = null;
     runAt = -1;
 
     stimulusIndex = 0;
-    initStimulusArray();
+    stimulusArray = FlankerStimulus.createStimuli(FLANKER_TRIAL_RUNS);
   }
 
   /** Run on transition to a  new stage. Calls itself to progress. */
-  public void beginStage(final FlankerStage stage) {
+  public void beginStage(final FlankerStage newStage) {
     // First record stuff from the previous stage if required...
-    if (stage == FlankerStage.ARROWS) {
+    if (this.stage == FlankerStage.ARROWS) {
       allTaps.add(stageTap);
+      this.stimulusIndex++;
     }
 
-    Log.i("MINT", "Going to stage " + stage.name());
-    this.stage = stage;
+    Log.i("MINT", "Going to stage " + newStage.name());
+    this.stage = newStage;
     this.stageTap = null;
     this.stageStartMillis = System.currentTimeMillis();
 
-    if (stage == FlankerStage.PRE_CUE) {
+    if (this.stage == FlankerStage.PRE_CUE) {
       runAt++;
       if (runAt == FLANKER_TRIAL_RUNS) {
         completionHandler.onComplete(this);
@@ -148,9 +86,9 @@ public class FlankerViewModel extends BaseObservable {
     // Schedule the next transition.
     timingHandler.postDelayed(new Runnable() {
       @Override public void run() {
-        beginStage(stage.next());
+        beginStage(newStage.next());
       }
-    }, stage.durationMs);
+    }, newStage.durationMs);
 
     // And finally update the viewmodel, which causes the view to be redrawn.
     this.notifyChange();
@@ -191,21 +129,9 @@ public class FlankerViewModel extends BaseObservable {
       return "";
     }
 
-    FlankerStimulus s = FlankerStimulus.getStimulus();
-    switch(s) {
-      case Congruent:
-        Log.d("FlankerStimulus", ">>>>>");
-        return ">>>>>";
-      case Incongruent:
-        Log.d("FlankerStimulus", ">><>>");
-        return ">><>>";
-      case Neutral:
-        Log.d("FlankerStimulus", "+++++");
-        return "+++++";
-      default:
-        Log.d("FlankerStimulus", "+++++");
-        return "+++++";
-    }
+    String arrowText = stimulusArray.get(stimulusIndex).asText();
+    Log.d("MINT", "Flanker Stimulus: " + arrowText);
+    return arrowText;
   }
 
 
