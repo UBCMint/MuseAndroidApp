@@ -7,10 +7,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.databinding.DataBindingUtil;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -20,34 +18,32 @@ import android.widget.Toast;
 import com.choosemuse.libmuse.Muse;
 import com.choosemuse.libmuse.MuseManagerAndroid;
 
-import java.io.File;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import ca.ubc.best.mint.museandroidapp.databinding.ActivityRecordingBinding;
-import ca.ubc.best.mint.museandroidapp.vm.RecordingViewModel;
+import ca.ubc.best.mint.museandroidapp.databinding.ActivityInitialBinding;
+import ca.ubc.best.mint.museandroidapp.vm.InitialViewModel;
 import eeg.useit.today.eegtoolkit.vm.MuseListViewModel;
 
-public class RecordingActivity extends AppCompatActivity {
+public class InitialActivity extends AppCompatActivity {
   private static final int REQUEST_CODE_ASK_MULTIPLE_PERMISSIONS = 124;
   private static final int REQUEST_CODE_ENABLE_BT = 1;
   private static final int SCAN_LENGTH_SEC = 5;
 
   /** ViewModel for this activity. */
-  public final RecordingViewModel recordingViewModel = new RecordingViewModel();
+  public final InitialViewModel viewModel = new InitialViewModel();
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    MuseManagerAndroid.getInstance().setContext(RecordingActivity.this);
+    MuseManagerAndroid.getInstance().setContext(InitialActivity.this);
 
-    ActivityRecordingBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_recording);
+    ActivityInitialBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_initial);
     binding.setActivity(this);
-    binding.setRecordVM(recordingViewModel);
-    getSupportActionBar().setTitle("Record EEG");
+    binding.setViewModel(viewModel);
+    getSupportActionBar().setTitle("MiNT EEG Flanker Task");
 
     maybeAskPermissions();
   }
@@ -68,46 +64,22 @@ public class RecordingActivity extends AppCompatActivity {
   }
 
   private void scanForDevices() {
-    recordingViewModel.scanForDevice(SCAN_LENGTH_SEC, new MuseListViewModel.MuseListListener() {
+    viewModel.scanForDevice(SCAN_LENGTH_SEC, new MuseListViewModel.MuseListListener() {
       @Override
       public void onScanForDevicesFinished() { /* not called */ }
 
       @Override
       public void onDeviceSelected(Muse muse) {
         if (muse == null) {
-          Toast.makeText(RecordingActivity.this, "No devices found :(", Toast.LENGTH_LONG).show();
+          Toast.makeText(InitialActivity.this, "No devices found :(", Toast.LENGTH_LONG).show();
         } else {
-          getSupportActionBar().setTitle("Device: " + muse.getName());
+          Log.i("MINT", "Device found: " + muse.getName());
+          Intent intent = new Intent(InitialActivity.this, FlankerActivity.class);
+          intent.putExtra("MAC", muse.getMacAddress());
+          startActivity(intent);
         }
       }
     });
-  }
-
-  /** Handles the record button being clicked - either start or stop recording. */
-  public void handleRecordClicked() {
-    if (recordingViewModel.canStartRecording()) {
-      Log.i("MINT", "Starting recording!");
-      recordingViewModel.startRecording(RecordingActivity.this);
-
-    } else if (recordingViewModel.canStopRecording()) {
-      Log.i("MINT", "Stop recording!");
-      String path = recordingViewModel.stopRecordingAndSave();
-      // TODO: Enable sharing the file that was just recorded. Currently just flash message:
-      Toast.makeText(RecordingActivity.this, "Recorded! To: " + path, Toast.LENGTH_LONG).show();
-      File test = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS).getAbsolutePath() + File.separator + path);
-      if (test.exists()) {
-        Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto", "", null));
-        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "MUSE " + Calendar.getInstance().getTime().toString());
-        emailIntent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(test));
-        startActivity(Intent.createChooser(emailIntent, "Choose an email client:"));
-      }
-    }
-  }
-
-  /** Handles the flanker launch button being clicked: Change to the Flanker activity.*/
-  public void handleLaunchFlanker() {
-    Intent intent = new Intent(this, FlankerActivity.class);
-    startActivity(intent);
   }
 
   // HACK - permissions:
@@ -128,12 +100,12 @@ public class RecordingActivity extends AppCompatActivity {
 
         if (perms.get(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
           Toast.makeText(
-              RecordingActivity.this,
+              InitialActivity.this,
               "All Permission GRANTED !! Thank You :)",
               Toast.LENGTH_SHORT).show();
         } else {
           Toast.makeText(
-              RecordingActivity.this,
+              InitialActivity.this,
               "One or More Permissions are DENIED Exiting App :(",
               Toast.LENGTH_SHORT).show();
           finish();
@@ -184,7 +156,7 @@ public class RecordingActivity extends AppCompatActivity {
   }
 
   private void showMessageOKCancel(String message, DialogInterface.OnClickListener okListener) {
-    new AlertDialog.Builder(RecordingActivity.this)
+    new AlertDialog.Builder(InitialActivity.this)
         .setMessage(message)
         .setPositiveButton("OK", okListener)
         .setNegativeButton("Cancel", null)
