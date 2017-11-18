@@ -128,6 +128,15 @@ public class FlankerViewModel extends BaseObservable {
     return !isConnected() || (isConnected() && this.stage == null);
   }
 
+  /** @return What text to show on the pre-start splash. */
+  public String getConnectingText() {
+    if (showConnecting()) {
+      return isConnected() ? "Device connected" : "Connecting to device...";
+    } else {
+      return "";
+    }
+  }
+
   /** @return Whether the cue UI should be shown. */
   public boolean showCue() {
     return this.stage == FlankerStage.CUE;
