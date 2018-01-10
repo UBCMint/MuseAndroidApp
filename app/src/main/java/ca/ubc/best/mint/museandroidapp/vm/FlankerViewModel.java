@@ -43,6 +43,9 @@ public class FlankerViewModel extends BaseObservable {
   /** Used for scheduling timed progression between states. */
   private final Handler timingHandler = new Handler();
 
+  /** Logic for performing all the live data recording we need. */
+  private final FlankerLiveRecorder recorder = new FlankerLiveRecorder(liveDevice);
+
   /** Stage we're currently in. */
   private FlankerStage stage;
 
@@ -105,6 +108,8 @@ public class FlankerViewModel extends BaseObservable {
         completionHandler.onComplete(this);
         return;
       }
+    } else if (this.stage == FlankerStage.CUE) {
+      recorder.onShowCue();
     }
 
     // Schedule the next transition.
