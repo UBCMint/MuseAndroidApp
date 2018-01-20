@@ -46,7 +46,6 @@ public class TaskCompleteActivity extends AppCompatActivity {
     double minDelta = 0.0;
     double maxDelta = 0.0;
     for (int i = 0; i < epoch.size(); i++) {
-      Map<String, TimeSeriesSnapshot<Double>> normed = new HashMap<>();
       for (String key : epoch.get(i).keySet()) {
         Double[] values = epoch.get(i).get(key).values;
         for (int j = 0; j < values.length; j++) {
