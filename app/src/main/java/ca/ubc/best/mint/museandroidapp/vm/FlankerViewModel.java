@@ -24,7 +24,7 @@ public class FlankerViewModel extends BaseObservable {
   }
 
   /** How many cue-stimulus pairs to perform. */
-  private static final int FLANKER_TRIAL_RUNS = 10; // HACK - works for now.
+  private static final int FLANKER_TRIAL_RUNS = 10; // TODO For testing: Limited FLANKER_TRIAL_RUNS TO 10
 
   // TODO - remove once we have ordering done.
   private static Random rand = new Random();
@@ -61,6 +61,9 @@ public class FlankerViewModel extends BaseObservable {
   /** Which stimulus we're up to. */
   private int stimulusIndex = 0;
 
+  /** Next arrow text */
+  private String arrowText = null;
+
   /** All possible stimuli in the order to show them. */
   private final List<FlankerStimulus> stimulusArray;
 
@@ -91,7 +94,8 @@ public class FlankerViewModel extends BaseObservable {
     // First record stuff from the previous stage if required...
     if (this.stage == FlankerStage.ARROWS) {
       allTaps.add(stageTap);
-      this.stimulusIndex++;
+     // this.arrowText = stimulusArray.get(stimulusIndex).asText();
+     // this.stimulusIndex++;
     }
 
     Log.i("MINT", "Going to stage " + newStage.name());
@@ -105,6 +109,9 @@ public class FlankerViewModel extends BaseObservable {
         completionHandler.onComplete(this);
         return;
       }
+      //arrows are determined at PRE_CUE stage in order for CUE to correlate to a corresponding arrow
+      this.arrowText = stimulusArray.get(stimulusIndex).asText();
+      this.stimulusIndex++;
     }
 
     // Schedule the next transition.
@@ -153,8 +160,13 @@ public class FlankerViewModel extends BaseObservable {
       return 0;
     }
 
-    boolean isActive = rand.nextBoolean(); // TODO - not random.
-    return isActive ? COLOR_CUE_ON : COLOR_CUE_OFF;
+    if(this.arrowText == FlankerStimulus.INCONGRUENT.asText()) {
+      return COLOR_CUE_ON;
+    }
+
+    return COLOR_CUE_OFF;
+   // boolean isActive = rand.nextBoolean(); // TODO - not random.
+   // return isActive ? COLOR_CUE_ON : COLOR_CUE_OFF;
   }
 
   /** @return The color for the right pointer cue. */
@@ -162,19 +174,26 @@ public class FlankerViewModel extends BaseObservable {
     if (!showCue()) {
       return 0;
     }
-    boolean isActive = rand.nextBoolean(); // TODO - not random.
-    return isActive ? COLOR_CUE_ON : COLOR_CUE_OFF;
+
+
+    if(this.arrowText == FlankerStimulus.CONGRUENT.asText()) {
+      return COLOR_CUE_ON;
+    }
+
+    return COLOR_CUE_OFF;
+    //boolean isActive = rand.nextBoolean(); // TODO - not random.
+    //return isActive ? COLOR_CUE_ON : COLOR_CUE_OFF;
   }
 
-  /** @return The string to display for the arrows, either left or right. */
+  /** @return The string to display for the arrows, either lehh ft or right. */
   public String arrowText() {
     if (!showArrows()) {
       return "";
     }
 
-    String arrowText = stimulusArray.get(stimulusIndex).asText();
-    Log.d("MINT", "Flanker Stimulus: " + arrowText);
-    return arrowText;
+   // String arrowText = stimulusArray.get(stimulusIndex).asText();
+    Log.d("MINT", "Flanker Stimulus: " + this.arrowText);
+    return this.arrowText;
   }
 
   /** @return ViewModel for connection to device. */
