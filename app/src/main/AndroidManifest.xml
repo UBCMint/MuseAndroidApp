@@ -38,6 +38,8 @@
         <activity
             android:name=".TaskCompleteActivity"
             android:label="Task Complete"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
         </activity>
     </application>
