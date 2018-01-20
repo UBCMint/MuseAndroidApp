@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -20,25 +19,11 @@ public class TaskCompleteActivity extends AppCompatActivity {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
 
-    Log.i("MINT", "Received results!");
-    ParcelableResults results = getIntent().getParcelableExtra("results");
-    results = hackModifyResults(results);
-    Log.i("MINT", results.alphaEpochs.size() + " alpha, " + results.betaEpochs.size() + " beta");
-    for (int i = 0; i < results.alphaEpochs.size(); i++) {
-      Map<String, TimeSeriesSnapshot<Double>> epoch = results.alphaEpochs.get(i);
-      Log.i("MINT", " -- epoch " + i + " ) " + epoch.size());
-      String firstKey = epoch.keySet().iterator().next();
-      Log.i("MINT", " first key = " + firstKey);
-      Log.i("MINT", "   has " + epoch.get(firstKey).values.length);
-      String msg = "[";
-      for (int j = 0; j < epoch.get(firstKey).values.length; j++) {
-        msg += epoch.get(firstKey).values[j] + ", ";
-      }
-      msg += "]";
-      Log.i("MINT", msg);
-    }
-
-
+    ParcelableResults oldResults = getIntent().getParcelableExtra("results");
+    ParcelableResults results = new ParcelableResults(
+        hackNormalize(oldResults.alphaEpochs, 0),
+        hackNormalize(oldResults.betaEpochs, 0)
+    );
 
     ActivityTaskCompleteBinding binding =
         DataBindingUtil.setContentView(this, R.layout.activity_task_complete);
@@ -46,18 +31,16 @@ public class TaskCompleteActivity extends AppCompatActivity {
     binding.setResults(results);
   }
 
-
   public void handleHomeClicked() {
     Intent intent = new Intent(this, InitialActivity.class);
     startActivity(intent);
   }
 
-  private static ParcelableResults hackModifyResults(ParcelableResults oldResults) {
-    return new ParcelableResults(
-        hackNormalize(oldResults.alphaEpochs, 0),
-        hackNormalize(oldResults.betaEpochs, 0)
-    );
-  }
+  ///
+  /// HACK - please ignore below for now. This normalizes the epoch snapshot values
+  /// so they show up nicely on the epoch viewer.
+  /// Some features need to be added to the epoch viewer, then this can be removed.
+  ///
   private static List<Map<String, TimeSeriesSnapshot<Double>>> hackNormalize(
       List<Map<String, TimeSeriesSnapshot<Double>>> epoch, int zeroSample) {
     double minDelta = 0.0;
@@ -73,8 +56,6 @@ public class TaskCompleteActivity extends AppCompatActivity {
         }
       }
     }
-
-
     List<Map<String, TimeSeriesSnapshot<Double>>> result = new ArrayList<>();
     for (int i = 0; i < epoch.size(); i++) {
       Map<String, TimeSeriesSnapshot<Double>> normed = new HashMap<>();
@@ -96,4 +77,7 @@ public class TaskCompleteActivity extends AppCompatActivity {
     }
     return new TimeSeriesSnapshot<Double>(snapshot.timestamps, normValues);
   }
+  ///
+  /// End hack :)
+  ///
 }
