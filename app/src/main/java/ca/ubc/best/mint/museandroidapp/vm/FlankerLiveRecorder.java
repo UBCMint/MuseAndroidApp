@@ -3,10 +3,14 @@ package ca.ubc.best.mint.museandroidapp.vm;
 import android.os.Handler;
 import android.util.Log;
 
+import java.util.List;
+import java.util.Map;
+
 import eeg.useit.today.eegtoolkit.common.FrequencyBands.Band;
 import eeg.useit.today.eegtoolkit.common.FrequencyBands.ValueType;
 import eeg.useit.today.eegtoolkit.model.EpochCollector;
 import eeg.useit.today.eegtoolkit.model.TimeSeries;
+import eeg.useit.today.eegtoolkit.model.TimeSeriesSnapshot;
 import eeg.useit.today.eegtoolkit.vm.FrequencyBandViewModel;
 import eeg.useit.today.eegtoolkit.vm.StreamingDeviceViewModel;
 
@@ -63,6 +67,15 @@ public class FlankerLiveRecorder {
     timingHandler.postDelayed(alphaCollector, ALPHA_END_MS);
     timingHandler.postDelayed(betaCollector, BETA_END_MS);
   }
+
+  public List<Map<String, TimeSeriesSnapshot<Double>>> getAlphaEpochs() {
+    return alphaEpochs.getEpochs();
+  }
+
+  public List<Map<String, TimeSeriesSnapshot<Double>>> getBetaEpochs() {
+    return betaEpochs.getEpochs();
+  }
+
 
   /** Inner class to trigger an epoch collection after a delay.  */
   private static class DelayCollector implements Runnable {

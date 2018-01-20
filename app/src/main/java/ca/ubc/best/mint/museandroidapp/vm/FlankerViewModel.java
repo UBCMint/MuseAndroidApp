@@ -24,7 +24,7 @@ public class FlankerViewModel extends BaseObservable {
   }
 
   /** How many cue-stimulus pairs to perform. */
-  private static final int FLANKER_TRIAL_RUNS = 10; // HACK - works for now.
+  private static final int FLANKER_TRIAL_RUNS = 3; // HACK - works for now.
 
   // TODO - remove once we have ordering done.
   private static Random rand = new Random();
@@ -187,7 +187,6 @@ public class FlankerViewModel extends BaseObservable {
     return this.connectionVM;
   }
 
-
   /** Update after user tap, return true if we recorded it. */
   public boolean handleScreenTap(boolean isOnLeft) {
     if (stage != FlankerStage.ARROWS) {
@@ -199,5 +198,9 @@ public class FlankerViewModel extends BaseObservable {
     Log.i("MINT", "Tapped on the " + (isOnLeft ? "left" : "right") + " after " + reactionMs + "ms");
     stageTap = new TapDetails(isOnLeft, reactionMs);
     return true;
+  }
+
+  public FlankerLiveRecorder getRecorder() {
+    return this.recorder;
   }
 }
