@@ -63,9 +63,11 @@ public class FlankerViewModel extends BaseObservable {
 
   /** Next arrow text */
   private String arrowText = null;
+  private FlankerStimulus cue = null;
 
   /** All possible stimuli in the order to show them. */
   private final List<FlankerStimulus> stimulusArray;
+  private final List<FlankerStimulus> stimulusCueArray = new ArrayList<>();
 
   public FlankerViewModel(CompletionHandler completionHandler) {
     this.completionHandler = completionHandler;
@@ -74,6 +76,28 @@ public class FlankerViewModel extends BaseObservable {
 
     stimulusIndex = 0;
     stimulusArray = FlankerStimulus.createStimuli(FLANKER_TRIAL_RUNS);
+    createStimulusCueArray();
+  }
+
+  public void createStimulusCueArray () {
+   // stimulusCueArray = stimulusArray; //initally stimulusCueArray is a copy of the stimulusArray
+    stimulusCueArray.clear();
+    stimulusCueArray.addAll(stimulusArray);
+
+
+
+    //uncertainty = 0.160, the certainty or the correctness of the cue is 0.84 percent
+    int uncertainTrials = Math.round(0.160f* FLANKER_TRIAL_RUNS);
+    for(int i = 0; i < uncertainTrials; i++) {
+
+      //replace a random entry in the cue array with a random cue
+        int randomIndex = new Random().nextInt(FLANKER_TRIAL_RUNS);
+        FlankerStimulus randomCue = FlankerStimulus.randomStimulus();
+        stimulusCueArray.set(randomIndex, randomCue);
+
+    }
+
+
   }
 
   /** When connected, set the live device up with a muse. */
@@ -111,6 +135,7 @@ public class FlankerViewModel extends BaseObservable {
       }
       //arrows are determined at PRE_CUE stage in order for CUE to correlate to a corresponding arrow
       this.arrowText = stimulusArray.get(stimulusIndex).asText();
+      this.cue = stimulusCueArray.get(stimulusIndex);
       this.stimulusIndex++;
     }
 
@@ -160,7 +185,7 @@ public class FlankerViewModel extends BaseObservable {
       return 0;
     }
 
-    if(this.arrowText == FlankerStimulus.INCONGRUENT.asText()) {
+    if(this.cue == FlankerStimulus.INCONGRUENT) {
       return COLOR_CUE_ON;
     }
 
@@ -176,7 +201,7 @@ public class FlankerViewModel extends BaseObservable {
     }
 
 
-    if(this.arrowText == FlankerStimulus.CONGRUENT.asText()) {
+    if(this.cue == FlankerStimulus.CONGRUENT) {
       return COLOR_CUE_ON;
     }
 

@@ -3,8 +3,10 @@ package ca.ubc.best.mint.museandroidapp.vm;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 /** Stimuli that can be to displayed for the task. */
 enum FlankerStimulus {
@@ -17,6 +19,7 @@ enum FlankerStimulus {
   FlankerStimulus(String textVersion) {
     this.textVersion = textVersion;
   }
+
 
   /** Gets the text to display for this stimulus. */
   public String asText() {
@@ -44,5 +47,14 @@ enum FlankerStimulus {
     Collections.shuffle(stimulusArray); //randomize the array
     Log.d("MINT", "Stimulus array: " + stimulusArray.toString());
     return stimulusArray;
+  }
+
+
+  private static final List<FlankerStimulus> VALUES = Collections.unmodifiableList(Arrays.asList(values()));
+  private static final int SIZE = VALUES.size();
+  private static final Random RANDOM = new Random();
+
+  public static FlankerStimulus randomStimulus()  {
+    return VALUES.get(RANDOM.nextInt(SIZE));
   }
 }
