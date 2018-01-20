@@ -93,6 +93,10 @@ public class FlankerActivity extends AppCompatActivity
   public void onComplete(FlankerViewModel viewModel) {
     // TODO: Analyses EEG data and tap data from the viewModel...
     Intent finishedIntent = new Intent(this, TaskCompleteActivity.class);
+    finishedIntent.putExtra("results", new ParcelableResults(
+        viewModel.getRecorder().getAlphaEpochs(),
+        viewModel.getRecorder().getBetaEpochs()
+    ));
     startActivity(finishedIntent);
   }
 

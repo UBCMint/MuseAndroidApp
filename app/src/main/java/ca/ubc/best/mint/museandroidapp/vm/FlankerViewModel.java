@@ -26,6 +26,7 @@ public class FlankerViewModel extends BaseObservable {
   /** How many cue-stimulus pairs to perform. */
   private static final int FLANKER_TRIAL_RUNS = 10; // TODO For testing: Limited FLANKER_TRIAL_RUNS TO 10
 
+
   // TODO - remove once we have ordering done.
   private static Random rand = new Random();
   private static int COLOR_CUE_ON = Color.rgb(255, 255, 50);
@@ -42,6 +43,9 @@ public class FlankerViewModel extends BaseObservable {
 
   /** Used for scheduling timed progression between states. */
   private final Handler timingHandler = new Handler();
+
+  /** Logic for performing all the live data recording we need. */
+  private final FlankerLiveRecorder recorder = new FlankerLiveRecorder(liveDevice);
 
   /** Stage we're currently in. */
   private FlankerStage stage;
@@ -133,10 +137,15 @@ public class FlankerViewModel extends BaseObservable {
         completionHandler.onComplete(this);
         return;
       }
+
       //arrows are determined at PRE_CUE stage in order for CUE to correlate to a corresponding arrow
       this.arrowText = stimulusArray.get(stimulusIndex).asText();
       this.cue = stimulusCueArray.get(stimulusIndex);
       this.stimulusIndex++;
+
+    } else if (this.stage == FlankerStage.CUE) {
+      recorder.onShowCue();
+
     }
 
     // Schedule the next transition.
@@ -226,7 +235,6 @@ public class FlankerViewModel extends BaseObservable {
     return this.connectionVM;
   }
 
-
   /** Update after user tap, return true if we recorded it. */
   public boolean handleScreenTap(boolean isOnLeft) {
     if (stage != FlankerStage.ARROWS) {
@@ -238,5 +246,9 @@ public class FlankerViewModel extends BaseObservable {
     Log.i("MINT", "Tapped on the " + (isOnLeft ? "left" : "right") + " after " + reactionMs + "ms");
     stageTap = new TapDetails(isOnLeft, reactionMs);
     return true;
+  }
+
+  public FlankerLiveRecorder getRecorder() {
+    return this.recorder;
   }
 }
