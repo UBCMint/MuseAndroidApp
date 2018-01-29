@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Parcelable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -93,7 +94,7 @@ public class FlankerActivity extends AppCompatActivity
   public void onComplete(FlankerViewModel viewModel) {
     // TODO: Analyses EEG data and tap data from the viewModel...
     Intent finishedIntent = new Intent(this, TaskCompleteActivity.class);
-    finishedIntent.putExtra("results", new ParcelableResults(
+    finishedIntent.putExtra("results", (Parcelable) new ParcelableResults(
         viewModel.getRecorder().getAlphaEpochs(),
         viewModel.getRecorder().getBetaEpochs()
     ));

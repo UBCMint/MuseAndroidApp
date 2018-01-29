@@ -3,6 +3,7 @@ package ca.ubc.best.mint.museandroidapp;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -14,7 +15,9 @@ import eeg.useit.today.eegtoolkit.model.TimeSeriesSnapshot;
  * Make the results from the experiments parcelable, so they can be sent
  * from the recording intent to the results intent.
  */
-public class ParcelableResults implements Parcelable {
+public class ParcelableResults implements Parcelable, Serializable {
+  private static final long serialVersionUID = 1932504295775065944L;
+
   /** All results so far - just the epochs for alpha and beta power. */
   public final List<Map<String, TimeSeriesSnapshot<Double>>> alphaEpochs;
   public final List<Map<String, TimeSeriesSnapshot<Double>>> betaEpochs;

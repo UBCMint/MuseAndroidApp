@@ -33,6 +33,20 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             />
+
+        <Button
+            android:id="@+id/skipButton"
+            android:text='(DEBUG) skip to fake results'
+            android:onClick="@{() -> activity.handleSkipClicked()}"
+            android:layout_width="wrap_content"
+            android:layout_height="64dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="32dp"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/scanButton"
+            />
     </android.support.constraint.ConstraintLayout>
 
 </layout>
