@@ -23,7 +23,7 @@ public class FlankerViewModel extends BaseObservable {
     void onComplete(FlankerViewModel viewModel);
   }
 
-  /** How many cue-stimulus pairs to perform. */
+  /** How many currCue-stimulus pairs to perform. */
   private static final int FLANKER_TRIAL_RUNS = 10; // TODO For testing: Limited FLANKER_TRIAL_RUNS TO 10
 
 
@@ -66,8 +66,8 @@ public class FlankerViewModel extends BaseObservable {
   private int stimulusIndex = 0;
 
   /** Next arrow text */
-  private String arrowText = null;
-  private FlankerStimulus cue = null;
+  private String currArrowText = null;
+  private FlankerStimulus currCue = null;
 
   /** All possible stimuli in the order to show them. */
   private final List<FlankerStimulus> stimulusArray;
@@ -84,19 +84,19 @@ public class FlankerViewModel extends BaseObservable {
   }
 
   public void createStimulusCueArray () {
-   // stimulusCueArray = stimulusArray; //initally stimulusCueArray is a copy of the stimulusArray
+   //initally stimulusCueArray is a copy of the stimulusArray
     stimulusCueArray.clear();
     stimulusCueArray.addAll(stimulusArray);
 
 
 
-    //uncertainty = 0.160, the certainty or the correctness of the cue is 0.84 percent
+    //uncertainty = 0.160, the certainty or the correctness of the currCue is 0.84 percent
     int uncertainTrials = Math.round(0.160f* FLANKER_TRIAL_RUNS);
     for(int i = 0; i < uncertainTrials; i++) {
 
-      //replace a random entry in the cue array with a random cue
+      //replace a random entry in the currCue array with a random currCue
         int randomIndex = new Random().nextInt(FLANKER_TRIAL_RUNS);
-        FlankerStimulus randomCue = FlankerStimulus.randomStimulus();
+        FlankerStimulus randomCue = FlankerStimulus.randomStimulusCue();
         stimulusCueArray.set(randomIndex, randomCue);
 
     }
@@ -122,8 +122,7 @@ public class FlankerViewModel extends BaseObservable {
     // First record stuff from the previous stage if required...
     if (this.stage == FlankerStage.ARROWS) {
       allTaps.add(stageTap);
-     // this.arrowText = stimulusArray.get(stimulusIndex).asText();
-     // this.stimulusIndex++;
+
     }
 
     Log.i("MINT", "Going to stage " + newStage.name());
@@ -139,8 +138,8 @@ public class FlankerViewModel extends BaseObservable {
       }
 
       //arrows are determined at PRE_CUE stage in order for CUE to correlate to a corresponding arrow
-      this.arrowText = stimulusArray.get(stimulusIndex).asText();
-      this.cue = stimulusCueArray.get(stimulusIndex);
+      this.currArrowText = stimulusArray.get(stimulusIndex).asText();
+      this.currCue = stimulusCueArray.get(stimulusIndex);
       this.stimulusIndex++;
 
     } else if (this.stage == FlankerStage.CUE) {
@@ -178,7 +177,7 @@ public class FlankerViewModel extends BaseObservable {
     }
   }
 
-  /** @return Whether the cue UI should be shown. */
+  /** @return Whether the currCue UI should be shown. */
   public boolean showCue() {
     return this.stage == FlankerStage.CUE;
   }
@@ -188,47 +187,49 @@ public class FlankerViewModel extends BaseObservable {
     return this.stage == FlankerStage.ARROWS;
   }
 
-  /** @return The color for the left pointer cue. */
+  /** @return The color for the left pointer currCue. */
   public int leftPointerColor() {
     if (!showCue()) {
       return 0;
     }
 
-    if(this.cue == FlankerStimulus.INCONGRUENT) {
+    if(this.currCue == FlankerStimulus.INCONGRUENT) {
       return COLOR_CUE_ON;
     }
 
     return COLOR_CUE_OFF;
-   // boolean isActive = rand.nextBoolean(); // TODO - not random.
-   // return isActive ? COLOR_CUE_ON : COLOR_CUE_OFF;
+
   }
 
-  /** @return The color for the right pointer cue. */
+  /** @return The color for the right pointer currCue. */
   public int rightPointerColor() {
     if (!showCue()) {
       return 0;
     }
 
 
-    if(this.cue == FlankerStimulus.CONGRUENT) {
+    if(this.currCue == FlankerStimulus.CONGRUENT) {
       return COLOR_CUE_ON;
     }
 
     return COLOR_CUE_OFF;
-    //boolean isActive = rand.nextBoolean(); // TODO - not random.
-    //return isActive ? COLOR_CUE_ON : COLOR_CUE_OFF;
   }
 
-  /** @return The string to display for the arrows, either lehh ft or right. */
-  public String arrowText() {
+  /** @return The string to display for the arrows, either left or right. */
+  public String getArrowText() {
     if (!showArrows()) {
       return "";
     }
 
-   // String arrowText = stimulusArray.get(stimulusIndex).asText();
-    Log.d("MINT", "Flanker Stimulus: " + this.arrowText);
-    return this.arrowText;
+    Log.d("MINT", "Flanker Stimulus: " + this.currArrowText);
+    return this.currArrowText;
   }
+
+  public FlankerStimulus getCurrCue() {
+    return this.currCue;
+  }
+
+
 
   /** @return ViewModel for connection to device. */
   public ConnectionStrengthViewModel getConnectionStrength() {

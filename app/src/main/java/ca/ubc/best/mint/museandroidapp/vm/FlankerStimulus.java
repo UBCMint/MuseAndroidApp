@@ -54,7 +54,7 @@ enum FlankerStimulus {
   private static final int SIZE = VALUES.size();
   private static final Random RANDOM = new Random();
 
-  public static FlankerStimulus randomStimulus()  {
+  public static FlankerStimulus randomStimulusCue()  {
     return VALUES.get(RANDOM.nextInt(SIZE));
   }
 }
