@@ -110,7 +110,7 @@
                 android:layout_height="140sp"
                 android:gravity="center"
                 android:keepScreenOn="true"
-                android:text="@{flankerVM.arrowText()}"
+                android:text="@{flankerVM.getArrowText()}"
                 android:textColor="#fff"
                 android:textSize="140sp"
                 app:layout_constraintBottom_toBottomOf="parent"
