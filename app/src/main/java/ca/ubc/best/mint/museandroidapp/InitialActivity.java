@@ -63,6 +63,14 @@ public class InitialActivity extends AppCompatActivity {
     }
   }
 
+  /** Handles skip button clicked, debug shortcut to go to results screen with fake data. */
+  public void handleSkipClicked() {
+    Intent intent = new Intent(InitialActivity.this, TaskCompleteActivity.class);
+    intent.putExtra("debug", true);
+    startActivity(intent);
+  }
+
+
   private void scanForDevices() {
     viewModel.scanForDevice(SCAN_LENGTH_SEC, new MuseListViewModel.MuseListListener() {
       @Override
