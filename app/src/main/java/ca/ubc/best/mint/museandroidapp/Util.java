@@ -31,4 +31,9 @@ public class Util {
     });
     list.scan(scanSec);
   }
+
+  public static final int msToSamples(int ms) {
+    double seconds = ms / 1000.0;
+    return (int) (seconds * Constants.FREQUENCY_HZ);
+  }
 }

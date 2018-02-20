@@ -13,14 +13,9 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 import ca.ubc.best.mint.museandroidapp.databinding.ActivityTaskCompleteBinding;
 import eeg.useit.today.eegtoolkit.Constants;
-import eeg.useit.today.eegtoolkit.model.TimeSeriesSnapshot;
 
 public class TaskCompleteActivity extends AppCompatActivity {
   // TODO: Just for testing, remove for final version.
@@ -30,18 +25,13 @@ public class TaskCompleteActivity extends AppCompatActivity {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
 
-    ParcelableResults oldResults = null;
+    ParcelableResults results;
     if (getIntent().hasExtra("debug")) {
-      oldResults = hackLoadResults();
+      results = hackLoadResults();
     } else {
-      oldResults = getIntent().getParcelableExtra("results");
+      results = getIntent().getParcelableExtra("results");
     }
-    // hackSaveResults(oldResults); re-enable to save debug results if needed.
-
-    ParcelableResults results = new ParcelableResults(
-        hackNormalize(oldResults.alphaEpochs, 0),
-        hackNormalize(oldResults.betaEpochs, 0)
-    );
+    hackSaveResults(results); // re-enable to save debug results if needed.
 
     ActivityTaskCompleteBinding binding =
         DataBindingUtil.setContentView(this, R.layout.activity_task_complete);
@@ -95,58 +85,4 @@ public class TaskCompleteActivity extends AppCompatActivity {
       return null;
     }
   }
-
-  ///
-  /// HACK - please ignore below for now. This normalizes the epoch snapshot values
-  /// so they show up nicely on the epoch viewer.
-  /// Some features need to be added to the epoch viewer, then this can be removed.
-  ///
-  private static List<Map<String, TimeSeriesSnapshot<Double>>> hackNormalize(
-      List<Map<String, TimeSeriesSnapshot<Double>>> epochs, int zeroSample) {
-    int shortestEpochLength = Integer.MAX_VALUE;
-    for (int i = 0; i < epochs.size(); i++) {
-      for (TimeSeriesSnapshot<Double> epoch : epochs.get(i).values()) {
-        shortestEpochLength = Math.min(shortestEpochLength, epoch.length);
-      }
-    }
-
-    double minDelta = 0.0;
-    double maxDelta = 0.0;
-    for (int i = 0; i < epochs.size(); i++) {
-      for (String key : epochs.get(i).keySet()) {
-        Double[] values = epochs.get(i).get(key).values;
-        for (int j = 0; j < values.length; j++) {
-          double delta = values[j] - values[zeroSample];
-          minDelta = Math.min(delta, minDelta);
-          maxDelta = Math.max(delta, maxDelta);
-        }
-      }
-    }
-    List<Map<String, TimeSeriesSnapshot<Double>>> result = new ArrayList<>();
-    for (int i = 0; i < epochs.size(); i++) {
-      Map<String, TimeSeriesSnapshot<Double>> normed = new HashMap<>();
-      for (String key : epochs.get(i).keySet()) {
-        normed.put(key, hackNormalize(epochs.get(i).get(key),
-            shortestEpochLength, zeroSample, minDelta, maxDelta));
-      }
-      result.add(normed);
-    }
-    return result;
-  }
-  private static TimeSeriesSnapshot<Double> hackNormalize(
-      TimeSeriesSnapshot<Double> snapshot,
-      int length, int zeroSample, double minDelta, double maxDelta
-  ) {
-    long[] normTimestamps = new long[length];
-    Double[] normValues = new Double[length];
-    for (int i = 0; i < length; i++) {
-      normTimestamps[i] = snapshot.timestamps[i];
-      double delta = snapshot.values[i] - snapshot.values[zeroSample];
-      normValues[i] = (delta - minDelta) / (maxDelta - minDelta);
-    }
-    return new TimeSeriesSnapshot<>(normTimestamps, normValues);
-  }
-  ///
-  /// End hack :)
-  ///
 }

@@ -6,6 +6,8 @@ import android.util.Log;
 import java.util.List;
 import java.util.Map;
 
+import ca.ubc.best.mint.museandroidapp.Util;
+import ca.ubc.best.mint.museandroidapp.analysis.ResultsPostProcessing;
 import eeg.useit.today.eegtoolkit.common.FrequencyBands.Band;
 import eeg.useit.today.eegtoolkit.common.FrequencyBands.ValueType;
 import eeg.useit.today.eegtoolkit.model.EpochCollector;
@@ -14,28 +16,26 @@ import eeg.useit.today.eegtoolkit.model.TimeSeriesSnapshot;
 import eeg.useit.today.eegtoolkit.vm.FrequencyBandViewModel;
 import eeg.useit.today.eegtoolkit.vm.StreamingDeviceViewModel;
 
-/**
-Performs all live data recording for the flanker test. From the paper:
-===
- For the changes
- in theta and alpha power, the factors used were Group (TD, IA, CB) and Time (0–500 ms,
- 500–1000 ms and 1000–1500 ms after cue). We did not perform analyses 1500 ms after cue
- onset in order to avoid spectral leakage from target processing (the targets arrived 1800 ms
- after the cue). For the beta power we used the time intervals of 800 to 1300 ms and 1300 to
- 1800 ms after cue onset, to exclude overlap from alpha activity and movement artifact from
- subject response.
-"""
-*/
+/** Performs all live data recording for the flanker test. */
 public class FlankerLiveRecorder {
   /** Used for scheduling timed progression between states. */
   private final Handler timingHandler = new Handler();
 
-  // Alpha recording = 0 -> 1500ms after cue shown.
-  private static final int ALPHA_START_MS = 0;
-  private static final int ALPHA_END_MS = 1500;
-  // Beta recording = 800 -> 1800 ms after cue shown.
-  private static final int BETA_START_MS = 1000;
-  private static final int BETA_END_MS = 1800;
+  // Alpha recording:
+  // -800ms -> -300ms pre-cue for baseline
+  // 150ms -> 1250ms post-cue for analysis, peak at 500
+  private static final int ALPHA_COLLECTION_START_MS = ResultsPostProcessing.INITIAL_MS;
+  private static final int ALPHA_COLLECTION_END_MS = ResultsPostProcessing.ALPHA_END_MS;
+  private static final int ALPHA_COLLECTION_SAMPLES =
+      Util.msToSamples(ALPHA_COLLECTION_END_MS - ALPHA_COLLECTION_START_MS);
+
+  // Beta recording:
+  // -800ms -> -300ms pre-cue for baseline
+  // 800 -> 1300ms post-cue for analysis, peak at 500
+  private static final int BETA_COLLECTION_START_MS = ResultsPostProcessing.INITIAL_MS;
+  private static final int BETA_COLLECTION_END_MS = ResultsPostProcessing.BETA_END_MS;
+  private static final int BETA_COLLECTION_SAMPLES =
+      Util.msToSamples(BETA_COLLECTION_END_MS - BETA_COLLECTION_START_MS);
 
   // Create objects for collecting alpha epochs after a set delay.
   private final EpochCollector alphaEpochs = new EpochCollector();
@@ -47,25 +47,25 @@ public class FlankerLiveRecorder {
 
   /** Creates the recorder by initializing all recorder types. */
   public FlankerLiveRecorder(StreamingDeviceViewModel device) {
-    // TODO: What ValueType to use - relative? absolute? ...
-    int alphaDurationMs = ALPHA_END_MS - ALPHA_START_MS;
     FrequencyBandViewModel liveAlpha =
-        device.createFrequencyLiveValue(Band.ALPHA, ValueType.RELATIVE);
-    TimeSeries<Double> alphaTS = TimeSeries.fromLiveSeries(liveAlpha, alphaDurationMs);
+        device.createFrequencyLiveValue(Band.ALPHA, ValueType.ABSOLUTE);
+    TimeSeries<Double> alphaTS =
+        TimeSeries.fromLiveSeriesAndCount(liveAlpha, ALPHA_COLLECTION_SAMPLES);
+    Log.i("MINT", "Alpha #Samples = " + ALPHA_COLLECTION_SAMPLES);
     alphaEpochs.addSource("alpha", alphaTS);
 
-    int betaDurationMs = BETA_END_MS - BETA_START_MS;
     FrequencyBandViewModel liveBeta =
-        device.createFrequencyLiveValue(Band.BETA, ValueType.RELATIVE);
-    TimeSeries<Double> betaTS = TimeSeries.fromLiveSeries(liveBeta, betaDurationMs);
+        device.createFrequencyLiveValue(Band.BETA, ValueType.ABSOLUTE);
+    TimeSeries<Double> betaTS =
+        TimeSeries.fromLiveSeriesAndCount(liveBeta, BETA_COLLECTION_SAMPLES);
+    Log.i("MINT", "Beta #Samples = " + BETA_COLLECTION_SAMPLES);
     betaEpochs.addSource("beta", betaTS);
   }
 
   // Handle the cue being shown.
   public void onShowCue() {
-    // TODO: Double check that beta is after the cue, not after the arrows?
-    timingHandler.postDelayed(alphaCollector, ALPHA_END_MS);
-    timingHandler.postDelayed(betaCollector, BETA_END_MS);
+    timingHandler.postDelayed(alphaCollector, ALPHA_COLLECTION_END_MS);
+    timingHandler.postDelayed(betaCollector, BETA_COLLECTION_END_MS);
   }
 
   public List<Map<String, TimeSeriesSnapshot<Double>>> getAlphaEpochs() {
@@ -75,7 +75,6 @@ public class FlankerLiveRecorder {
   public List<Map<String, TimeSeriesSnapshot<Double>>> getBetaEpochs() {
     return betaEpochs.getEpochs();
   }
-
 
   /** Inner class to trigger an epoch collection after a delay.  */
   private static class DelayCollector implements Runnable {
@@ -89,9 +88,8 @@ public class FlankerLiveRecorder {
 
     @Override
     public void run() {
-      Log.i("EPOCH", "Collected epoch for " + dbgName);
       collector.collectEpoch();
-    }
+   }
   }
 }
 
