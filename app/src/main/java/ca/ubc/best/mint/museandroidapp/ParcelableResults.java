@@ -2,6 +2,7 @@ package ca.ubc.best.mint.museandroidapp;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -22,18 +23,28 @@ public class ParcelableResults implements Parcelable, Serializable {
   public final List<Map<String, TimeSeriesSnapshot<Double>>> alphaEpochs;
   public final List<Map<String, TimeSeriesSnapshot<Double>>> betaEpochs;
 
+  /** Scores calculated from post-processed data. */
+  public final double alphaSuppression;
+  public final double betaSuppression;
+
   public ParcelableResults(
       List<Map<String, TimeSeriesSnapshot<Double>>> alphaEpochs,
-      List<Map<String, TimeSeriesSnapshot<Double>>> betaEpochs
+      List<Map<String, TimeSeriesSnapshot<Double>>> betaEpochs,
+      double alphaSuppression,
+      double betaSuppression
   ) {
     this.alphaEpochs = alphaEpochs;
     this.betaEpochs = betaEpochs;
+    this.alphaSuppression = alphaSuppression;
+    this.betaSuppression = betaSuppression;
   }
 
   /** Parcel -> ParcelableResults */
   protected ParcelableResults(Parcel in) {
     alphaEpochs = readEpochs(in);
     betaEpochs = readEpochs(in);
+    alphaSuppression = in.readDouble();
+    betaSuppression = in.readDouble();
   }
 
   /** ParcelableResults -> Parcel */
@@ -41,6 +52,8 @@ public class ParcelableResults implements Parcelable, Serializable {
   public void writeToParcel(Parcel dest, int flags) {
     writeEpochs(dest, flags, alphaEpochs);
     writeEpochs(dest, flags, betaEpochs);
+    dest.writeDouble(alphaSuppression);
+    dest.writeDouble(betaSuppression);
   }
 
   @Override

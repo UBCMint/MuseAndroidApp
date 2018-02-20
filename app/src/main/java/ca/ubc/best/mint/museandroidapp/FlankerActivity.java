@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.choosemuse.libmuse.Muse;
 
+import ca.ubc.best.mint.museandroidapp.analysis.ResultsPostProcessing;
 import ca.ubc.best.mint.museandroidapp.databinding.ActivityFlankerBinding;
 import ca.ubc.best.mint.museandroidapp.vm.FlankerViewModel;
 import eeg.useit.today.eegtoolkit.vm.MuseListViewModel;
@@ -94,10 +95,11 @@ public class FlankerActivity extends AppCompatActivity
   public void onComplete(FlankerViewModel viewModel) {
     // TODO: Analyses EEG data and tap data from the viewModel...
     Intent finishedIntent = new Intent(this, TaskCompleteActivity.class);
-    finishedIntent.putExtra("results", (Parcelable) new ParcelableResults(
+    ParcelableResults processed = ResultsPostProcessing.process(
         viewModel.getRecorder().getAlphaEpochs(),
         viewModel.getRecorder().getBetaEpochs()
-    ));
+    );
+    finishedIntent.putExtra("results", (Parcelable) processed);
     startActivity(finishedIntent);
   }
 
