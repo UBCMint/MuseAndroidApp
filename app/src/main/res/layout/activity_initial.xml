@@ -36,8 +36,8 @@
 
         <Button
             android:id="@+id/skipButton"
-            android:text='(DEBUG) skip to fake results'
-            android:onClick="@{() -> activity.handleSkipClicked()}"
+            android:text='View past results'
+            android:onClick="@{() -> activity.viewHistoryClicked()}"
             android:layout_width="wrap_content"
             android:layout_height="64dp"
             android:layout_marginRight="8dp"

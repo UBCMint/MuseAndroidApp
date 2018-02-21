@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.choosemuse.libmuse.Muse;
 
+import ca.ubc.best.mint.museandroidapp.analysis.HistoricResults;
 import ca.ubc.best.mint.museandroidapp.analysis.ResultsPostProcessing;
 import ca.ubc.best.mint.museandroidapp.databinding.ActivityFlankerBinding;
 import ca.ubc.best.mint.museandroidapp.vm.FlankerViewModel;
@@ -93,12 +94,18 @@ public class FlankerActivity extends AppCompatActivity
 
   @Override
   public void onComplete(FlankerViewModel viewModel) {
-    // TODO: Analyses EEG data and tap data from the viewModel...
-    Intent finishedIntent = new Intent(this, TaskCompleteActivity.class);
+    // Perform processing on the raw data.
     ParcelableResults processed = ResultsPostProcessing.process(
         viewModel.getRecorder().getAlphaEpochs(),
         viewModel.getRecorder().getBetaEpochs()
+        // TODO: Record tap accuracy and latency.
     );
+
+    // Next, save results to file.
+    this.addToHistoryAndSave(processed);
+
+    // And finally, show most recent results.
+    Intent finishedIntent = new Intent(this, TaskCompleteActivity.class);
     finishedIntent.putExtra("results", (Parcelable) processed);
     startActivity(finishedIntent);
   }
@@ -110,5 +117,12 @@ public class FlankerActivity extends AppCompatActivity
       return viewModel.handleScreenTap(isOnLeft);
     }
     return false;
+  }
+
+  // Before opening results, first save to history file.
+  private void addToHistoryAndSave(ParcelableResults result) {
+    HistoricResults pastResults = HistoricResults.loadFromFile(this);
+    pastResults.addResult(result);
+    pastResults.save(this);
   }
 }

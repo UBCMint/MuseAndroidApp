@@ -3,6 +3,7 @@ package ca.ubc.best.mint.museandroidapp.analysis;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -41,10 +42,12 @@ public class ResultsPostProcessing {
   ) {
     List<Map<String, TimeSeriesSnapshot<Double>>> alpha = processAllAlpha(rawAlpha);
     List<Map<String, TimeSeriesSnapshot<Double>>> beta = processAllBeta(rawBeta);
+    Date timeOfExperiment = new Date();
     return new ParcelableResults(
         alpha, beta,
         calcAlphaSuppression(alpha),
-        calcBetaSuppression(beta)
+        calcBetaSuppression(beta),
+        timeOfExperiment
     );
   }
 

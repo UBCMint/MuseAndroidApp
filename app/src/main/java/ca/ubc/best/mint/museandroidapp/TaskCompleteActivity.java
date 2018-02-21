@@ -25,13 +25,7 @@ public class TaskCompleteActivity extends AppCompatActivity {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
 
-    ParcelableResults results;
-    if (getIntent().hasExtra("debug")) {
-      results = hackLoadResults();
-    } else {
-      results = getIntent().getParcelableExtra("results");
-    }
-    hackSaveResults(results); // re-enable to save debug results if needed.
+    ParcelableResults results = getIntent().getParcelableExtra("results");
 
     ActivityTaskCompleteBinding binding =
         DataBindingUtil.setContentView(this, R.layout.activity_task_complete);

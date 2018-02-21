@@ -6,6 +6,7 @@ import android.util.Log;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,7 +18,7 @@ import eeg.useit.today.eegtoolkit.model.TimeSeriesSnapshot;
  * from the recording intent to the results intent.
  */
 public class ParcelableResults implements Parcelable, Serializable {
-  private static final long serialVersionUID = 1932504295775065944L;
+  private static final long serialVersionUID = 1720974L;
 
   /** All results so far - just the epochs for alpha and beta power. */
   public final List<Map<String, TimeSeriesSnapshot<Double>>> alphaEpochs;
@@ -27,16 +28,21 @@ public class ParcelableResults implements Parcelable, Serializable {
   public final double alphaSuppression;
   public final double betaSuppression;
 
+  /** When the experiment these come from was finished. */
+  public final Date timeOfExperiment;
+
   public ParcelableResults(
       List<Map<String, TimeSeriesSnapshot<Double>>> alphaEpochs,
       List<Map<String, TimeSeriesSnapshot<Double>>> betaEpochs,
       double alphaSuppression,
-      double betaSuppression
-  ) {
+      double betaSuppression,
+      Date timeOfExperiment
+    ) {
     this.alphaEpochs = alphaEpochs;
     this.betaEpochs = betaEpochs;
     this.alphaSuppression = alphaSuppression;
     this.betaSuppression = betaSuppression;
+    this.timeOfExperiment = timeOfExperiment;
   }
 
   /** Parcel -> ParcelableResults */
@@ -45,6 +51,7 @@ public class ParcelableResults implements Parcelable, Serializable {
     betaEpochs = readEpochs(in);
     alphaSuppression = in.readDouble();
     betaSuppression = in.readDouble();
+    timeOfExperiment = new Date(in.readLong());
   }
 
   /** ParcelableResults -> Parcel */
@@ -54,6 +61,20 @@ public class ParcelableResults implements Parcelable, Serializable {
     writeEpochs(dest, flags, betaEpochs);
     dest.writeDouble(alphaSuppression);
     dest.writeDouble(betaSuppression);
+    dest.writeLong(timeOfExperiment.getTime());
+  }
+
+  //
+  // Visual formatting
+  //
+  public String alphaCaption() {
+    return String.format("Alpha: %.2f", this.alphaSuppression);
+  }
+  public String betaCaption() {
+    return String.format("Beta: %.2f", this.betaSuppression);
+  }
+  public String dateCaption() {
+    return Constants.DATE_FORMATTER.format(this.timeOfExperiment);
   }
 
   @Override
