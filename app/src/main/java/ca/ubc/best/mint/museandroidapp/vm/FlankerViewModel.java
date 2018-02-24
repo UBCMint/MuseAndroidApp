@@ -8,6 +8,7 @@ import android.util.Log;
 import com.choosemuse.libmuse.Muse;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -107,6 +108,9 @@ public class FlankerViewModel extends BaseObservable {
     stimulusCueArray.addAll(StimulusCue.createCongStimuliCueList(congstimuliList));
     //add incongruent stimuli and its cues
     stimulusCueArray.addAll(StimulusCue.createIncongStimuliCueList(incongstimuliList));
+
+    //randomize the stimulus cue array
+      Collections.shuffle(stimulusCueArray);
   }
 
   /** When connected, set the live device up with a muse. */
