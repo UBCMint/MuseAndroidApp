@@ -10,9 +10,13 @@ import java.util.Random;
 
 /** Stimuli that can be to displayed for the task. */
 enum FlankerStimulus {
-  CONGRUENT(">>>>>"),
-  NEUTRAL("+++++"),
-  INCONGRUENT(">><>>");
+  RIGHTCONGRUENT(">>>>>"),
+  LEFTCONGRUENT("<<<<<"),
+  RIGHTNEUTRAL("++>++"),
+  LEFTNEUTRAL("++<++"),
+  RIGHTINCONGRUENT("<<><<"),
+  LEFTINCONGRUENT(">><>>"),
+  CATCH ("+++++");
 
   private final String textVersion;
 
@@ -26,7 +30,56 @@ enum FlankerStimulus {
     return this.textVersion;
   }
 
+  /** Create an array of neutral stimuli **/
+  public static List<FlankerStimulus> createNeutralStimuli (int numNeturalSimuli) {
+    List<FlankerStimulus> neutralstimuliArray = new ArrayList<>();
+    for(int i = 0; i < numNeturalSimuli/2; i++) {
+      //half LEFTCONGRUENT
+      neutralstimuliArray.add(FlankerStimulus.LEFTCONGRUENT);
+    }
+
+    for(int i = numNeturalSimuli/2; i < numNeturalSimuli; i++) {
+      //half RIGHTCONGRUENT
+      neutralstimuliArray.add(FlankerStimulus.RIGHTCONGRUENT);
+    }
+    return neutralstimuliArray;
+  }
+
+  /** Create an array of congruent stimuli **/
+  public static List<FlankerStimulus> createCongStimuli (int numCongSimuli) {
+    List<FlankerStimulus> congstimuliArray = new ArrayList<>();
+    for(int i = 0; i < numCongSimuli/2; i++) {
+      //half LEFTCONGRUENT
+      congstimuliArray.add(FlankerStimulus.LEFTCONGRUENT);
+    }
+
+    for(int i = numCongSimuli/2; i < numCongSimuli; i++) {
+      //half RIGHTCONGRUENT
+      congstimuliArray.add(FlankerStimulus.RIGHTCONGRUENT);
+    }
+    return congstimuliArray;
+  }
+
+  /** Create an array of incongruent stimuli **/
+  public static List<FlankerStimulus> createIncongStimuli (int numIncongSimuli) {
+    List<FlankerStimulus> IncongstimuliArray = new ArrayList<>();
+    for(int i = 0; i < numIncongSimuli/2; i++) {
+      //half LEFTCONGRUENT
+      IncongstimuliArray.add(FlankerStimulus.LEFTCONGRUENT);
+    }
+
+    for(int i = numIncongSimuli/2; i < numIncongSimuli; i++) {
+      //half RIGHTCONGRUENT
+      IncongstimuliArray.add(FlankerStimulus.RIGHTCONGRUENT);
+    }
+    return IncongstimuliArray;
+  }
+
+
+
+
   /** @return An ordering of stimuli to use for a given number of trials. */
+ /*
   public static List<FlankerStimulus> createStimuli(int totalTrials) {
     // congPercent = 0.289;
     // neutralPercent = 0.289;
@@ -35,8 +88,14 @@ enum FlankerStimulus {
     int numCong = Math.round(0.289f * totalTrials);
     int numNeut = Math.round(0.289f * totalTrials);
     List<FlankerStimulus> stimulusArray = new ArrayList<>();
-    for(int i = 0; i < numCong; i++) {
-      stimulusArray.add(FlankerStimulus.CONGRUENT);
+    for(int i = 0; i < numCong/2; i++) {
+      //half LEFTCONGRUENT
+      stimulusArray.add(FlankerStimulus.LEFTCONGRUENT);
+    }
+
+    for(int i = numCong/2; i < numCong; i++) {
+      //half RIGHTCONGRUENT
+      stimulusArray.add(FlankerStimulus.RIGHTCONGRUENT);
     }
     for(int i = 0; i < numNeut; i++) {
       stimulusArray.add(FlankerStimulus.NEUTRAL);
@@ -48,7 +107,7 @@ enum FlankerStimulus {
     Log.d("MINT", "Stimulus array: " + stimulusArray.toString());
     return stimulusArray;
   }
-
+*/
 
   private static final List<FlankerStimulus> VALUES = Collections.unmodifiableList(Arrays.asList(values()));
   private static final int SIZE = VALUES.size();

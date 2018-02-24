@@ -67,11 +67,24 @@ public class FlankerViewModel extends BaseObservable {
 
   /** Next arrow text */
   private String currArrowText = null;
-  private FlankerStimulus currCue = null;
+  private FlankerCue currCue = null;
 
   /** All possible stimuli in the order to show them. */
-  private final List<FlankerStimulus> stimulusArray;
-  private final List<FlankerStimulus> stimulusCueArray = new ArrayList<>();
+  private List<FlankerStimulus> neutralstimuliList = new ArrayList<>();
+  private List<FlankerStimulus> congstimuliList = new ArrayList<>();
+  private List<FlankerStimulus> incongstimuliList = new ArrayList<>();
+
+  private List<StimulusCue> stimulusCueArray = new ArrayList<>();
+
+
+  // congPercent = 0.289;
+  // neutralPercent = 0.289;
+  // incongPercent = 0.421;
+
+  private int numNeut = Math.round(0.289f * FLANKER_TRIAL_RUNS);
+  private int numCong = Math.round(0.289f * FLANKER_TRIAL_RUNS);
+  private int numIncong = Math.round(0.421f * FLANKER_TRIAL_RUNS);
+
 
   public FlankerViewModel(CompletionHandler completionHandler) {
     this.completionHandler = completionHandler;
@@ -79,29 +92,21 @@ public class FlankerViewModel extends BaseObservable {
     runAt = -1;
 
     stimulusIndex = 0;
-    stimulusArray = FlankerStimulus.createStimuli(FLANKER_TRIAL_RUNS);
-    createStimulusCueArray();
+    createStimulusCuePairList(); //create and link stimuli with its cues
   }
 
-  public void createStimulusCueArray () {
-   //initally stimulusCueArray is a copy of the stimulusArray
-    stimulusCueArray.clear();
-    stimulusCueArray.addAll(stimulusArray);
+  public void createStimulusCuePairList() {
 
+    neutralstimuliList = FlankerStimulus.createNeutralStimuli(numNeut);
+    congstimuliList = FlankerStimulus.createCongStimuli(numCong);
+    incongstimuliList = FlankerStimulus.createIncongStimuli(numIncong);
 
-
-    //uncertainty = 0.160, the certainty or the correctness of the currCue is 0.84 percent
-    int uncertainTrials = Math.round(0.160f* FLANKER_TRIAL_RUNS);
-    for(int i = 0; i < uncertainTrials; i++) {
-
-      //replace a random entry in the currCue array with a random currCue
-        int randomIndex = new Random().nextInt(FLANKER_TRIAL_RUNS);
-        FlankerStimulus randomCue = FlankerStimulus.randomStimulusCue();
-        stimulusCueArray.set(randomIndex, randomCue);
-
-    }
-
-
+    //add neutral stimuli and its cues
+    stimulusCueArray.addAll(StimulusCue.createNeutralStimuliCueList(neutralstimuliList));
+    //add congruent stimuli and its cues
+    stimulusCueArray.addAll(StimulusCue.createCongStimuliCueList(congstimuliList));
+    //add incongruent stimuli and its cues
+    stimulusCueArray.addAll(StimulusCue.createIncongStimuliCueList(incongstimuliList));
   }
 
   /** When connected, set the live device up with a muse. */
@@ -138,8 +143,8 @@ public class FlankerViewModel extends BaseObservable {
       }
 
       //arrows are determined at PRE_CUE stage in order for CUE to correlate to a corresponding arrow
-      this.currArrowText = stimulusArray.get(stimulusIndex).asText();
-      this.currCue = stimulusCueArray.get(stimulusIndex);
+      this.currArrowText = stimulusCueArray.get(stimulusIndex).stimulus.asText();
+      this.currCue = stimulusCueArray.get(stimulusIndex).cue;
       this.stimulusIndex++;
 
     } else if (this.stage == FlankerStage.CUE) {
@@ -193,7 +198,16 @@ public class FlankerViewModel extends BaseObservable {
       return 0;
     }
 
-    if(this.currCue == FlankerStimulus.INCONGRUENT) {
+    if(this.currCue == FlankerCue.NULL) {
+      return COLOR_CUE_OFF;
+    }
+    else if (this.currCue == FlankerCue.LRP) {
+      return COLOR_CUE_ON;
+    }
+    else if (this.currCue == FlankerCue.RRP) {
+      return COLOR_CUE_OFF;
+    }
+    else if( this.currCue == FlankerCue.WARN) {
       return COLOR_CUE_ON;
     }
 
@@ -208,7 +222,16 @@ public class FlankerViewModel extends BaseObservable {
     }
 
 
-    if(this.currCue == FlankerStimulus.CONGRUENT) {
+    if(this.currCue == FlankerCue.NULL) {
+      return COLOR_CUE_OFF;
+    }
+    else if (this.currCue == FlankerCue.LRP) {
+      return COLOR_CUE_OFF;
+    }
+    else if (this.currCue == FlankerCue.RRP) {
+      return COLOR_CUE_ON;
+    }
+    else if( this.currCue == FlankerCue.WARN) {
       return COLOR_CUE_ON;
     }
 
@@ -224,11 +247,6 @@ public class FlankerViewModel extends BaseObservable {
     Log.d("MINT", "Flanker Stimulus: " + this.currArrowText);
     return this.currArrowText;
   }
-
-  public FlankerStimulus getCurrCue() {
-    return this.currCue;
-  }
-
 
 
   /** @return ViewModel for connection to device. */
