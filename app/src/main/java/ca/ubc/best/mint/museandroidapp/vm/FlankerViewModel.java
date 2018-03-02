@@ -8,6 +8,7 @@ import android.util.Log;
 import com.choosemuse.libmuse.Muse;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -23,8 +24,9 @@ public class FlankerViewModel extends BaseObservable {
     void onComplete(FlankerViewModel viewModel);
   }
 
-  /** How many cue-stimulus pairs to perform. */
-  private static final int FLANKER_TRIAL_RUNS = 3; // HACK - works for now.
+  /** How many currCue-stimulus pairs to perform. */
+  private static final int FLANKER_TRIAL_RUNS = 30; // TODO For testing: Limited FLANKER_TRIAL_RUNS TO 10
+
 
   // TODO - remove once we have ordering done.
   private static Random rand = new Random();
@@ -64,8 +66,26 @@ public class FlankerViewModel extends BaseObservable {
   /** Which stimulus we're up to. */
   private int stimulusIndex = 0;
 
+  /** Next arrow text */
+  private String currArrowText = null;
+  private FlankerCue currCue = null;
+
   /** All possible stimuli in the order to show them. */
-  private final List<FlankerStimulus> stimulusArray;
+  private List<FlankerStimulus> neutralstimuliList = new ArrayList<>();
+  private List<FlankerStimulus> congstimuliList = new ArrayList<>();
+  private List<FlankerStimulus> incongstimuliList = new ArrayList<>();
+
+  private List<StimulusCue> stimulusCueArray = new ArrayList<>();
+
+
+  // congPercent = 0.289;
+  // neutralPercent = 0.289;
+  // incongPercent = 0.421;
+
+  private int numNeut = Math.round(0.289f * FLANKER_TRIAL_RUNS);
+  private int numCong = Math.round(0.289f * FLANKER_TRIAL_RUNS);
+  private int numIncong = Math.round(0.421f * FLANKER_TRIAL_RUNS);
+
 
   public FlankerViewModel(CompletionHandler completionHandler) {
     this.completionHandler = completionHandler;
@@ -73,7 +93,26 @@ public class FlankerViewModel extends BaseObservable {
     runAt = -1;
 
     stimulusIndex = 0;
-    stimulusArray = FlankerStimulus.createStimuli(FLANKER_TRIAL_RUNS);
+    createStimulusCuePairList(); //create and link stimuli with its cues
+  }
+
+  public void createStimulusCuePairList() {
+
+    neutralstimuliList = FlankerStimulus.createNeutralStimuli(numNeut);
+    congstimuliList = FlankerStimulus.createCongStimuli(numCong);
+    incongstimuliList = FlankerStimulus.createIncongStimuli(numIncong);
+
+    //add neutral stimuli and its cues
+    stimulusCueArray.addAll(StimulusCue.createNeutralStimuliCueList(neutralstimuliList));
+    //add congruent stimuli and its cues
+    stimulusCueArray.addAll(StimulusCue.createCongStimuliCueList(congstimuliList));
+    //add incongruent stimuli and its cues
+    stimulusCueArray.addAll(StimulusCue.createIncongStimuliCueList(incongstimuliList));
+
+
+
+    //randomize the stimulus cue array
+      Collections.shuffle(stimulusCueArray);
   }
 
   /** When connected, set the live device up with a muse. */
@@ -94,7 +133,7 @@ public class FlankerViewModel extends BaseObservable {
     // First record stuff from the previous stage if required...
     if (this.stage == FlankerStage.ARROWS) {
       allTaps.add(stageTap);
-      this.stimulusIndex++;
+
     }
 
     Log.i("MINT", "Going to stage " + newStage.name());
@@ -108,8 +147,15 @@ public class FlankerViewModel extends BaseObservable {
         completionHandler.onComplete(this);
         return;
       }
+
+      //arrows are determined at PRE_CUE stage in order for CUE to correlate to a corresponding arrow
+      this.currArrowText = stimulusCueArray.get(stimulusIndex).stimulus.asText();
+      this.currCue = stimulusCueArray.get(stimulusIndex).cue;
+      this.stimulusIndex++;
+
     } else if (this.stage == FlankerStage.CUE) {
       recorder.onShowCue();
+
     }
 
     // Schedule the next transition.
@@ -142,7 +188,7 @@ public class FlankerViewModel extends BaseObservable {
     }
   }
 
-  /** @return Whether the cue UI should be shown. */
+  /** @return Whether the currCue UI should be shown. */
   public boolean showCue() {
     return this.stage == FlankerStage.CUE;
   }
@@ -152,35 +198,57 @@ public class FlankerViewModel extends BaseObservable {
     return this.stage == FlankerStage.ARROWS;
   }
 
-  /** @return The color for the left pointer cue. */
+  /** @return The color for the left pointer currCue. */
   public int leftPointerColor() {
     if (!showCue()) {
       return 0;
     }
 
-    boolean isActive = rand.nextBoolean(); // TODO - not random.
-    return isActive ? COLOR_CUE_ON : COLOR_CUE_OFF;
+    switch(this.currCue) {
+        case NULL:
+            return COLOR_CUE_OFF;
+        case RRP:
+            return COLOR_CUE_OFF;
+        case LRP:
+            return COLOR_CUE_ON;
+        case WARN:
+            return COLOR_CUE_ON;
+        default:
+            return COLOR_CUE_OFF;
+    }
+
   }
 
-  /** @return The color for the right pointer cue. */
+  /** @return The color for the right pointer currCue. */
   public int rightPointerColor() {
     if (!showCue()) {
       return 0;
     }
-    boolean isActive = rand.nextBoolean(); // TODO - not random.
-    return isActive ? COLOR_CUE_ON : COLOR_CUE_OFF;
+    switch(this.currCue) {
+      case NULL:
+          return COLOR_CUE_OFF;
+      case RRP:
+          return COLOR_CUE_ON;
+      case LRP:
+          return COLOR_CUE_OFF;
+      case WARN:
+          return COLOR_CUE_ON;
+      default:
+          return COLOR_CUE_OFF;
+    }
+
   }
 
   /** @return The string to display for the arrows, either left or right. */
-  public String arrowText() {
+  public String getArrowText() {
     if (!showArrows()) {
       return "";
     }
 
-    String arrowText = stimulusArray.get(stimulusIndex).asText();
-    Log.d("MINT", "Flanker Stimulus: " + arrowText);
-    return arrowText;
+    Log.d("MINT", "Flanker Stimulus: " + this.currArrowText);
+    return this.currArrowText;
   }
+
 
   /** @return ViewModel for connection to device. */
   public ConnectionStrengthViewModel getConnectionStrength() {
