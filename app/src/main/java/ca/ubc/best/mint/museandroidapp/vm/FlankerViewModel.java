@@ -109,6 +109,8 @@ public class FlankerViewModel extends BaseObservable {
     //add incongruent stimuli and its cues
     stimulusCueArray.addAll(StimulusCue.createIncongStimuliCueList(incongstimuliList));
 
+
+
     //randomize the stimulus cue array
       Collections.shuffle(stimulusCueArray);
   }
@@ -202,20 +204,18 @@ public class FlankerViewModel extends BaseObservable {
       return 0;
     }
 
-    if(this.currCue == FlankerCue.NULL) {
-      return COLOR_CUE_OFF;
+    switch(this.currCue) {
+        case NULL:
+            return COLOR_CUE_OFF;
+        case RRP:
+            return COLOR_CUE_OFF;
+        case LRP:
+            return COLOR_CUE_ON;
+        case WARN:
+            return COLOR_CUE_ON;
+        default:
+            return COLOR_CUE_OFF;
     }
-    else if (this.currCue == FlankerCue.LRP) {
-      return COLOR_CUE_ON;
-    }
-    else if (this.currCue == FlankerCue.RRP) {
-      return COLOR_CUE_OFF;
-    }
-    else if( this.currCue == FlankerCue.WARN) {
-      return COLOR_CUE_ON;
-    }
-
-    return COLOR_CUE_OFF;
 
   }
 
@@ -224,22 +224,19 @@ public class FlankerViewModel extends BaseObservable {
     if (!showCue()) {
       return 0;
     }
-
-
-    if(this.currCue == FlankerCue.NULL) {
-      return COLOR_CUE_OFF;
-    }
-    else if (this.currCue == FlankerCue.LRP) {
-      return COLOR_CUE_OFF;
-    }
-    else if (this.currCue == FlankerCue.RRP) {
-      return COLOR_CUE_ON;
-    }
-    else if( this.currCue == FlankerCue.WARN) {
-      return COLOR_CUE_ON;
+    switch(this.currCue) {
+      case NULL:
+          return COLOR_CUE_OFF;
+      case RRP:
+          return COLOR_CUE_ON;
+      case LRP:
+          return COLOR_CUE_OFF;
+      case WARN:
+          return COLOR_CUE_ON;
+      default:
+          return COLOR_CUE_OFF;
     }
 
-    return COLOR_CUE_OFF;
   }
 
   /** @return The string to display for the arrows, either left or right. */

@@ -113,8 +113,8 @@ public class StimulusCue {
 
         //add wrong rp cues
         while( index < numWrongRPCues) {
-            if(congStimuliList.get(index) == FlankerStimulus.LEFTNEUTRAL){
-                // add Right RP cue if the stimulus is Left Neutral
+            if(congStimuliList.get(index) == FlankerStimulus.LEFTCONGRUENT){
+                // add Right RP cue if the stimulus is Left Congruent
                 congStimulusCueSet.add(new StimulusCue(congStimuliList.get(index), FlankerCue.RRP));
             }
             else {
@@ -126,8 +126,8 @@ public class StimulusCue {
 
         //add CORRECT non-catch rp cues
         while( index < numCorNCatRPCues) {
-            if(congStimuliList.get(index) == FlankerStimulus.LEFTNEUTRAL){
-                // add Left RP cue if the stimulus is Left Neutral
+            if(congStimuliList.get(index) == FlankerStimulus.LEFTCONGRUENT){
+                // add Left RP cue if the stimulus is Left Congruent
                 congStimulusCueSet.add(new StimulusCue(congStimuliList.get(index), FlankerCue.LRP));
             }
             else {
@@ -194,8 +194,8 @@ public class StimulusCue {
 
         //add wrong rp cues
         while( index < numWrongRPCues) {
-            if(incongStimuliList.get(index) == FlankerStimulus.LEFTNEUTRAL){
-                // add Right RP cue if the stimulus is Left Neutral
+            if(incongStimuliList.get(index) == FlankerStimulus.LEFTINCONGRUENT){
+                // add Right RP cue if the stimulus is Left Incongruent
                 incongStimulusCueSet.add(new StimulusCue(incongStimuliList.get(index), FlankerCue.RRP));
             }
             else {
@@ -207,8 +207,8 @@ public class StimulusCue {
 
         //add CORRECT non-catch rp cues
         while( index < numCorNCatRPCues) {
-            if(incongStimuliList.get(index) == FlankerStimulus.LEFTNEUTRAL){
-                // add Left RP cue if the stimulus is Left Neutral
+            if(incongStimuliList.get(index) == FlankerStimulus.LEFTINCONGRUENT){
+                // add Left RP cue if the stimulus is Left Incongruent
                 incongStimulusCueSet.add(new StimulusCue(incongStimuliList.get(index), FlankerCue.LRP));
             }
             else {

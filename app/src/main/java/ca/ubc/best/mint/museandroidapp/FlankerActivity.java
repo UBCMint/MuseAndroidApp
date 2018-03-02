@@ -29,7 +29,7 @@ public class FlankerActivity extends AppCompatActivity
   private final Handler hideHandler = new Handler();
   private final FlankerViewModel viewModel = new FlankerViewModel(this);
 
-  private View rootView; // Root of the view heirarchy, used for switching to fullscreen.
+  private View rootView; // Root of the view hierarchy, used for switching to fullscreen.
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {

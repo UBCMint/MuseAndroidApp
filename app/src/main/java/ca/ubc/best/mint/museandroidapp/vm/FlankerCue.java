@@ -1,7 +1,8 @@
 package ca.ubc.best.mint.museandroidapp.vm;
 
 /**
- * Created by Carol Fu on 2018-02-23.
+ * Created by UBC BEST MINT on 2018-02-23.
+ * Purpose: The enum type of flanker cues
  */
 
 public enum FlankerCue {
