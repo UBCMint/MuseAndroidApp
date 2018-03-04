@@ -63,9 +63,13 @@ public class FlankerLiveRecorder {
   }
 
   // Handle the cue being shown.
-  public void onShowCue() {
-    timingHandler.postDelayed(alphaCollector, ALPHA_COLLECTION_END_MS);
-    timingHandler.postDelayed(betaCollector, BETA_COLLECTION_END_MS);
+  public void onShowCue(FlankerCue cue) {
+    // As per the paper, only analyze frequency data on RP cues.
+    boolean isRPCue = (cue == FlankerCue.LRP) || (cue == FlankerCue.RRP);
+    if (isRPCue) {
+      timingHandler.postDelayed(alphaCollector, ALPHA_COLLECTION_END_MS);
+      timingHandler.postDelayed(betaCollector, BETA_COLLECTION_END_MS);
+    }
   }
 
   public List<Map<String, TimeSeriesSnapshot<Double>>> getAlphaEpochs() {
