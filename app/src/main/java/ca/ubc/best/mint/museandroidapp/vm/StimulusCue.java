@@ -22,16 +22,19 @@ public class StimulusCue {
         /** Neutral Stimuli are preceded by:
             76.4% NULL cues
             23.6% RP cues, out of all RP cues 84% are the correct cue, 16% are the wrong cue.
-            For the correct RP cues, 27.7% are followed by a catch stimuli "+++++", users are instructed to tap on the side indicated by the RP cue
+            For the correct RP cues, 27.7% are followed by a catch stimuli "+++++",
+               users are instructed to tap on the side indicated by the RP cue
          **/
         List<StimulusCue> neutralStimulusCueSet = new ArrayList<>();
 
         int arraySize = neutralStimuliList.size();
         int numNullCues = Math.round(0.764f * arraySize);
-        int numWrongRPCues = Math.round(0.236f * 0.16f * arraySize);
-        int numCorNCatRPCues = Math.round(0.236f * 0.84f * 0.723f * arraySize);
-        int numCorCatchRPCues =  Math.round(0.236f * 0.84f * 0.277f * arraySize);
-
+        int numRPCues = arraySize - numNullCues; // All cues are null or RP
+        int numWrongRPCues = Math.round(0.16f * numRPCues);
+        int numRightRPCues = numRPCues - numWrongRPCues;
+        int numCorNCatRPCues = Math.round(0.723f * numRightRPCues);
+        int numCorCatchRPCues = numRightRPCues - numCorNCatRPCues;
+        assert numNullCues + numWrongRPCues + numCorNCatRPCues + numCorCatchRPCues == arraySize;
 
         /**Add null cues**/
         int index = 0;
@@ -91,15 +94,19 @@ public class StimulusCue {
         /** Congruent Stimuli are preceded by:
          76.4% NULL cues
          23.6% RP cues, out of all RP cues 84% are the correct cue, 16% are the wrong cue.
-         For the correct RP cues, 27.7% are followed by a catch stimuli "+++++", users are instructed to tap on the side indicated by the RP cue
+         For the correct RP cues, 27.7% are followed by a catch stimuli "+++++",
+            users are instructed to tap on the side indicated by the RP cue
          **/
         List<StimulusCue> congStimulusCueSet = new ArrayList<>();
 
         int arraySize = congStimuliList.size();
         int numNullCues = Math.round(0.764f * arraySize);
-        int numWrongRPCues = Math.round(0.236f * 0.16f * arraySize);
-        int numCorNCatRPCues = Math.round(0.236f * 0.84f * 0.723f * arraySize);
-        int numCorCatchRPCues =  Math.round(0.236f * 0.84f * 0.277f * arraySize);
+        int numRPCues = arraySize - numNullCues; // All cues are null or RP
+        int numWrongRPCues = Math.round(0.16f * numRPCues);
+        int numRightRPCues = numRPCues - numWrongRPCues;
+        int numCorNCatRPCues = Math.round(0.723f * numRightRPCues);
+        int numCorCatchRPCues = numRightRPCues - numCorNCatRPCues;
+        assert numNullCues + numWrongRPCues + numCorNCatRPCues + numCorCatchRPCues == arraySize;
 
 
         /**Add null cues**/
@@ -169,11 +176,12 @@ public class StimulusCue {
         int arraySize = incongStimuliList.size();
         int numNullCues = Math.round(0.475f * arraySize);
         int numWarnCues = Math.round(0.2625f * arraySize);
-        int numWrongRPCues = Math.round(0.2625f * 0.16f * arraySize);
-        int numCorNCatRPCues = Math.round(0.2625f * 0.84f * 0.723f * arraySize);
-        int numCorCatchRPCues =  Math.round(0.2625f * 0.84f * 0.277f * arraySize);
-
-
+        int numRPCues = arraySize - numNullCues - numWarnCues;
+        int numWrongRPCues = Math.round(0.16f * numRPCues);
+        int numRightRPCues = numRPCues - numWrongRPCues;
+        int numCorNCatRPCues = Math.round(0.723f * numRightRPCues);
+        int numCorCatchRPCues = numRightRPCues - numCorNCatRPCues;
+        assert numNullCues + numWarnCues + numWrongRPCues + numCorNCatRPCues + numCorCatchRPCues == arraySize;
 
         int index = 0;
 
@@ -235,8 +243,4 @@ public class StimulusCue {
         Log.d("MINT", "Created Incongruent Stimulus Cue Set: " + incongStimulusCueSet.toString());
         return incongStimulusCueSet;
     }
-
-
-
-
 }
