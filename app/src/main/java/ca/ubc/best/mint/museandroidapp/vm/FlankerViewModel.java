@@ -77,14 +77,9 @@ public class FlankerViewModel extends BaseObservable {
 
   private List<StimulusCue> stimulusCueArray = new ArrayList<>();
 
-
-  // congPercent = 0.289;
-  // neutralPercent = 0.289;
-  // incongPercent = 0.421;
-
-  private int numNeut = Math.round(0.289f * FLANKER_TRIAL_RUNS);
-  private int numCong = Math.round(0.289f * FLANKER_TRIAL_RUNS);
-  private int numIncong = Math.round(0.421f * FLANKER_TRIAL_RUNS);
+  private int numNeut = Math.round(0.289f * FLANKER_TRIAL_RUNS); // 28.9%
+  private int numCong = Math.round(0.289f * FLANKER_TRIAL_RUNS); // 28.9%, same as cong
+  private int numIncong = FLANKER_TRIAL_RUNS - numNeut - numCong; // the rest, ~42.2%
 
 
   public FlankerViewModel(CompletionHandler completionHandler) {
@@ -109,10 +104,8 @@ public class FlankerViewModel extends BaseObservable {
     //add incongruent stimuli and its cues
     stimulusCueArray.addAll(StimulusCue.createIncongStimuliCueList(incongstimuliList));
 
-
-
     //randomize the stimulus cue array
-      Collections.shuffle(stimulusCueArray);
+    Collections.shuffle(stimulusCueArray);
   }
 
   /** When connected, set the live device up with a muse. */
