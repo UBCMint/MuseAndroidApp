@@ -147,7 +147,7 @@ public class FlankerViewModel extends BaseObservable {
       this.stimulusIndex++;
 
     } else if (this.stage == FlankerStage.CUE) {
-      recorder.onShowCue();
+      recorder.onShowCue(this.currCue);
 
     }
 
