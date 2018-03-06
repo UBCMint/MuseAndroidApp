@@ -40,13 +40,13 @@ public class StimulusCue {
         int index = 0;
 
         //half left neutral stimulus
-        while( index < numNullCues) {
+        for(int i = 0; i < numNullCues; i++) {
             neutralStimulusCueSet.add(new StimulusCue(neutralStimuliList.get(index), FlankerCue.NULL));
             index ++;
         }
 
         //add wrong rp cues
-        while( index < numWrongRPCues) {
+        for(int i=0;i<numWrongRPCues; i++) {
             if(neutralStimuliList.get(index) == FlankerStimulus.LEFTNEUTRAL){
                 // add Right RP cue if the stimulus is Left Neutral
                 neutralStimulusCueSet.add(new StimulusCue(neutralStimuliList.get(index), FlankerCue.RRP));
@@ -59,7 +59,7 @@ public class StimulusCue {
         }
 
         //add CORRECT non-catch rp cues
-        while( index < numCorNCatRPCues) {
+        for(int i=0; i < numCorNCatRPCues; i++) {
             if(neutralStimuliList.get(index) == FlankerStimulus.LEFTNEUTRAL){
                 // add Left RP cue if the stimulus is Left Neutral
                 neutralStimulusCueSet.add(new StimulusCue(neutralStimuliList.get(index), FlankerCue.LRP));
@@ -74,12 +74,12 @@ public class StimulusCue {
         //add CORRECT Catch rp cues
 
         //half has LRP cues
-        while( index < numCorCatchRPCues/2) {
+        for(int i=0; i<numCorCatchRPCues/2; i++) {
             neutralStimulusCueSet.add(new StimulusCue(FlankerStimulus.CATCH, FlankerCue.LRP));
             index ++;
         }
         //half has RRP cues
-        while(index < neutralStimuliList.size()) {
+        for(int i=0;i<neutralStimuliList.size(); i++) {
             neutralStimulusCueSet.add(new StimulusCue(FlankerStimulus.CATCH, FlankerCue.RRP));
             index ++;
         }
@@ -113,13 +113,13 @@ public class StimulusCue {
         int index = 0;
 
         //half left neutral stimulus
-        while( index < numNullCues) {
+        for(int i=0;i<numNullCues;i++) {
             congStimulusCueSet.add(new StimulusCue(congStimuliList.get(index), FlankerCue.NULL));
             index ++;
         }
 
         //add wrong rp cues
-        while( index < numWrongRPCues) {
+        for(int i=0; i<numWrongRPCues; i++) {
             if(congStimuliList.get(index) == FlankerStimulus.LEFTCONGRUENT){
                 // add Right RP cue if the stimulus is Left Congruent
                 congStimulusCueSet.add(new StimulusCue(congStimuliList.get(index), FlankerCue.RRP));
@@ -132,7 +132,7 @@ public class StimulusCue {
         }
 
         //add CORRECT non-catch rp cues
-        while( index < numCorNCatRPCues) {
+        for(int i=0; i<numCorNCatRPCues; i++) {
             if(congStimuliList.get(index) == FlankerStimulus.LEFTCONGRUENT){
                 // add Left RP cue if the stimulus is Left Congruent
                 congStimulusCueSet.add(new StimulusCue(congStimuliList.get(index), FlankerCue.LRP));
@@ -141,18 +141,18 @@ public class StimulusCue {
                 // else add Right RP cue
                 congStimulusCueSet.add(new StimulusCue(congStimuliList.get(index), FlankerCue.RRP));
             }
-            index ++;
+            index++;
         }
 
         //add CORRECT Catch rp cues
 
         //half has LRP cues
-        while( index < numCorCatchRPCues/2) {
+        for(int i=0; i<numCorCatchRPCues/2; i++) {
             congStimulusCueSet.add(new StimulusCue(FlankerStimulus.CATCH, FlankerCue.LRP));
             index ++;
         }
         //half has RRP cues
-        while(index < congStimuliList.size()) {
+        for(int i=0; i<congStimuliList.size(); i++) {
             congStimulusCueSet.add(new StimulusCue(FlankerStimulus.CATCH, FlankerCue.RRP));
             index ++;
         }
@@ -186,13 +186,13 @@ public class StimulusCue {
         int index = 0;
 
         /**Add null cues**/
-        while( index < numNullCues) {
+        for(int i=0; i<numNullCues; i++) {
             incongStimulusCueSet.add(new StimulusCue(incongStimuliList.get(index), FlankerCue.NULL));
             index ++;
         }
 
         /** Add Warning cues **/
-        while( index < numWarnCues) {
+        for(int i=0; i<numWarnCues; i++) {
             incongStimulusCueSet.add(new StimulusCue(incongStimuliList.get(index), FlankerCue.WARN));
             index++;
         }
@@ -201,7 +201,7 @@ public class StimulusCue {
         /** Add RP cues **/
 
         //add wrong rp cues
-        while( index < numWrongRPCues) {
+        for(int i=0;i<numWrongRPCues; i++) {
             if(incongStimuliList.get(index) == FlankerStimulus.LEFTINCONGRUENT){
                 // add Right RP cue if the stimulus is Left Incongruent
                 incongStimulusCueSet.add(new StimulusCue(incongStimuliList.get(index), FlankerCue.RRP));
@@ -214,7 +214,7 @@ public class StimulusCue {
         }
 
         //add CORRECT non-catch rp cues
-        while( index < numCorNCatRPCues) {
+        for(int i=0;i<numCorNCatRPCues; i++) {
             if(incongStimuliList.get(index) == FlankerStimulus.LEFTINCONGRUENT){
                 // add Left RP cue if the stimulus is Left Incongruent
                 incongStimulusCueSet.add(new StimulusCue(incongStimuliList.get(index), FlankerCue.LRP));
@@ -229,12 +229,12 @@ public class StimulusCue {
         //add CORRECT Catch rp cues
 
         //half has LRP cues
-        while( index < numCorCatchRPCues/2) {
+        for(int i=0; i<numCorCatchRPCues/2; i++) {
             incongStimulusCueSet.add(new StimulusCue(FlankerStimulus.CATCH, FlankerCue.LRP));
             index ++;
         }
         //half has RRP cues
-        while(index < incongStimuliList.size()) {
+        for(int i=0;i< incongStimuliList.size(); i++) {
             incongStimulusCueSet.add(new StimulusCue(FlankerStimulus.CATCH, FlankerCue.RRP));
             index ++;
         }
