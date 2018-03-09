@@ -36,10 +36,19 @@ public class StimulusCue {
         int numCorCatchRPCues = numRightRPCues - numCorNCatRPCues;
         assert numNullCues + numWrongRPCues + numCorNCatRPCues + numCorCatchRPCues == arraySize;
 
+        Log.d("arraySize", String.valueOf(arraySize));
+        Log.d("numNullCues", String.valueOf(numNullCues));
+        Log.d("numRPCues", String.valueOf(numRPCues));
+        Log.d("numWrongRPCues", String.valueOf(numWrongRPCues));
+        Log.d("numRightRPCues", String.valueOf(numRightRPCues));
+        Log.d("numCorNCatRPCues", String.valueOf(numCorNCatRPCues));
+        Log.d("numCorCatchRPCues", String.valueOf(numCorCatchRPCues));
+
+
         /**Add null cues**/
         int index = 0;
 
-        //half left neutral stimulus
+        //add null stimulus
         for(int i = 0; i < numNullCues; i++) {
             neutralStimulusCueSet.add(new StimulusCue(neutralStimuliList.get(index), FlankerCue.NULL));
             index ++;
@@ -79,7 +88,7 @@ public class StimulusCue {
             index ++;
         }
         //half has RRP cues
-        for(int i=0;i<neutralStimuliList.size(); i++) {
+        for(int i=numCorCatchRPCues/2;i<numCorCatchRPCues; i++) {
             neutralStimulusCueSet.add(new StimulusCue(FlankerStimulus.CATCH, FlankerCue.RRP));
             index ++;
         }
@@ -152,7 +161,7 @@ public class StimulusCue {
             index ++;
         }
         //half has RRP cues
-        for(int i=0; i<congStimuliList.size(); i++) {
+        for(int i=numCorCatchRPCues/2; i<numCorCatchRPCues; i++) {
             congStimulusCueSet.add(new StimulusCue(FlankerStimulus.CATCH, FlankerCue.RRP));
             index ++;
         }
@@ -234,7 +243,8 @@ public class StimulusCue {
             index ++;
         }
         //half has RRP cues
-        for(int i=0;i< incongStimuliList.size(); i++) {
+        //TODO or use index to fill up the rest of the incongStimliList to the correct cue
+        for(int i=numCorCatchRPCues/2;i<numCorCatchRPCues; i++) {
             incongStimulusCueSet.add(new StimulusCue(FlankerStimulus.CATCH, FlankerCue.RRP));
             index ++;
         }
