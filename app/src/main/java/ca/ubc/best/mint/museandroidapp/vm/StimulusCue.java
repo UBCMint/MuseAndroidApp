@@ -95,7 +95,9 @@ public class StimulusCue {
 
         Collections.shuffle(neutralStimulusCueSet); //randomize the array
         Log.d("MINT", "Created Neutral Stimulus Cue Set: " + neutralStimulusCueSet.toString());
+        assert neutralStimulusCueSet.size() == neutralStimuliList.size();
         return neutralStimulusCueSet;
+
     }
 
 
@@ -168,6 +170,7 @@ public class StimulusCue {
 
         Collections.shuffle(congStimulusCueSet); //randomize the array
         Log.d("MINT", "Created Congruent Stimulus Cue Set: " + congStimulusCueSet.toString());
+        assert congStimulusCueSet.size() == congStimuliList.size();
         return congStimulusCueSet;
     }
 
@@ -251,6 +254,7 @@ public class StimulusCue {
 
         Collections.shuffle(incongStimulusCueSet); //randomize the array
         Log.d("MINT", "Created Incongruent Stimulus Cue Set: " + incongStimulusCueSet.toString());
+        assert incongStimulusCueSet.size() == incongStimuliList.size();
         return incongStimulusCueSet;
     }
 }
