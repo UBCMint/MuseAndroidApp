@@ -42,6 +42,7 @@ enum FlankerStimulus {
       //half RIGHTNEUTRAL
       neutralstimuliArray.add(FlankerStimulus.RIGHTNEUTRAL);
     }
+    Collections.shuffle(neutralstimuliArray);
     return neutralstimuliArray;
   }
 
@@ -57,6 +58,7 @@ enum FlankerStimulus {
       //half RIGHTCONGRUENT
       congstimuliArray.add(FlankerStimulus.RIGHTCONGRUENT);
     }
+    Collections.shuffle(congstimuliArray);
     return congstimuliArray;
   }
 
@@ -72,6 +74,7 @@ enum FlankerStimulus {
       //half RIGHTINCONGRUENT
       incongstimuliArray.add(FlankerStimulus.RIGHTINCONGRUENT);
     }
+    Collections.shuffle(incongstimuliArray);
     return incongstimuliArray;
   }
 

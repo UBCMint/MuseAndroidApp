@@ -94,18 +94,24 @@ public class FlankerViewModel extends BaseObservable {
   public void createStimulusCuePairList() {
 
     neutralstimuliList = FlankerStimulus.createNeutralStimuli(numNeut);
+    Log.d("neutralstimuliList", String.valueOf(neutralstimuliList));
     congstimuliList = FlankerStimulus.createCongStimuli(numCong);
+    Log.d("congstimuliList", String.valueOf(congstimuliList));
     incongstimuliList = FlankerStimulus.createIncongStimuli(numIncong);
+    Log.d("incongstimuliList", String.valueOf(incongstimuliList));
 
     //add neutral stimuli and its cues
     stimulusCueArray.addAll(StimulusCue.createNeutralStimuliCueList(neutralstimuliList));
+    Log.d("stimulusCueArray",String.valueOf(stimulusCueArray));
     //add congruent stimuli and its cues
     stimulusCueArray.addAll(StimulusCue.createCongStimuliCueList(congstimuliList));
+    Log.d("stimulusCueArray",String.valueOf(stimulusCueArray));
     //add incongruent stimuli and its cues
     stimulusCueArray.addAll(StimulusCue.createIncongStimuliCueList(incongstimuliList));
-
+    Log.d("stimulusCueArray",String.valueOf(stimulusCueArray));
     //randomize the stimulus cue array
     Collections.shuffle(stimulusCueArray);
+    Log.d("stimulusCueArray",String.valueOf(stimulusCueArray));
   }
 
   /** When connected, set the live device up with a muse. */
