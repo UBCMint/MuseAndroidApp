@@ -31,18 +31,28 @@ public class ParcelableResults implements Parcelable, Serializable {
   /** When the experiment these come from was finished. */
   public final Date timeOfExperiment;
 
+  /** Average delay time for tapping. */
+  public final double tapReactionMs;
+
+  /** Proportion of times the tap was correct. */
+  public final double tapAccuracy;
+
   public ParcelableResults(
       List<Map<String, TimeSeriesSnapshot<Double>>> alphaEpochs,
       List<Map<String, TimeSeriesSnapshot<Double>>> betaEpochs,
       double alphaSuppression,
       double betaSuppression,
-      Date timeOfExperiment
+      Date timeOfExperiment,
+      double tapReactionMs,
+      double tapAccuracy
     ) {
     this.alphaEpochs = alphaEpochs;
     this.betaEpochs = betaEpochs;
     this.alphaSuppression = alphaSuppression;
     this.betaSuppression = betaSuppression;
     this.timeOfExperiment = timeOfExperiment;
+    this.tapReactionMs = tapReactionMs;
+    this.tapAccuracy = tapAccuracy;
   }
 
   /** Parcel -> ParcelableResults */
@@ -52,6 +62,8 @@ public class ParcelableResults implements Parcelable, Serializable {
     alphaSuppression = in.readDouble();
     betaSuppression = in.readDouble();
     timeOfExperiment = new Date(in.readLong());
+    tapReactionMs = in.readDouble();
+    tapAccuracy = in.readDouble();
   }
 
   /** ParcelableResults -> Parcel */
@@ -62,19 +74,36 @@ public class ParcelableResults implements Parcelable, Serializable {
     dest.writeDouble(alphaSuppression);
     dest.writeDouble(betaSuppression);
     dest.writeLong(timeOfExperiment.getTime());
+    dest.writeDouble(tapReactionMs);
+    dest.writeDouble(tapAccuracy);
   }
 
   //
   // Visual formatting
   //
+  public String titleText() {
+    return String.format("Results for %s", dateCaption());
+  }
   public String alphaCaption() {
     return String.format("Alpha: %.2f", this.alphaSuppression);
   }
   public String betaCaption() {
     return String.format("Beta: %.2f", this.betaSuppression);
   }
+  public String alphaEpochCaption() {
+    return String.format("Alpha epochs: (suppression = %.2f)", this.alphaSuppression);
+  }
+  public String betaEpochCaption() {
+    return String.format("Beta epochs: (suppression = %.2f)", this.betaSuppression);
+  }
   public String dateCaption() {
     return Constants.DATE_FORMATTER.format(this.timeOfExperiment);
+  }
+  public String reactionTimeCaption() {
+    return String.format("%d ms", (int)tapReactionMs); // Round to nearest integer.
+  }
+  public String accuracyCaption() {
+    return String.format("%d%%", (int)(tapAccuracy * 100.0)); // Round to nearest whole percent.
   }
 
   @Override

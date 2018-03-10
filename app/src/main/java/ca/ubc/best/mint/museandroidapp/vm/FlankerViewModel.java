@@ -66,8 +66,8 @@ public class FlankerViewModel extends BaseObservable {
   /** Which stimulus we're up to. */
   private int stimulusIndex = 0;
 
-  /** Next arrow text */
-  private String currArrowText = null;
+  /** Cue/Stim for current flanker stage. */
+  private FlankerStimulus currStimulus = null;
   private FlankerCue currCue = null;
 
   /** All possible stimuli in the order to show them. */
@@ -131,8 +131,7 @@ public class FlankerViewModel extends BaseObservable {
   public void beginStage(final FlankerStage newStage) {
     // First record stuff from the previous stage if required...
     if (this.stage == FlankerStage.ARROWS) {
-      allTaps.add(stageTap);
-
+      recorder.onRecordTap(currCue, currStimulus, stageTap);
     }
 
     Log.i("MINT", "Going to stage " + newStage.name());
@@ -148,7 +147,7 @@ public class FlankerViewModel extends BaseObservable {
       }
 
       //arrows are determined at PRE_CUE stage in order for CUE to correlate to a corresponding arrow
-      this.currArrowText = stimulusCueArray.get(stimulusIndex).stimulus.asText();
+      this.currStimulus = stimulusCueArray.get(stimulusIndex).stimulus;
       this.currCue = stimulusCueArray.get(stimulusIndex).cue;
       this.stimulusIndex++;
 
@@ -244,8 +243,8 @@ public class FlankerViewModel extends BaseObservable {
       return "";
     }
 
-    Log.d("MINT", "Flanker Stimulus: " + this.currArrowText);
-    return this.currArrowText;
+    Log.d("MINT", "Flanker Stimulus: " + this.currStimulus.asText());
+    return this.currStimulus.asText();
   }
 
 
