@@ -187,15 +187,26 @@ public class FlankerViewModel extends BaseObservable {
     }
   }
 
+  /** @return Whether the 500ms short white border UI should be shown. */
+  public boolean showSHRTWHTBDR() {return this.stage == FlankerStage.PRE_CUE; }
+
   /** @return Whether the currCue UI should be shown. */
   public boolean showCue() {
     return this.stage == FlankerStage.CUE;
   }
+    //TODO rename ARROWS TO STIMULUS
+  /** @return Whether the 500ms short white border UI should be shown. */
+  public boolean showLONGWHTBDR() {return this.stage == FlankerStage.PRE_ARROWS; }
+
 
   /** @return Whether the arrow stimulus should be shown. */
   public boolean showArrows() {
     return this.stage == FlankerStage.ARROWS;
   }
+
+  /** @return Whether the green border should be shown. */
+  public boolean showGRNBDR() {return this.stage == FlankerStage.RELAX; }
+
 
   /** @return The color for the left pointer currCue. */
   public int leftPointerColor() {

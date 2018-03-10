@@ -1,11 +1,14 @@
 package ca.ubc.best.mint.museandroidapp.vm;
 
+import java.util.Random;
+
 /** Which part of a single flanker trial we're in. */
 public enum FlankerStage {
      PRE_CUE( 500),  // Waiting to show the fingers cue.
          CUE(1000),  // Showing the fingers cue.
   PRE_ARROWS( 800),  // Waiting to show the arrows command.
-      ARROWS(1300);  // Showing the arrows command.
+      ARROWS(1300),  // Showing the arrows command.
+      RELAX(randomRelaxTime()); // Showing the Green Border for the subject to relax their eyes
 
   /** How long we stay in this stage for. */
   public final int durationMs;
@@ -20,8 +23,18 @@ public enum FlankerStage {
       case PRE_CUE:    return CUE;
       case CUE:        return PRE_ARROWS;
       case PRE_ARROWS: return ARROWS;
-      case ARROWS:     return PRE_CUE;
+      case ARROWS:     return RELAX;
+      case RELAX:      return PRE_CUE;
     }
     throw new IllegalStateException("Missing a stage in the next() calculation.");
   }
+
+  static final int maxRelaxTime = 10400; //msec
+  static final int minRelaxTime = 2400; //msec
+  static public int randomRelaxTime () {
+    Random r = new Random();
+    int relaxTime = r.nextInt(maxRelaxTime - minRelaxTime) + minRelaxTime;
+    return relaxTime;
+  }
+
 }
