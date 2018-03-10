@@ -49,6 +49,50 @@
 
         </android.support.constraint.ConstraintLayout>
 
+        <!-- Part that is visible when SHORT WHITE borders are shown. -->
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/shortWhiteBorder"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/white_border"
+            android:visibility="@{flankerVM.showSHRTWHTBDR() ? View.VISIBLE : View.GONE}">
+            <LinearLayout android:orientation="v"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:background="@drawable/white_border"/>
+
+        </android.support.constraint.ConstraintLayout>
+
+        <!-- Part that is visible when LONG WHITE borders are shown. -->
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/longWhiteBorder"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/white_border"
+            android:visibility="@{flankerVM.showLONGWHTBDR() ? View.VISIBLE : View.GONE}">
+            <LinearLayout android:orientation="v"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:background="@drawable/white_border"/>
+
+        </android.support.constraint.ConstraintLayout>
+
+        <!-- Part that is visible when GREEN borders are shown. -->
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/greenBorder"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/white_border"
+            android:visibility="@{flankerVM.showGRNBDR() ? View.VISIBLE : View.GONE}">
+            <LinearLayout android:orientation="v"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:background="@drawable/white_border"/>
+
+        </android.support.constraint.ConstraintLayout>
+
+
+
 
         <!-- Part that is visible when the cues are shown. -->
         <android.support.constraint.ConstraintLayout

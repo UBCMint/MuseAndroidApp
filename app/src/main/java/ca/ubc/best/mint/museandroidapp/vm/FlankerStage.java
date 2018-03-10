@@ -8,6 +8,9 @@ public enum FlankerStage {
          CUE(1000),  // Showing the fingers cue.
   PRE_ARROWS( 800),  // Waiting to show the arrows command.
       ARROWS(1300),  // Showing the arrows command.
+      RSP_WAIT(600), //Wait for the user to tap in response to the stimuli
+      WAIT_DISP_STIMULI(700), //Display additional 700 msecs to
+      WAIT_RCD_RSP(400), //Wait for additional 400 msec to record user response
       RELAX(randomRelaxTime()); // Showing the Green Border for the subject to relax their eyes
 
   /** How long we stay in this stage for. */
@@ -23,8 +26,11 @@ public enum FlankerStage {
       case PRE_CUE:    return CUE;
       case CUE:        return PRE_ARROWS;
       case PRE_ARROWS: return ARROWS;
-      case ARROWS:     return RELAX;
+      case ARROWS:     return RSP_WAIT;
+        case RSP_WAIT: return WAIT_DISP_STIMULI; //TODO format properly
+        case WAIT_RCD_RSP: return RELAX;
       case RELAX:      return PRE_CUE;
+
     }
     throw new IllegalStateException("Missing a stage in the next() calculation.");
   }
