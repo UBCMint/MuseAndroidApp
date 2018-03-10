@@ -23,13 +23,14 @@ public enum FlankerStage {
   /** @return the stage to be in after this one. */
   public FlankerStage next() {
     switch (this) {
-      case PRE_CUE:    return CUE;
-      case CUE:        return PRE_ARROWS;
-      case PRE_ARROWS: return ARROWS;
-      case ARROWS:     return RSP_WAIT;
-        case RSP_WAIT: return WAIT_DISP_STIMULI; //TODO format properly
-        case WAIT_RCD_RSP: return RELAX;
-      case RELAX:      return PRE_CUE;
+      case PRE_CUE:             return CUE;
+      case CUE:                 return PRE_ARROWS;
+      case PRE_ARROWS:          return ARROWS;
+      case ARROWS:              return RSP_WAIT;
+      case RSP_WAIT:            return WAIT_DISP_STIMULI; //TODO format properly
+      case WAIT_DISP_STIMULI:   return WAIT_RCD_RSP;
+      case WAIT_RCD_RSP:        return RELAX;
+      case RELAX:               return PRE_CUE;
 
     }
     throw new IllegalStateException("Missing a stage in the next() calculation.");
