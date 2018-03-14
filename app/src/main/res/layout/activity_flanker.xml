@@ -34,7 +34,9 @@
                 android:text="@{flankerVM.getConnectingText()}"
                 android:textColor="@android:color/white"
                 android:textSize="24sp"
-                android:id="@+id/connectingText"/>
+                android:id="@+id/connectingText"
+                tools:layout_editor_absoluteY="0dp"
+                tools:layout_editor_absoluteX="0dp" />
             <Button
                 android:id="@+id/button"
                 android:text="Start"
@@ -64,8 +66,7 @@
             <TextView
                 android:id="@+id/cueTextLeft"
                 android:layout_width="wrap_content"
-                android:layout_height="150sp"
-                android:layout_marginLeft="0dp"
+                android:layout_height="150dp"
                 android:gravity="center"
                 android:keepScreenOn="true"
                 android:text="◄"
@@ -75,12 +76,13 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toLeftOf="@+id/cueTextRight"
                 app:layout_constraintTop_toTopOf="parent"
-                android:layout_marginRight="32dp"/>
+                android:layout_marginRight="32dp"
+                android:layout_marginEnd="32dp" />
 
             <TextView
                 android:id="@+id/cueTextRight"
                 android:layout_width="wrap_content"
-                android:layout_height="150sp"
+                android:layout_height="150dp"
                 android:gravity="center"
                 android:keepScreenOn="true"
                 android:text="►"
@@ -89,7 +91,6 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                android:layout_marginRight="0dp"
                 app:layout_constraintVertical_bias="0.0"/>
         </android.support.constraint.ConstraintLayout>
 
@@ -107,7 +108,7 @@
             <TextView
                 android:id="@+id/arrowsText"
                 android:layout_width="wrap_content"
-                android:layout_height="140sp"
+                android:layout_height="140dp"
                 android:gravity="center"
                 android:keepScreenOn="true"
                 android:text="@{flankerVM.getArrowText()}"
@@ -125,14 +126,40 @@
             custom:backgroundColor="#000000"
             android:layout_width="64dp"
             android:layout_height="32dp"
-            android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
             android:layout_marginTop="48dp"
             android:visibility="@{flankerVM.isConnected() ? View.VISIBLE : View.GONE}"
             app:connectionStrength="@{flankerVM.getConnectionStrength()}"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            />
+            android:layout_marginEnd="8dp" />
+
+
+
+        <!-- Part that is visible when WHITE borders are shown. -->
+        <View
+            android:id="@+id/whiteBorder"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@drawable/white_border"
+            android:visibility="@{flankerVM.showWHTBDR() ? View.VISIBLE : View.GONE}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <!-- Part that is visible when GREEN borders are shown. -->
+        <View
+            android:id="@+id/greenBorder"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@drawable/green_border"
+            android:visibility="@{flankerVM.showGRNBDR() ? View.VISIBLE : View.GONE}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
 
     </android.support.constraint.ConstraintLayout>
 </layout>
