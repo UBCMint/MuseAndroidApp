@@ -188,16 +188,13 @@ public class FlankerViewModel extends BaseObservable {
   }
 
   /** @return Whether the 500ms short white border UI should be shown. */
-  public boolean showSHRTWHTBDR() {return this.stage == FlankerStage.PRE_CUE; }
+  public boolean showWHTBDR() {return this.stage != FlankerStage.RELAX;}
 
   /** @return Whether the currCue UI should be shown. */
   public boolean showCue() {
     return this.stage == FlankerStage.CUE;
   }
     //TODO rename ARROWS TO STIMULUS
-  /** @return Whether the 500ms short white border UI should be shown. */
-  public boolean showLONGWHTBDR() {return this.stage == FlankerStage.PRE_ARROWS; }
-
 
   /** @return Whether the arrow stimulus should be shown. */
   public boolean showArrows() {
