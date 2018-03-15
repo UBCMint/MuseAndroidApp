@@ -3,6 +3,7 @@ package ca.ubc.best.mint.museandroidapp.vm;
 import android.os.Handler;
 import android.util.Log;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -45,6 +46,10 @@ public class FlankerLiveRecorder {
   private final EpochCollector betaEpochs = new EpochCollector();
   private final DelayCollector betaCollector = new DelayCollector(betaEpochs, "beta");
 
+  // Reaction time and accuracy for all recorded taps. (no reaction times for non-taps)
+  private final List<Long> tapReactionTimesMs = new ArrayList<>();
+  private final List<Boolean> tapAccuracy = new ArrayList<>();
+
   /** Creates the recorder by initializing all recorder types. */
   public FlankerLiveRecorder(StreamingDeviceViewModel device) {
     FrequencyBandViewModel liveAlpha =
@@ -72,12 +77,49 @@ public class FlankerLiveRecorder {
     }
   }
 
+  // At the end, check whether a tap happened and when/where.
+  public void onRecordTap(FlankerCue cue, FlankerStimulus stim, TapDetails stageTap) {
+    char needDirection = stim.asText().charAt(2);
+    char gotDirection;
+    if (stageTap == null) {
+      gotDirection = '+';
+    } else {
+      gotDirection = (stageTap.wasOnLeftSide ? '<' : '>');
+      tapReactionTimesMs.add(stageTap.reactionTimeMs);
+    }
+    tapAccuracy.add(gotDirection == needDirection);
+  }
+
   public List<Map<String, TimeSeriesSnapshot<Double>>> getAlphaEpochs() {
     return alphaEpochs.getEpochs();
   }
 
   public List<Map<String, TimeSeriesSnapshot<Double>>> getBetaEpochs() {
     return betaEpochs.getEpochs();
+  }
+
+  /** @return The average reaction time, or zero after no taps. Calculates it each call. */
+  public double getAverageTapReactionTimeMs() {
+    if (tapReactionTimesMs.size() == 0) {
+       return 0.0;
+    }
+    double sum = 0.0;
+    for (long timeMs : tapReactionTimesMs) {
+      sum += timeMs;
+    }
+    return sum / tapReactionTimesMs.size();
+  }
+
+  /** @return Tap accuracy proportion, from [0, 1]. */
+  public double getTapAccuracyProportion() {
+    if (tapAccuracy.size() == 0) {
+      return 0.0;
+    }
+    double sum = 0.0;
+    for (boolean correct : tapAccuracy) {
+      sum += correct ? 1.0 : 0.0;
+    }
+    return sum / tapAccuracy.size();
   }
 
   /** Inner class to trigger an epoch collection after a delay.  */

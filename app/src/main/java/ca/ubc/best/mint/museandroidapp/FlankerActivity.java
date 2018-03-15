@@ -18,6 +18,7 @@ import com.choosemuse.libmuse.Muse;
 import ca.ubc.best.mint.museandroidapp.analysis.HistoricResults;
 import ca.ubc.best.mint.museandroidapp.analysis.ResultsPostProcessing;
 import ca.ubc.best.mint.museandroidapp.databinding.ActivityFlankerBinding;
+import ca.ubc.best.mint.museandroidapp.vm.FlankerLiveRecorder;
 import ca.ubc.best.mint.museandroidapp.vm.FlankerViewModel;
 import eeg.useit.today.eegtoolkit.vm.MuseListViewModel;
 
@@ -95,11 +96,7 @@ public class FlankerActivity extends AppCompatActivity
   @Override
   public void onComplete(FlankerViewModel viewModel) {
     // Perform processing on the raw data.
-    ParcelableResults processed = ResultsPostProcessing.process(
-        viewModel.getRecorder().getAlphaEpochs(),
-        viewModel.getRecorder().getBetaEpochs()
-        // TODO: Record tap accuracy and latency.
-    );
+    ParcelableResults processed = ResultsPostProcessing.process(viewModel.getRecorder());
 
     // Next, save results to file.
     this.addToHistoryAndSave(processed);
