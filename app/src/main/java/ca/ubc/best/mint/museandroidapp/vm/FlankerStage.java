@@ -14,10 +14,19 @@ public enum FlankerStage {
       RELAX(randomRelaxTime()); // Showing the Green Border for the subject to relax their eyes
 
   /** How long we stay in this stage for. */
-  public final int durationMs;
+  private final int durationMs;
 
   FlankerStage(int durationMs) {
     this.durationMs = durationMs;
+  }
+
+  /** @return How long it lasts, or a random time if it changes per trial. */
+  public int getDurationMs() {
+    if (durationMs == -1) {
+      return randomRelaxTime();
+    } else {
+      return durationMs;
+    }
   }
 
   /** @return the stage to be in after this one. */
@@ -31,7 +40,6 @@ public enum FlankerStage {
       case WAIT_DISP_STIMULI:   return WAIT_RCD_RSP;
       case WAIT_RCD_RSP:        return RELAX;
       case RELAX:               return PRE_CUE;
-
     }
     throw new IllegalStateException("Missing a stage in the next() calculation.");
   }
