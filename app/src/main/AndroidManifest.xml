@@ -35,14 +35,14 @@
         <activity
             android:name=".TaskCompleteActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="Task Complete"
+            android:label="Test Results"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
         </activity>
         <activity
             android:name=".ResultListActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="Past Results"
+            android:label="Previous Results"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
         </activity>

@@ -31,21 +31,25 @@ The trial will start, and attempt to connect to the EEG headset. Connection stat
 The trial consists of 30 cue/stimulus pairs. The cues are a left and right arrow, with yellow indicating the stimulus is _likely_ (but not guaranteed) to be pointing in that direction. Arrow pairs which are both yellow or both blue are also possible, which do not give directional hints. When the cues are present, no actions are required.
 
 _Cues indicating that a tap on the left screen is more likely to be required._
-![Device List](https://raw.githubusercontent.com/UBCMint/MuseAndroidApp/master/images/cueLeft.jpg)
+![Cue Left](https://raw.githubusercontent.com/UBCMint/MuseAndroidApp/master/images/cueLeft.jpg)
 
 After the cues, a stimulus of five characters is shown, and the user must **tap on the side of the screen indicated by the middle character**. This will indicate left ('<'), right ('>'), or to abstain from tapping ('+'). As a distractor, the four flanking stimuli (two left, two right) will all be the same value, one of '<', '>' or '+'. The value of these flanking stimuli is to be ignored, they do not indicate which side should be tapped.
 
 _Stimulus which is asking for the user to tap on the *right*, as the center character points rightwards._
-![Device List](https://raw.githubusercontent.com/UBCMint/MuseAndroidApp/master/images/tapRightFlankRight.jpg)
+![Tap Right with Right Flankers](https://raw.githubusercontent.com/UBCMint/MuseAndroidApp/master/images/tapRightFlankRight.jpg)
 
 _Stimulus which is asking for the user to tap on the *left*, despite being flanked by rightwards distractors._
-![Device List](https://raw.githubusercontent.com/UBCMint/MuseAndroidApp/master/images/tapLeftFlankRight.jpg)
+![Tap Left with Right Flankers](https://raw.githubusercontent.com/UBCMint/MuseAndroidApp/master/images/tapLeftFlankRight.jpg)
 
 Throughout the experiment, raw alpha and beta frequency strengths are collected. Upon completion of the 30 cue/stimulus pairs, this data is processed, and ERPs are shown for the two periods described in the background section. Average alpha- and beta-suppression is calculated and displayed, along with average reaction time and accuracy at tapping the correct side of screen (or not tapping when required).
 
-**TODO - image of results page**
+_Results after a trial, showing tap accuracy, timing, and suppression epochs with average decrease._
+![Historic Results](https://raw.githubusercontent.com/UBCMint/MuseAndroidApp/master/images/oneResult.jpg)
 
 Finally, once data is recorded through successful completion of the task, it can be viewed from the main screen. Selecting the **TODO - button name** option will display historic results, which can be selected to view in finer detail.
+
+_List of historic results, tapping one will show the result screen as above._
+![Historic Results](https://raw.githubusercontent.com/UBCMint/MuseAndroidApp/master/images/allResults.jpg)
 
 ### About Us
 

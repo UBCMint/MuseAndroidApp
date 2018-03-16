@@ -27,6 +27,8 @@ public class ParcelableResults implements Parcelable, Serializable {
   /** Scores calculated from post-processed data. */
   public final double alphaSuppression;
   public final double betaSuppression;
+  // NOTE: These two are scaled up by 1000 for presentation purposes.
+  public static final double SUPPRESSION_SCALE = 1000.0;
 
   /** When the experiment these come from was finished. */
   public final Date timeOfExperiment;
@@ -85,16 +87,16 @@ public class ParcelableResults implements Parcelable, Serializable {
     return String.format("Results for %s", dateCaption());
   }
   public String alphaCaption() {
-    return String.format("Alpha: %.2f", this.alphaSuppression);
+    return String.format("Alpha: %.2f", this.alphaSuppression * SUPPRESSION_SCALE);
   }
   public String betaCaption() {
-    return String.format("Beta: %.2f", this.betaSuppression);
+    return String.format("Beta: %.2f", this.betaSuppression * SUPPRESSION_SCALE);
   }
   public String alphaEpochCaption() {
-    return String.format("Alpha epochs: (suppression = %.2f)", this.alphaSuppression);
+    return String.format("Alpha epochs: (suppression = %.2fnV)", this.alphaSuppression * SUPPRESSION_SCALE);
   }
   public String betaEpochCaption() {
-    return String.format("Beta epochs: (suppression = %.2f)", this.betaSuppression);
+    return String.format("Beta epochs: (suppression = %.2fnV)", this.betaSuppression * SUPPRESSION_SCALE);
   }
   public String dateCaption() {
     return Constants.DATE_FORMATTER.format(this.timeOfExperiment);
