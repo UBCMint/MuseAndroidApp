@@ -1,10 +1,10 @@
 # Flank
 
-**TODO: Flank logo**
+![Logo](https://raw.githubusercontent.com/UBCMint/MuseAndroidApp/master/images/flank.jpg)
 
 Flank is an Android App that can provide users with a collection of metrics regarding their attentional state, by connecting to a Muse EEG headset and analyzing signal during some behavioural testing.
 
-_Disclaimer: Flank is a prototype tool for exploring attention data with a Muse headset.
+_Disclaimer: The UBC MiNT App 'Flank' is a prototype tool for exploring attention data with a Muse headset.
 It is not clinically approved, so the results may not be medically accurate and should not be interpreted as such._
 
 ### Background
@@ -22,9 +22,9 @@ The Flank app implements the experiment protocol as closely as possible on an An
 First, the app must be installed on an Android device - either by loading the provided .apk, or by building the 'app' project with Android Studio and running that on their phone. A Muse EEG headset is also required (2016 version preferred, but 2014 works too).
 
 The first screen presents the user two options: Either connect to a device and perform a Flanker task trial, or view past results.
-**TODO - image**
+![Initial Screen](https://raw.githubusercontent.com/UBCMint/MuseAndroidApp/master/images/initial.jpg)
 
-On the first run, no historic data is available, so it is recommended to run the Flanker task. Make sure bluetooth is enabled and the Muse device is turned on, and select **TODO - button name**
+On the first run, no historic data is available, so it is recommended to run the Flanker task. Make sure bluetooth is enabled and the Muse device is turned on, and select "Begin testing"
 
 The trial will start, and attempt to connect to the EEG headset. Connection status is shown top right by four indicator lights corresponding to the four sensors on the headset. Once all four are bright green, it is ok to start the trial. Note that the Android device running the app should be held in landscape mode for this section, ideally with thumbs or fingers near both sides of screen to allow ease of response.
 
@@ -44,9 +44,9 @@ _Stimulus which is asking for the user to tap on the *left*, despite being flank
 Throughout the experiment, raw alpha and beta frequency strengths are collected. Upon completion of the 30 cue/stimulus pairs, this data is processed, and ERPs are shown for the two periods described in the background section. Average alpha- and beta-suppression is calculated and displayed, along with average reaction time and accuracy at tapping the correct side of screen (or not tapping when required).
 
 _Results after a trial, showing tap accuracy, timing, and suppression epochs with average decrease._
-![Historic Results](https://raw.githubusercontent.com/UBCMint/MuseAndroidApp/master/images/oneResult.jpg)
+![Trial Results](https://raw.githubusercontent.com/UBCMint/MuseAndroidApp/master/images/oneResult.jpg)
 
-Finally, once data is recorded through successful completion of the task, it can be viewed from the main screen. Selecting the **TODO - button name** option will display historic results, which can be selected to view in finer detail.
+Finally, once data is recorded through successful completion of the task, it can be viewed from the main screen. Selecting the "View past results" option will display historic results, which can be selected to view in finer detail.
 
 _List of historic results, tapping one will show the result screen as above._
 ![Historic Results](https://raw.githubusercontent.com/UBCMint/MuseAndroidApp/master/images/allResults.jpg)

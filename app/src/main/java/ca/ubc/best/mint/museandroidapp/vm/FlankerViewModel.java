@@ -161,7 +161,7 @@ public class FlankerViewModel extends BaseObservable {
       @Override public void run() {
         beginStage(newStage.next());
       }
-    }, newStage.durationMs);
+    }, newStage.getDurationMs());
 
     // And finally update the viewmodel, which causes the view to be redrawn.
     this.notifyChange();
