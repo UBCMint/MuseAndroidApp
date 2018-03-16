@@ -43,7 +43,7 @@ public class InitialActivity extends AppCompatActivity {
     ActivityInitialBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_initial);
     binding.setActivity(this);
     binding.setViewModel(viewModel);
-    getSupportActionBar().setTitle("MiNT EEG Flanker Task");
+    getSupportActionBar().setTitle(R.string.app_name);
 
     maybeAskPermissions();
   }
