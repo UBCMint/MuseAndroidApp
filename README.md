@@ -1,6 +1,6 @@
 # Flank
 
-![Logo](https://raw.githubusercontent.com/UBCMint/MuseAndroidApp/master/images/flank.jpg)
+![Logo](https://raw.githubusercontent.com/UBCMint/MuseAndroidApp/master/images/flank.png)
 
 Flank is an Android App that can provide users with a collection of metrics regarding their attentional state, by connecting to a Muse EEG headset and analyzing signal during some behavioural testing.
 
