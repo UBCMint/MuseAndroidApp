@@ -22,6 +22,8 @@ The Flank app implements the experiment protocol as closely as possible on an An
 First, the app must be installed on an Android device - either by loading the provided .apk, or by building the 'app' project with Android Studio and running that on their phone. A Muse EEG headset is also required (2016 version preferred, but 2014 works too).
 
 The first screen presents the user two options: Either connect to a device and perform a Flanker task trial, or view past results.
+
+_Initial screen of the Application - either start a run, or view previous results._
 ![Initial Screen](https://raw.githubusercontent.com/UBCMint/MuseAndroidApp/master/images/initial.jpg)
 
 On the first run, no historic data is available, so it is recommended to run the Flanker task. Make sure bluetooth is enabled and the Muse device is turned on, and select "Begin testing"
