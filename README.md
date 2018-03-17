@@ -28,22 +28,60 @@ _Initial screen of the Application - either start a run, or view previous result
 
 On the first run, no historic data is available, so it is recommended to run the Flanker task. Make sure bluetooth is enabled and the Muse device is turned on, and select "Begin testing"
 
-The trial will start, and attempt to connect to the EEG headset. Connection status is shown top right by four indicator lights corresponding to the four sensors on the headset. Once all four are bright green, it is ok to start the trial. Note that the Android device running the app should be held in landscape mode for this section, ideally with thumbs or fingers near both sides of screen to allow ease of response.
+1 START 
+The app will attempt to connect with the EEG headset. Connection status is shown top right by four indicator lights corresponding to the four sensors on the headset. Once all four are bright green, proceed to start the trial. 
 
-The trial consists of 30 cue/stimulus pairs. The cues are a left and right arrow, with yellow indicating the stimulus is _likely_ (but not guaranteed) to be pointing in that direction. Arrow pairs which are both yellow or both blue are also possible, which do not give directional hints. When the cues are present, no actions are required.
+Start Screen
+![Start Screen](https://raw.githubusercontent.com/UBCMint/MuseAndroidApp/master/images/startScreen.png)
+* Note that the Android device running the app should be held in landscape mode for this section, ideally with thumbs or fingers near both sides of screen to allow ease of response.
 
-_Cues indicating that a tap on the left screen is more likely to be required._
-![Cue Left](https://raw.githubusercontent.com/UBCMint/MuseAndroidApp/master/images/cueLeft.jpg)
+2 Flanker Test
+The test consists of 38 trials, each trial begins with a cue, then followed by a stimulus. 
 
-After the cues, a stimulus of five characters is shown, and the user must **tap on the side of the screen indicated by the middle character**. This will indicate left ('<'), right ('>'), or to abstain from tapping ('+'). As a distractor, the four flanking stimuli (two left, two right) will all be the same value, one of '<', '>' or '+'. The value of these flanking stimuli is to be ignored, they do not indicate which side should be tapped.
+The cues are a pair of left and right triangles colored in either yellow or blue. If one triangle is yellow, it indicates the stimulus that follows is _likely_ (but not guaranteed) to be pointing in that direction. 
 
-_Stimulus which is asking for the user to tap on the *right*, as the center character points rightwards._
+_Example of a cues indicating that the following stimulus **may** require a tap on the **left**_
+![Cue Left](https://raw.githubusercontent.com/UBCMint/MuseAndroidApp/master/images/cueLeft.jpg) |
+
+Triangle pairs can be both yellow or blue. Two blue triangles do not give directional hints. Two yellow triangles hints that the middle arrow in the stimulus is pointing to the opposite direction of the side arrows. When the cues are present, no actions are required.
+
+The stimulus is consisted of five characters of arrows or plus signs. The four characters on the side will always match each other, whereas the centre character may differ from the side characters.
+* Congruent Stimulus: side characters match the centre character
+    * ">>>>>"
+    * "<<<<<"
+* Incongruent Stimulus: side characters contradicts the centre character
+    * ">><>>"
+    * "<<><<"
+* Neutral Stimulus: side characters are plus signs
+    * "\++>\++"
+    * "\++<\++"
+* Catch Stimulus: all characters are plus signs
+    * "+++++"    
+
+When the stimulus is shown, the user must **tap on the side of the screen indicated by the middle character**. The direction of the side arrows are to be ignored. In the case of a **Catch Trial**, the user must tap on the direction indicated by the yellow cue previously shown. 
+
+_Example of a Congruent stimulus: the user should tap on the *right*, as the center character points **rightwards**._
 ![Tap Right with Right Flankers](https://raw.githubusercontent.com/UBCMint/MuseAndroidApp/master/images/tapRightFlankRight.jpg)
 
-_Stimulus which is asking for the user to tap on the *left*, despite being flanked by rightwards distractors._
+_Example of a Incongruent stimulus: despite the side arrows points to the right the user should tap on the **left**, as the **centre arrow** points to the **left**._
 ![Tap Left with Right Flankers](https://raw.githubusercontent.com/UBCMint/MuseAndroidApp/master/images/tapLeftFlankRight.jpg)
 
-Throughout the experiment, raw alpha and beta frequency strengths are collected. Upon completion of the 30 cue/stimulus pairs, this data is processed, and ERPs are shown for the two periods described in the background section. Average alpha- and beta-suppression is calculated and displayed, along with average reaction time and accuracy at tapping the correct side of screen (or not tapping when required).
+_Example of a Catch stimulus: the cue previoiusly shown has a yellow triangle pointing to the left, the user should remember this direction and tap on left the side when a catch stimulus is shown._
+
+| Cue          |  Catch Stimulus |
+| :-------------------------: | :-------------------------: |
+| ![Cue Left](https://raw.githubusercontent.com/UBCMint/MuseAndroidApp/master/images/cueLeft.jpg)  |  ![Catch Stimulus](https://raw.githubusercontent.com/UBCMint/MuseAndroidApp/master/images/catchTrial.png) |
+
+3 Relax Period
+After every stimulus is shown the border of the screen will turn green. During this period the user can relax their eyes. Once the border turns white, the next trial begin shortly. 
+
+| Relax Stage | Trial Stage |
+| :-------------------------: | :-------------------------: |
+|![Relax Stage](https://raw.githubusercontent.com/UBCMint/MuseAndroidApp/master/images/relaxStage.png)  |  ![Trial Stage](https://raw.githubusercontent.com/UBCMint/MuseAndroidApp/master/images/trialStage.png)|
+
+
+
+Throughout the experiment, raw alpha and beta frequency strengths are collected. Upon completion of the 38 cue/stimulus trials, this data is processed, and ERPs are shown for the two periods described in the background section. Average alpha- and beta-suppression is calculated and displayed, along with average reaction time and accuracy at tapping the correct side of screen (or not tapping when required).
 
 _Results after a trial, showing tap accuracy, timing, and suppression epochs with average decrease._
 ![Trial Results](https://raw.githubusercontent.com/UBCMint/MuseAndroidApp/master/images/oneResult.jpg)
