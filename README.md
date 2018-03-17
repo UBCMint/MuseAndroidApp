@@ -68,20 +68,20 @@ _Example of a Congruent stimulus: the user should tap on the *right*, as the cen
 | ![Tap Right with Right Flankers](https://raw.githubusercontent.com/UBCMint/MuseAndroidApp/master/images/tapRightFlankRight.jpg) |
 
 _Example of a Incongruent stimulus: despite the side arrows points to the right the user should tap on the **left**, as the **centre arrow** points to the **left**._
-|Incongruent Stimulus |
+| Incongruent Stimulus |
 | :------: |
 |![Tap Left with Right Flankers](https://raw.githubusercontent.com/UBCMint/MuseAndroidApp/master/images/tapLeftFlankRight.jpg)|
 
 _Example of a Catch stimulus: the cue previoiusly shown has a yellow triangle pointing to the left, the user should remember this direction and tap on left the side when a catch stimulus is shown._
 
-|Cue          |  Catch Stimulus|
+| Cue          |  Catch Stimulus |
 | :-------------------------: | :-------------------------: |
 | ![Cue Left](https://raw.githubusercontent.com/UBCMint/MuseAndroidApp/master/images/cueLeft.jpg)  |  ![Catch Stimulus](https://raw.githubusercontent.com/UBCMint/MuseAndroidApp/master/images/catchTrial.png) |
 
 3 Relax Period
 After every stimulus is shown the border of the screen will turn green. During this period the user can relax their eyes. Once the border turns white, the next trial begin shortly. 
 
-| Relax Stage | Trial Stage|
+| Relax Stage | Trial Stage |
 | :-------------------------: | :-------------------------: |
 |![Relax Stage](https://raw.githubusercontent.com/UBCMint/MuseAndroidApp/master/images/relaxStage.png)  |  ![Trial Stage](https://raw.githubusercontent.com/UBCMint/MuseAndroidApp/master/images/trialStage.png)|
 
