@@ -41,9 +41,7 @@ The test consists of 38 trials, each trial begins with a cue, then followed by a
 The cues are a pair of left and right triangles colored in either yellow or blue. If one triangle is yellow, it indicates the stimulus that follows is _likely_ (but not guaranteed) to be pointing in that direction. 
 
 _Example of a cues indicating that the following stimulus **may** require a tap on the **left**_
-| Cue |
-| :---: |
-| ![Cue Left](https://raw.githubusercontent.com/UBCMint/MuseAndroidApp/master/images/cueLeft.jpg) |
+![Cue Left](https://raw.githubusercontent.com/UBCMint/MuseAndroidApp/master/images/cueLeft.jpg) |
 
 Triangle pairs can be both yellow or blue. Two blue triangles do not give directional hints. Two yellow triangles hints that the middle arrow in the stimulus is pointing to the opposite direction of the side arrows. When the cues are present, no actions are required.
 
@@ -63,14 +61,10 @@ The stimulus is consisted of five characters of arrows or plus signs. The four c
 When the stimulus is shown, the user must **tap on the side of the screen indicated by the middle character**. The direction of the side arrows are to be ignored. In the case of a **Catch Trial**, the user must tap on the direction indicated by the yellow cue previously shown. 
 
 _Example of a Congruent stimulus: the user should tap on the *right*, as the center character points **rightwards**._
-| Congruent Stimulus |
-| :------: |
-| ![Tap Right with Right Flankers](https://raw.githubusercontent.com/UBCMint/MuseAndroidApp/master/images/tapRightFlankRight.jpg) |
+![Tap Right with Right Flankers](https://raw.githubusercontent.com/UBCMint/MuseAndroidApp/master/images/tapRightFlankRight.jpg)
 
 _Example of a Incongruent stimulus: despite the side arrows points to the right the user should tap on the **left**, as the **centre arrow** points to the **left**._
-| Incongruent Stimulus |
-| :------: |
-|![Tap Left with Right Flankers](https://raw.githubusercontent.com/UBCMint/MuseAndroidApp/master/images/tapLeftFlankRight.jpg)|
+![Tap Left with Right Flankers](https://raw.githubusercontent.com/UBCMint/MuseAndroidApp/master/images/tapLeftFlankRight.jpg)
 
 _Example of a Catch stimulus: the cue previoiusly shown has a yellow triangle pointing to the left, the user should remember this direction and tap on left the side when a catch stimulus is shown._
 
