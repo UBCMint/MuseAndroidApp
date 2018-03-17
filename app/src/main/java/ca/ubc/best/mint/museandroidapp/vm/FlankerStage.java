@@ -11,7 +11,7 @@ public enum FlankerStage {
       RSP_WAIT(0), //TODO Wait for the user to tap in response to the stimuli
       WAIT_DISP_STIMULI(0), //TODO Display additional 700 msecs to
       WAIT_RCD_RSP(400), //Wait for additional 400 msec to record user response
-      RELAX(randomRelaxTime()); // Showing the Green Border for the subject to relax their eyes
+      RELAX(-1); // Showing the Green Border for the subject to relax their eyes
 
   /** How long we stay in this stage for. */
   private final int durationMs;
