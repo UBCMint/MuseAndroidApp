@@ -31,9 +31,8 @@ On the first run, no historic data is available, so it is recommended to run the
 1 START 
 The app will attempt to connect with the EEG headset. Connection status is shown top right by four indicator lights corresponding to the four sensors on the headset. Once all four are bright green, proceed to start the trial. 
 
-Start Screen|
-:------:|
-![Start Screen](https://raw.githubusercontent.com/UBCMint/MuseAndroidApp/master/images/startScreen.png)|
+Start Screen
+![Start Screen](https://raw.githubusercontent.com/UBCMint/MuseAndroidApp/master/images/startScreen.png)
 * Note that the Android device running the app should be held in landscape mode for this section, ideally with thumbs or fingers near both sides of screen to allow ease of response.
 
 2 Flanker Test
