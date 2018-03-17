@@ -17,7 +17,7 @@ In their paper "[Differential Oscillatory Electroencephalogram Between Attention
 
 The Flank app implements the experiment protocol as closely as possible on an Android device using a Muse consumer EEG headset. Users can periodically test themselves using the phone-based Flanker tast, and get historic trends of their alpha- and beta-suppression, as well as overall reaction time and accuracy.
 
-## Usage
+## Usage 
 
 First, the app must be installed on an Android device - either by loading the provided .apk, or by building the 'app' project with Android Studio and running that on their phone. A Muse EEG headset is also required (2016 version preferred, but 2014 works too).
 
