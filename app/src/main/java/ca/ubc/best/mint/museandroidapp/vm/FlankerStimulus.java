@@ -1,12 +1,8 @@
 package ca.ubc.best.mint.museandroidapp.vm;
 
-import android.util.Log;
-
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.Random;
 
 /** Stimuli that can be to displayed for the task. */
 enum FlankerStimulus {

@@ -80,6 +80,18 @@ public class FlankerLiveRecorder {
   // At the end, check whether a tap happened and when/where.
   public void onRecordTap(FlankerCue cue, FlankerStimulus stim, TapDetails stageTap) {
     char needDirection = stim.asText().charAt(2);
+
+    // When the direction is '+', you need to tap where the cue pointed.
+    if (needDirection == '+') {
+      if (cue == FlankerCue.LRP) {
+        needDirection = '<';
+      } else if (cue == FlankerCue.RRP) {
+        needDirection = '>';
+      } else {
+        assert false : "CATCH should only happen after LRP/RRP";
+      }
+    }
+
     char gotDirection;
     if (stageTap == null) {
       gotDirection = '+';
