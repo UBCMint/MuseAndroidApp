@@ -17,7 +17,7 @@ In their paper "[Differential Oscillatory Electroencephalogram Between Attention
 
 The Flank app implements the experiment protocol as closely as possible on an Android device using a Muse consumer EEG headset. Users can periodically test themselves using the phone-based Flanker tast, and get historic trends of their alpha- and beta-suppression, as well as overall reaction time and accuracy.
 
-## Usage
+## Usage 
 
 First, the app must be installed on an Android device - either by loading the provided .apk, or by building the 'app' project with Android Studio and running that on their phone. A Muse EEG headset is also required (2016 version preferred, but 2014 works too).
 
@@ -28,20 +28,20 @@ _Initial screen of the Application - either start a run, or view previous result
 
 On the first run, no historic data is available, so it is recommended to run the Flanker task. Make sure bluetooth is enabled and the Muse device is turned on, and select "Begin testing"
 
-1 START 
+**1> START** 
 The app will attempt to connect with the EEG headset. Connection status is shown top right by four indicator lights corresponding to the four sensors on the headset. Once all four are bright green, proceed to start the trial. 
 
 Start Screen
 ![Start Screen](https://raw.githubusercontent.com/UBCMint/MuseAndroidApp/master/images/startScreen.png)
 * Note that the Android device running the app should be held in landscape mode for this section, ideally with thumbs or fingers near both sides of screen to allow ease of response.
 
-2 Flanker Test
+**2> Flanker Test**
 The test consists of 38 trials, each trial begins with a cue, then followed by a stimulus. 
 
 The cues are a pair of left and right triangles colored in either yellow or blue. If one triangle is yellow, it indicates the stimulus that follows is _likely_ (but not guaranteed) to be pointing in that direction. 
 
 _Example of a cues indicating that the following stimulus **may** require a tap on the **left**_
-![Cue Left](https://raw.githubusercontent.com/UBCMint/MuseAndroidApp/master/images/cueLeft.jpg) |
+![Cue Left](https://raw.githubusercontent.com/UBCMint/MuseAndroidApp/master/images/cueLeft.jpg)
 
 Triangle pairs can be both yellow or blue. Two blue triangles do not give directional hints. Two yellow triangles hints that the middle arrow in the stimulus is pointing to the opposite direction of the side arrows. When the cues are present, no actions are required.
 
@@ -72,7 +72,7 @@ _Example of a Catch stimulus: the cue previoiusly shown has a yellow triangle po
 | :-------------------------: | :-------------------------: |
 | ![Cue Left](https://raw.githubusercontent.com/UBCMint/MuseAndroidApp/master/images/cueLeft.jpg)  |  ![Catch Stimulus](https://raw.githubusercontent.com/UBCMint/MuseAndroidApp/master/images/catchTrial.png) |
 
-3 Relax Period
+**3> Relax Period**
 After every stimulus is shown the border of the screen will turn green. During this period the user can relax their eyes. Once the border turns white, the next trial begin shortly. 
 
 | Relax Stage | Trial Stage |
