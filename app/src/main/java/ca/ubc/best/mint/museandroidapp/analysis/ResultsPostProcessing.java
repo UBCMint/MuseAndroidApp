@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.io.*;
 
 import ca.ubc.best.mint.museandroidapp.ParcelableResults;
 import ca.ubc.best.mint.museandroidapp.vm.FlankerLiveRecorder;
@@ -42,6 +43,23 @@ public class ResultsPostProcessing {
     List<Map<String, TimeSeriesSnapshot<Double>>> alpha = processAllAlpha(recorder.getAlphaEpochs());
     List<Map<String, TimeSeriesSnapshot<Double>>> beta = processAllBeta(recorder.getBetaEpochs());
     Date timeOfExperiment = new Date();
+
+    try(PrintWriter out = new PrintWriter("C:\\Users\\coolgary100\\Desktop\\BEST MINT\\MuseAndroidApp\\Data\\alpha.txt")) {
+      out.println(alpha);
+    }
+    catch (FileNotFoundException e) {
+      System.out.print("file not found");
+      e.printStackTrace();
+    }
+
+    try(PrintWriter out = new PrintWriter("C:\\Users\\coolgary100\\Desktop\\BEST MINT\\MuseAndroidApp\\Data\\beta.txt")) {
+      out.println(beta);
+    }
+    catch (FileNotFoundException e) {
+      System.out.print("file not found");
+      e.printStackTrace();
+    }
+
     return new ParcelableResults(
         alpha, beta,
         calcAlphaSuppression(alpha),
