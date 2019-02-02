@@ -42,24 +42,17 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <EditText
-                android:id="@+id/RMdescription"
+            <TextView
+                android:id="@+id/RMdescrition"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:ems="10"
-                android:inputType="textPersonName"
                 android:text="How to use Flank" />
 
-            <EditText
-                android:id="@+id/RMs1"
-                android:layout_width="367dp"
+            <TextView
+                android:id="@+id/RMstep1"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:ems="10"
-                android:inputType="textMultiLine"
-                android:text="@string/readMe1"
-                app:layout_constraintTop_toBottomOf="@+id/imageView2"
-                tools:layout_editor_absoluteX="16dp" />
+                android:text="@string/readMe1" />
 
             <ImageView
                 android:id="@+id/startScreenImg"
@@ -70,16 +63,14 @@
                 android:cropToPadding="false"
                 tools:srcCompat="@drawable/start_screen" />
 
-            <EditText
-                android:id="@+id/editText4"
+            <TextView
+                android:id="@+id/RMstep2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:ems="10"
-                android:inputType="textMultiLine"
                 android:text="@string/Step2" />
 
             <ImageView
-                android:id="@+id/imageView4"
+                android:id="@+id/RMcueLeft"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:adjustViewBounds="true"
