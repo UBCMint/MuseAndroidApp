@@ -13,6 +13,8 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.choosemuse.libmuse.Muse;
@@ -32,6 +34,9 @@ public class InitialActivity extends AppCompatActivity {
   private static final int REQUEST_CODE_ENABLE_BT = 1;
   private static final int SCAN_LENGTH_SEC = 5;
 
+  //Read Me button
+    private Button readMeBtn;
+
   /** ViewModel for this activity. */
   public final InitialViewModel viewModel = new InitialViewModel();
 
@@ -48,7 +53,25 @@ public class InitialActivity extends AppCompatActivity {
     maybeAskPermissions();
   }
 
-  /** Handles the scan button being clicked: starts the scan for muse devices. */
+    // Handles setting up the Read Me button
+    public void readMeBtnSetUp(){
+        readMeBtn = (Button) findViewById(R.id.readMeButton);
+        readMeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openReadMeActivity();
+            }
+        });
+    }
+
+    // Handles opening the Info Activity
+    public void openReadMeActivity(){
+        Intent intent = new Intent(this, readMeActivity.class);
+        startActivity(intent);
+    }
+
+
+    /** Handles the scan button being clicked: starts the scan for muse devices. */
   public void handleScanClicked() {
     BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
     if (mBluetoothAdapter == null) {

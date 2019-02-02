@@ -1,3 +1,15 @@
 <resources>
     <string name="app_name">Flank</string>
+    <string name="readMe1"><![CDATA[
+        1> START The app will attempt to connect with the EEG headset.
+        Connection status is shown top right by four indicator lights
+        corresponding to the four sensors on the headset.
+        Once all four are bright green, proceed to start the trial.
+    ]]></string>
+    <string name="Step2"><![CDATA[
+        2> Flanker Test The test consists of 38 trials, each trial begins with a cue, then followed by a stimulus.
+        The cues are a pair of left and right triangles colored in either yellow or blue.
+         If one triangle is yellow, it indicates the stimulus that follows is likely
+         (but not guaranteed) to be pointing in that direction.
+    ]]></string>
 </resources>

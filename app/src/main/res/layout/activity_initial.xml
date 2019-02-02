@@ -112,6 +112,16 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imageView"/>
+
+        <Button
+            android:id="@+id/readMeButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Read Me"
+            app:layout_constraintEnd_toEndOf="@+id/skipButton"
+            app:layout_constraintStart_toStartOf="@+id/skipButton"
+            app:layout_constraintTop_toBottomOf="@+id/skipButton" />
     </android.support.constraint.ConstraintLayout>
 
 </layout>
