@@ -6,10 +6,5 @@
         corresponding to the four sensors on the headset.
         Once all four are bright green, proceed to start the trial.
     ]]></string>
-    <string name="Step2"><![CDATA[
-        2> Flanker Test The test consists of 38 trials, each trial begins with a cue, then followed by a stimulus.
-        The cues are a pair of left and right triangles colored in either yellow or blue.
-         If one triangle is yellow, it indicates the stimulus that follows is likely
-         (but not guaranteed) to be pointing in that direction.
-    ]]></string>
+    <string name="Step2"><p align='left'> 2> <bold>Flanker Test</bold> The test <u> consists of 38 trials</u>, each trial begins with a cue, then followed by a stimulus. The cues are a <b>pair</b> of left and right triangles colored in either yellow or blue. If one triangle is yellow, it indicates the stimulus that follows is likely (but not guaranteed) to be pointing in that direction.</p></string>
 </resources>

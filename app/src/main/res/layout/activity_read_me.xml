@@ -6,6 +6,23 @@
     android:layout_height="match_parent"
     tools:context=".readMeActivity">
 
+    <TextView
+        android:id="@+id/RMtitle"
+        android:layout_width="367dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:fontFamily="sans-serif-black"
+        android:text="READ ME"
+        android:textAppearance="@style/TextAppearance.AppCompat.Title"
+        android:textSize="36sp"
+        android:textStyle="bold"
+        android:typeface="normal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <ScrollView
         android:id="@+id/scrollView2"
         android:layout_width="383dp"
@@ -70,22 +87,5 @@
 
         </LinearLayout>
     </ScrollView>
-
-    <TextView
-        android:id="@+id/RMtitle"
-        android:layout_width="367dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:fontFamily="sans-serif-black"
-        android:text="READ ME"
-        android:textAppearance="@style/TextAppearance.AppCompat.Title"
-        android:textSize="36sp"
-        android:textStyle="bold"
-        android:typeface="normal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
 </android.support.constraint.ConstraintLayout>

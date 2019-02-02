@@ -53,23 +53,11 @@ public class InitialActivity extends AppCompatActivity {
     maybeAskPermissions();
   }
 
-    // Handles setting up the Read Me button
-    public void readMeBtnSetUp(){
-        readMeBtn = (Button) findViewById(R.id.readMeButton);
-        readMeBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                openReadMeActivity();
-            }
-        });
-    }
-
     // Handles opening the Info Activity
-    public void openReadMeActivity(){
-        Intent intent = new Intent(this, readMeActivity.class);
+    public void readMeOnClick(View v){
+        Intent intent = new Intent(InitialActivity.this, readMeActivity.class);
         startActivity(intent);
     }
-
 
     /** Handles the scan button being clicked: starts the scan for muse devices. */
   public void handleScanClicked() {
