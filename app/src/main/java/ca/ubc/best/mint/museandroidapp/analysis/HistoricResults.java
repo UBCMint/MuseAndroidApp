@@ -5,20 +5,26 @@ import android.content.Intent;
 import android.os.Environment;
 import android.os.Parcelable;
 import android.util.Log;
+import android.widget.Toast;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import ca.ubc.best.mint.museandroidapp.ParcelableResults;
 import ca.ubc.best.mint.museandroidapp.TaskCompleteActivity;
 import eeg.useit.today.eegtoolkit.Constants;
+import eeg.useit.today.eegtoolkit.model.TimeSeries;
+import eeg.useit.today.eegtoolkit.model.TimeSeriesSnapshot;
 
+import static ca.ubc.best.mint.museandroidapp.Constants.ALPHA_RESULTS_FILE;
 import static ca.ubc.best.mint.museandroidapp.Constants.HISTORIC_RESULTS_FILE;
 
 /** List of all past results. */
@@ -70,6 +76,31 @@ public class HistoricResults implements Serializable {
       Log.i(Constants.TAG, e.getMessage());
       e.printStackTrace();
     }
+
+    /*
+    try {
+      Log.i(Constants.TAG, "Saving " + results.size() + " results to "
+              + ALPHA_RESULTS_FILE + "...");
+      File file = new File(
+              ctx.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS),
+              ALPHA_RESULTS_FILE
+      );
+      ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream(file));
+      os.writeObject(results.get(results.size() - 1));
+      for(int i = 0; i < this.results.size(); i++) {
+        for (Map.Entry<String, TimeSeriesSnapshot<Double>> test : this.results.get(i).alphaEpochs.get(i).entrySet()) {
+          os.writeObject(test);
+          System.out.println(test.getKey());
+        }
+      }
+      os.writeObject(this);
+      os.close();
+      Log.i(Constants.TAG, "Saved!");
+    } catch (Exception e) {
+      Log.i(Constants.TAG, e.getMessage());
+      e.printStackTrace();
+    }
+    */
   }
 
   /** @return The saved past results, or an empty result list if none exists yet. */
@@ -91,4 +122,24 @@ public class HistoricResults implements Serializable {
       return new HistoricResults(new ArrayList<ParcelableResults>());
     }
   }
+
+  /*
+  public static ParcelableResults loadAlphaResults(Context ctx) {
+    try {
+      Log.i("Mint", "Loading from " + ALPHA_RESULTS_FILE + "...");
+      File file = new File(ctx.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS),
+              ALPHA_RESULTS_FILE
+      );
+      ObjectInputStream is = new ObjectInputStream(new FileInputStream(file));
+      ParcelableResults results = (ParcelableResults) is.readObject();
+      is.close();
+      Log.i("MINT", "Loaded " + results.alphaEpochs.size() + " alpha epochs!");
+      return results;
+    } catch (Exception e) {
+      Log.i("MINT", e.getMessage());
+      e.printStackTrace();
+      return ParcelableResults(new ParcelableResults());
+    }
+  }
+  */
 }

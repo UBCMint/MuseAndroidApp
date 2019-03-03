@@ -1,14 +1,23 @@
 package ca.ubc.best.mint.museandroidapp.vm;
 
+import android.content.Context;
+import android.os.Environment;
 import android.os.Handler;
 import android.util.Log;
+import android.widget.Toast;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import ca.ubc.best.mint.museandroidapp.FlankerActivity;
+import ca.ubc.best.mint.museandroidapp.ResultListActivity;
 import ca.ubc.best.mint.museandroidapp.Util;
 import ca.ubc.best.mint.museandroidapp.analysis.ResultsPostProcessing;
+import eeg.useit.today.eegtoolkit.Constants;
 import eeg.useit.today.eegtoolkit.common.FrequencyBands.Band;
 import eeg.useit.today.eegtoolkit.common.FrequencyBands.ValueType;
 import eeg.useit.today.eegtoolkit.model.EpochCollector;
@@ -16,6 +25,9 @@ import eeg.useit.today.eegtoolkit.model.TimeSeries;
 import eeg.useit.today.eegtoolkit.model.TimeSeriesSnapshot;
 import eeg.useit.today.eegtoolkit.vm.FrequencyBandViewModel;
 import eeg.useit.today.eegtoolkit.vm.StreamingDeviceViewModel;
+
+import static ca.ubc.best.mint.museandroidapp.Constants.ALPHA_RESULTS_FILE;
+import static ca.ubc.best.mint.museandroidapp.Constants.BETA_RESULTS_FILE;
 
 /** Performs all live data recording for the flanker test. */
 public class FlankerLiveRecorder {

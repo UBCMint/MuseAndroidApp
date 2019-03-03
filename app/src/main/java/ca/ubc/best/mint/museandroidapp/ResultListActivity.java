@@ -21,6 +21,7 @@ public class ResultListActivity extends AppCompatActivity {
 
     HistoricResults results = HistoricResults.loadFromFile(this);
 
+
     // Hook up the binding for the list of devices.
     RecyclerView listView = (RecyclerView) findViewById(R.id.resultList);
     listView.setLayoutManager(new LinearLayoutManager(this));
