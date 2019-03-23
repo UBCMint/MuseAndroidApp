@@ -16,6 +16,8 @@ import android.widget.Toast;
 
 import com.choosemuse.libmuse.Muse;
 
+import java.io.Console;
+
 import ca.ubc.best.mint.museandroidapp.analysis.HistoricResults;
 import ca.ubc.best.mint.museandroidapp.analysis.ResultsPostProcessing;
 import ca.ubc.best.mint.museandroidapp.databinding.ActivityFlankerBinding;
@@ -32,6 +34,7 @@ public class FlankerActivity extends AppCompatActivity
   private final Handler hideHandler = new Handler();
   private final FlankerViewModel viewModel = new FlankerViewModel(this);
 
+  private int counter = viewModel.counter();
   private View rootView; // Root of the view hierarchy, used for switching to fullscreen.
 
   @Override

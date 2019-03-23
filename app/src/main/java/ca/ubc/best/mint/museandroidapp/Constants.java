@@ -11,7 +11,7 @@ public class Constants {
 
   /** Location of file for historic results. */
   public static final String HISTORIC_RESULTS_FILE = "historicResults.dat";
-  public static final String BETA_RESULTS_FILE = "betaResults.dat";
+  public static final String BETA_RESULTS_FILE = "betaResults.txt";
   public static final String ALPHA_RESULTS_FILE = "alphaResults.txt";
 
   /** How to format dates to string. */

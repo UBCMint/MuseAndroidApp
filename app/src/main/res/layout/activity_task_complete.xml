@@ -114,13 +114,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
             android:layout_marginTop="8dp"
+            android:layout_marginRight="8dp"
             android:text="Average reaction time:"
             android:textStyle="italic"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toLeftOf="@+id/midline"
-            app:layout_constraintTop_toBottomOf="@+id/connectionStrengthText"/>
+            app:layout_constraintTop_toBottomOf="@+id/connectionStrengthText" />
 
         <TextView
             android:id="@+id/textView4"

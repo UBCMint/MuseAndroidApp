@@ -80,7 +80,6 @@ public class FlankerViewModel extends BaseObservable {
   private int numCong = Math.round(0.289f * FLANKER_TRIAL_RUNS); // 28.9%, same as cong
   private int numIncong = FLANKER_TRIAL_RUNS - numNeut - numCong; // the rest, ~42.2%
 
-
   public FlankerViewModel(CompletionHandler completionHandler) {
     this.completionHandler = completionHandler;
     stage = null;
@@ -275,5 +274,9 @@ public class FlankerViewModel extends BaseObservable {
 
   public FlankerLiveRecorder getRecorder() {
     return this.recorder;
+  }
+
+  public int counter() {
+    return runAt;
   }
 }

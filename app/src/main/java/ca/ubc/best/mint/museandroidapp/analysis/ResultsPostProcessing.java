@@ -41,8 +41,10 @@ public class ResultsPostProcessing {
    *   3) Calculate tap statistics (reaction time and accuracy).
    */
   public static ParcelableResults process(FlankerLiveRecorder recorder) {
-    List<Map<String, TimeSeriesSnapshot<Double>>> alpha = processAllAlpha(recorder.getAlphaEpochs());
-    List<Map<String, TimeSeriesSnapshot<Double>>> beta = processAllBeta(recorder.getBetaEpochs());
+    //List<Map<String, TimeSeriesSnapshot<Double>>> alpha = processAllAlpha(recorder.getAlphaEpochs());
+    //List<Map<String, TimeSeriesSnapshot<Double>>> beta = processAllBeta(recorder.getBetaEpochs());
+    List<Map<String, TimeSeriesSnapshot<Double>>> alpha = recorder.getAlphaEpochs();
+    List<Map<String, TimeSeriesSnapshot<Double>>> beta = recorder.getBetaEpochs();
     Date timeOfExperiment = new Date();
 
     return new ParcelableResults(
@@ -144,10 +146,15 @@ public class ResultsPostProcessing {
   /** @return The mean of all values[start..end). */
   private static double averageInRange(Double[] values, int start, int end) {
     double sum = 0;
-    for (int i = start; i < end; i++) {
+    /*for (int i = start; i < end; i++) {
       sum += values[i];
     }
-    return sum / (end - start);
+    return sum / (end - start);*/
+
+    for(int i = 0; i < values.length; i++) {
+      sum += values[i];
+    }
+    return sum / (values.length);
   }
 }
 

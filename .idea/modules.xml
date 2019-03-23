@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/MuseAndroidApp.iml" filepath="$PROJECT_DIR$/MuseAndroidApp.iml" />
+      <module fileurl="file://$PROJECT_DIR$/BEST.iml" filepath="$PROJECT_DIR$/BEST.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/eegtoolkit-debug/eegtoolkit-debug.iml" filepath="$PROJECT_DIR$/eegtoolkit-debug/eegtoolkit-debug.iml" />
     </modules>
