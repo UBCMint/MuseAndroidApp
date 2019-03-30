@@ -19,7 +19,6 @@ import java.util.Map;
 
 import ca.ubc.best.mint.museandroidapp.databinding.ActivityTaskCompleteBinding;
 import eeg.useit.today.eegtoolkit.Constants;
-import eeg.useit.today.eegtoolkit.model.TimeSeries;
 import eeg.useit.today.eegtoolkit.model.TimeSeriesSnapshot;
 
 import static ca.ubc.best.mint.museandroidapp.Constants.ALPHA_RESULTS_FILE;
@@ -28,20 +27,12 @@ import static ca.ubc.best.mint.museandroidapp.Constants.BETA_RESULTS_FILE;
 public class TaskCompleteActivity extends AppCompatActivity {
   // TODO: Just for testing, remove for final version.
   public static final String FAKE_RESULTS_FILE = "fakeResults.dat";
-  public ArrayList<TimeSeriesSnapshot<Double>> tempHold = new ArrayList<>();
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
 
     ParcelableResults results = getIntent().getParcelableExtra("results");
-
-    /*for(int i = 0; i < results.alphaEpochs.size(); i++) {
-      for(Map.Entry<String, TimeSeriesSnapshot<Double>> test : results.alphaEpochs.get(i).entrySet()) {
-        tempHold.add(test.getValue());
-        this.saveFile(tempHold, i);
-      }
-    }*/
 
     this.saveFileAlpha(results);
     this.saveFileBeta(results);
@@ -57,6 +48,8 @@ public class TaskCompleteActivity extends AppCompatActivity {
     startActivity(intent);
   }
 
+
+  // Saves the Alpha data and the corresponding time stamp into a text file
   private void saveFileAlpha(ParcelableResults results) {
     try {
       Log.i(Constants.TAG, "Saving to " + ALPHA_RESULTS_FILE  + "...");
@@ -64,24 +57,17 @@ public class TaskCompleteActivity extends AppCompatActivity {
               this.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS),
               ALPHA_RESULTS_FILE
       );
-
-      Boolean firstRun = false;
-
       FileWriter writer = new FileWriter(file);
       for(int i = 0; i < results.alphaEpochs.size(); i++) {
-        writer.append("Muse Probe: " + Integer.toString(i) + "\n");
-        Log.i(Constants.TAG, "This Muse Probe is: " + Integer.toString(i));
         for(Map.Entry<String, TimeSeriesSnapshot<Double>> test : results.alphaEpochs.get(i).entrySet()) {
           Double[] outputData = new Double[test.getValue().values.length];
           long[] timeStamps = new long[test.getValue().timestamps.length];
           long firstTime = results.alphaEpochs.get(0).get("alpha").timestamps[0];
-          Log.i(Constants.TAG, "This is the first recorded TimeStamp " + Long.toString(firstTime));
           System.arraycopy(test.getValue().values, 0, outputData, 0, test.getValue().values.length);
           System.arraycopy(test.getValue().timestamps, 0, timeStamps, 0, test.getValue().timestamps.length);
           for (int j = 0; j < outputData.length; j++) {
-            writer.append(Long.toString((timeStamps[j] - firstTime)/(long)(Math.pow(10, 3))) + "      " + Double.toString(outputData[j]) + "\n");
-            Log.i(Constants.TAG, "These are the Double Data " + Double.toString(outputData[j]));
-            Log.i(Constants.TAG, "These are the Time Stamps " + Long.toString(timeStamps[j] - firstTime));
+            writer.append(Long.toString((timeStamps[j] - firstTime)/(long)(Math.pow(10, 3))) + "      "
+                    + Double.toString(outputData[j]) + "\n");
           }
         }
       }
@@ -93,6 +79,7 @@ public class TaskCompleteActivity extends AppCompatActivity {
     }
   }
 
+  // Saves the Beta data and the timestamp into a text file
   private void saveFileBeta(ParcelableResults results) {
     try {
       Log.i(Constants.TAG, "Saving to " + BETA_RESULTS_FILE  + "...");
@@ -103,19 +90,14 @@ public class TaskCompleteActivity extends AppCompatActivity {
 
       FileWriter writer = new FileWriter(file);
       for(int i = 0; i < results.betaEpochs.size(); i++) {
-        writer.append("Muse Probe: " + Integer.toString(i) + "\n");
-        Log.i(Constants.TAG, "This Muse Probe is: " + Integer.toString(i));
         for(Map.Entry<String, TimeSeriesSnapshot<Double>> test : results. betaEpochs.get(i).entrySet()) {
           Double[] outputData = new Double[test.getValue().values.length];
           long[] timeStamps = new long[test.getValue().timestamps.length];
           long firstTime = results.betaEpochs.get(0).get("alpha").timestamps[0];
-          Log.i(Constants.TAG, "This is the first recorded TimeStamp " + Long.toString(firstTime));
           System.arraycopy(test.getValue().values, 0, outputData, 0, test.getValue().values.length);
           System.arraycopy(test.getValue().timestamps, 0, timeStamps, 0, test.getValue().timestamps.length);
           for (int j = 0; j < outputData.length; j++) {
             writer.append(Long.toString((timeStamps[j] - firstTime)/(long)(Math.pow(10, 3))) + "      " + Double.toString(outputData[j]) + "\n");
-            Log.i(Constants.TAG, "These are the Double Data " + Double.toString(outputData[j]));
-            Log.i(Constants.TAG, "These are the Time Stamps " + Long.toString(timeStamps[j] - firstTime));
           }
         }
       }

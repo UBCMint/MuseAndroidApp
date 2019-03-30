@@ -25,7 +25,7 @@ public class FlankerViewModel extends BaseObservable {
   }
 
   /** How many currCue-stimulus pairs to perform. */
-  private static final int FLANKER_TRIAL_RUNS = 10; // TODO For testing: Limited FLANKER_TRIAL_RUNS TO 10
+  private static final int FLANKER_TRIAL_RUNS = 30; // TODO For testing: Limited FLANKER_TRIAL_RUNS TO 10
 
   // TODO - remove once we have ordering done.
   private static Random rand = new Random();
