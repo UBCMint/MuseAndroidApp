@@ -1,10 +1,178 @@
 <resources>
     <string name="app_name">Flank</string>
-    <string name="readMe1"><![CDATA[
-        1> START The app will attempt to connect with the EEG headset.
+
+    <!-- Read Me Activity Strings -->
+    <string name="readMeTitle">
+        READ ME
+    </string>
+    <string name="readMeSubtitle">
+        How to use Flank
+    </string>
+    <string name="Intro">
+        On the first run, no historic data is available, so it is recommended to run the Flanker task.
+        Make sure bluetooth is enabled and the Muse device is turned on, and select "Begin testing"
+    </string>
+    <string name="readMe1">
+        <b>1> START</b>
+        \n
+        The app will attempt to connect with the EEG headset.
+        \n
         Connection status is shown top right by four indicator lights
         corresponding to the four sensors on the headset.
         Once all four are bright green, proceed to start the trial.
-    ]]></string>
-    <string name="Step2"><p align='left'> 2> <bold>Flanker Test</bold> The test <u> consists of 38 trials</u>, each trial begins with a cue, then followed by a stimulus. The cues are a <b>pair</b> of left and right triangles colored in either yellow or blue. If one triangle is yellow, it indicates the stimulus that follows is likely (but not guaranteed) to be pointing in that direction.</p></string>
+    </string>
+    <string name="readMe1_Img_StartScreen">
+        Start Screen Image
+    </string>
+    <string name="readMe1_1">
+        Note that the Android device running the app should be held in landscape mode for this section,
+        ideally with thumbs or fingers near both sides of screen to allow ease of response.
+    </string>
+    <string name="readMe2">
+        <b>2> Flanker Test</b>
+        \n
+        The test <u> consists of 38 trials</u>, each trial begins with a cue,
+        then followed by a stimulus.
+        \n
+        The cues are a <b>pair</b> of left and right triangles colored in either yellow or blue.
+        If one triangle is yellow, it indicates the stimulus that follows is likely (but not guaranteed) to be pointing in that direction.
+        \n
+        Example of a cues indicating that the following stimulus <b>may</b> require a tap on the <b>left</b>
+    </string>
+    <string name="readMe2_Img_CueLeft">
+        Cue Left Image
+    </string>"
+    <string name="readMe2_1">
+        Triangle pairs can be both yellow or blue. Two blue triangles do not give directional hints.
+        Two yellow triangles hints that the middle arrow in the stimulus is pointing to the opposite
+        direction of the side arrows. When the cues are present, no actions are required.
+        \n
+        The stimulus is consisted of five characters of arrows or plus signs.
+        The four characters on the side will always match each other,
+        whereas the centre character may differ from the side characters.
+    </string>
+    <string name="readMe2_2">
+        <li>Congruent Stimulus: side characters match the centre character</li>
+    </string>
+    <string name="readMe2_2_1">
+        <li>"&gt;&gt;&gt;&gt;&gt;"</li> <!-- &gt; means  ">" -->
+    </string>
+    <string name="readMe2_2_2">
+        <li>"&lt;&lt;&lt;&lt;&lt;"</li> <!-- &lt; means  "<" -->
+    </string>
+    <string name="readMe2_3">
+        <li>Incongruent Stimulus: side characters contradicts the centre character</li>
+    </string>
+    <string name="readMe2_3_1">
+        <li>"&gt;&gt;&lt;&gt;&gt;"</li>
+    </string>
+    <string name="readMe2_3_2">
+        <li>"&lt;&lt;&gt;&lt;&lt;"</li>
+    </string>
+    <string name="readMe2_4">
+        <li>Neutral Stimulus: side characters are plus signs</li>
+    </string>
+    <string name="readMe2_4_1">
+        <li>"++&gt;++"</li>
+    </string>
+    <string name="readMe2_4_2">
+        <li>"++&lt;++"</li>
+    </string>
+    <string name="readMe2_5">
+        <li>Catch Stimulus: all characters are plus signs</li>
+    </string>
+    <string name="readMe2_5_1">
+        <li>"+++++"</li>
+    </string>
+    <string name="readMe2_6">
+        When the stimulus is shown, the user must <b>tap on the side of the screen indicated by the
+        middle character.</b> The direction of the side arrows are to be ignored. In the case of a Catch
+        Trial, the user must tap on the direction indicated by the yellow cue previously shown.
+    </string>
+    <string name="readMe2_7">
+        Example of a Congruent stimulus: the user should tap on the right, as the center character points <b>rightwards.</b>
+    </string>
+    <string name="readMe2_7_Img_TapRightFlankRight">
+        Tap Right Flank Right Image
+    </string>
+    <string name="readMe2_8">
+        Example of a Incongruent stimulus: despite the side arrows points to the right the user should tap on the <b>left</b>, as the centre arrow points to the <b>left</b>.
+    </string>
+    <string name="readMe2_8_Img_TapLeftFlankRight">
+    Tap Left Flank Right Image
+    </string>
+    <string name="readMe2_9">
+        Example of a Catch stimulus: the cue previoiusly shown has a yellow triangle pointing to the left,
+        the user should remember this direction and tap on left the side when a catch stimulus is shown.
+    </string>
+    <string name="readMe2_9_1_1">
+        Cue
+    </string>
+    <string name="readMe2_9_1_1_Img_CueLeft">
+        Cue Left Image
+    </string>
+    <string name="readMe2_9_1_2">
+        Catch Stimulus
+    </string>
+    <string name="readMe2_9_1_2_Img_CatchTrial">
+        Catch Trial Image
+    </string>
+    <string name="readMe3">
+        <b>3> Relax Period</b>
+        \n
+        After every stimulus is shown the border of the screen will turn green. During this period
+        the user can relax their eyes. Once the border turns white, the next trial begin shortly.
+    </string>
+    <string name="readMe3_1_1_1">
+        Relax Stage
+    </string>
+    <string name="readMe3_1_1_1_Img_RelaxStage">
+        Relax Stage Image
+    </string>
+    <string name="readMe3_1_1_2">
+        Trial Stage
+    </string>
+    <string name="readMe3_1_1_2_Img_TrialStage">
+        Trial Stage Image
+    </string>
+    <string name="readMe4">
+        <b>4> End of Trial / Results</b>
+    </string>
+    <string name="readMe4_1">
+        Throughout the experiment, raw alpha and beta frequency strengths are collected.
+        Upon completion of the 38 cue/stimulus trials, this data is processed, and ERPs are shown
+        for the two periods described in the background section. Average alpha- and beta-suppression
+        is calculated and displayed, along with average reaction time and accuracy at tapping the
+        correct side of screen (or not tapping when required).
+    </string>
+    <string name="readMe4_2">
+        Results after a trial, showing tap accuracy, timing, and suppression epochs with average decrease.
+    </string>
+    <string name="readMe4_2_Img_OneResult">
+        One Result Screen Image
+    </string>
+    <string name="readMe4_3">
+        Finally, once data is recorded through successful completion of the task, it can be viewed
+        from the main screen. Selecting the "View past results" option will display historic results,
+        which can be selected to view in finer detail.
+    </string>
+    <string name="readMe4_4">
+        List of historic results, tapping one will show the result screen as above.
+    </string>
+    <string name="readMe4_4_Img_AllResults">
+        All Results Screen Image
+    </string>
+    <string name="aboutUs">
+        About Us
+    </string>
+    <string name="aboutUs_1">
+        Flank was created by the <a href="https://ubcmint.github.io/">(Medical Innovation in
+        NeuroTechnology</a> (MiNT) team of undergraduate students, part of the group of
+        <a href="http://www.ubcbest.com/">Biomedical Engineering Student Teams</a> at the
+        University of British Columbia in Vancouver, Canada.
+    </string>
+    <string name="aboutUs_2">
+        Flank was submitted as a project for the Open category of the
+        <a href="https://neurotechx.github.io/studentclubs/competition/">NeuroTechX 2019 Student Club competition</a>.
+    </string>
 </resources>

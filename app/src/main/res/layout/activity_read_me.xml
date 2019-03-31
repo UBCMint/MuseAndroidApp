@@ -8,75 +8,510 @@
 
     <TextView
         android:id="@+id/RMtitle"
-        android:layout_width="367dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:fontFamily="sans-serif-black"
-        android:text="READ ME"
+        android:text="@string/readMeTitle"
         android:textAppearance="@style/TextAppearance.AppCompat.Title"
-        android:textSize="36sp"
+        android:textSize="24sp"
         android:textStyle="bold"
         android:typeface="normal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/scrollView2"
+        app:layout_constraintStart_toStartOf="@+id/scrollView2"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ScrollView
         android:id="@+id/scrollView2"
-        android:layout_width="383dp"
-        android:layout_height="671dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/RMtitle">
+        app:layout_constraintTop_toBottomOf="@+id/RMtitle"
+        app:layout_constraintVertical_bias="1.0">
 
-        <LinearLayout
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/linearLayout2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+
             <TextView
                 android:id="@+id/RMdescrition"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="How to use Flank" />
+                android:layout_marginStart="8dp"
+                android:text="@string/readMeSubtitle"
+                android:textSize="24sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/RMintro"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:text="@string/Intro"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/RMdescrition" />
 
             <TextView
                 android:id="@+id/RMstep1"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="@string/readMe1" />
+                android:layout_marginTop="16dp"
+                android:text="@string/readMe1"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="@+id/RMintro"
+                app:layout_constraintStart_toStartOf="@+id/RMintro"
+                app:layout_constraintTop_toBottomOf="@+id/RMintro" />
 
             <ImageView
-                android:id="@+id/startScreenImg"
-                android:layout_width="wrap_content"
+                android:id="@+id/RMstep1_Img_StartScreen"
+                android:layout_width="0dp"
+                android:layout_height="300dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:contentDescription="@string/readMe1_Img_StartScreen"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/RMstep1"
+                app:srcCompat="@drawable/start_screen" />
+
+            <TextView
+                android:id="@+id/readMe1_5"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:adjustViewBounds="true"
-                android:contentDescription="Start Screen Image"
-                android:cropToPadding="false"
-                tools:srcCompat="@drawable/start_screen" />
+                android:layout_marginTop="8dp"
+                android:text="@string/readMe1_1"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="@+id/RMstep1"
+                app:layout_constraintStart_toStartOf="@+id/RMstep1"
+                app:layout_constraintTop_toBottomOf="@+id/RMstep1_Img_StartScreen" />
 
             <TextView
                 android:id="@+id/RMstep2"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="@string/Step2" />
+                android:layout_marginTop="32dp"
+                android:text="@string/readMe2"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="@+id/readMe1_5"
+                app:layout_constraintStart_toStartOf="@+id/readMe1_5"
+                app:layout_constraintTop_toBottomOf="@+id/readMe1_5" />
 
             <ImageView
-                android:id="@+id/RMcueLeft"
-                android:layout_width="match_parent"
+                android:id="@+id/RMstep2_Img_CueLeft"
+                android:layout_width="542dp"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
                 android:adjustViewBounds="true"
+                android:contentDescription="@string/readMe2_Img_CueLeft"
+                app:layout_constraintEnd_toEndOf="@+id/RMstep1_Img_StartScreen"
+                app:layout_constraintStart_toStartOf="@+id/RMstep1_Img_StartScreen"
+                app:layout_constraintTop_toBottomOf="@+id/RMstep2"
                 app:srcCompat="@drawable/cue_left" />
 
-        </LinearLayout>
+            <TextView
+                android:id="@+id/RMstep2_1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/readMe2_1"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="@+id/RMstep2"
+                app:layout_constraintStart_toStartOf="@+id/RMstep2"
+                app:layout_constraintTop_toBottomOf="@+id/RMstep2_Img_CueLeft" />
+
+            <TextView
+                android:id="@+id/RMstep2_2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="40dp"
+                android:layout_marginTop="8dp"
+                android:text="@string/readMe2_2"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="@+id/RMstep2_1"
+                app:layout_constraintStart_toStartOf="@+id/RMstep2_1"
+                app:layout_constraintTop_toBottomOf="@+id/RMstep2_1" />
+
+            <TextView
+                android:id="@+id/RMstep2_2_1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="8dp"
+                android:text="@string/readMe2_2_1"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="@+id/RMstep2_2"
+                app:layout_constraintStart_toStartOf="@+id/RMstep2_2"
+                app:layout_constraintTop_toBottomOf="@+id/RMstep2_2" />
+
+            <TextView
+                android:id="@+id/RMstep2_2_2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/readMe2_2_2"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="@+id/RMstep2_2_1"
+                app:layout_constraintStart_toStartOf="@+id/RMstep2_2_1"
+                app:layout_constraintTop_toBottomOf="@+id/RMstep2_2_1" />
+
+            <TextView
+                android:id="@+id/RMstep2_3"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/readMe2_3"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="@+id/RMstep2_2"
+                app:layout_constraintStart_toStartOf="@+id/RMstep2_2"
+                app:layout_constraintTop_toBottomOf="@+id/RMstep2_2_2" />
+
+            <TextView
+                android:id="@+id/RMstep2_3_1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/readMe2_3_1"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="@+id/RMstep2_2_2"
+                app:layout_constraintStart_toStartOf="@+id/RMstep2_2_2"
+                app:layout_constraintTop_toBottomOf="@+id/RMstep2_3" />
+
+            <TextView
+                android:id="@+id/RMstep2_3_2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/readMe2_3_2"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="@+id/RMstep2_3_1"
+                app:layout_constraintStart_toStartOf="@+id/RMstep2_3_1"
+                app:layout_constraintTop_toBottomOf="@+id/RMstep2_3_1" />
+
+            <TextView
+                android:id="@+id/RMstep2_4"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/readMe2_4"
+                app:layout_constraintEnd_toEndOf="@+id/RMstep2_3"
+                app:layout_constraintStart_toStartOf="@+id/RMstep2_3"
+                app:layout_constraintTop_toBottomOf="@+id/RMstep2_3_2" />
+
+            <TextView
+                android:id="@+id/RMstep2_4_1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/readMe2_4_1"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="@+id/RMstep2_3_2"
+                app:layout_constraintStart_toStartOf="@+id/RMstep2_3_2"
+                app:layout_constraintTop_toBottomOf="@+id/RMstep2_4" />
+
+            <TextView
+                android:id="@+id/RMstep2_4_2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/readMe2_4_2"
+                app:layout_constraintEnd_toEndOf="@+id/RMstep2_4_1"
+                app:layout_constraintStart_toStartOf="@+id/RMstep2_4_1"
+                app:layout_constraintTop_toBottomOf="@+id/RMstep2_4_1" />
+
+            <TextView
+                android:id="@+id/RMstep2_5"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/readMe2_5"
+                app:layout_constraintEnd_toEndOf="@+id/RMstep2_4"
+                app:layout_constraintStart_toStartOf="@+id/RMstep2_4"
+                app:layout_constraintTop_toBottomOf="@+id/RMstep2_4_2" />
+
+            <TextView
+                android:id="@+id/RMstep2_5_1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/readMe2_5_1"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="@+id/RMstep2_4_2"
+                app:layout_constraintStart_toStartOf="@+id/RMstep2_4_2"
+                app:layout_constraintTop_toBottomOf="@+id/RMstep2_5" />
+
+            <TextView
+                android:id="@+id/RMstep2_6"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/readMe2_6"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="@+id/RMstep2_1"
+                app:layout_constraintStart_toStartOf="@+id/RMstep2_1"
+                app:layout_constraintTop_toBottomOf="@+id/RMstep2_5_1" />
+
+            <TextView
+                android:id="@+id/RMstep2_7"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/readMe2_7"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="@+id/RMstep2_6"
+                app:layout_constraintStart_toStartOf="@+id/RMstep2_6"
+                app:layout_constraintTop_toBottomOf="@+id/RMstep2_6" />
+
+            <ImageView
+                android:id="@+id/RMstep2_7_Img_TapRightFlankRight"
+                android:layout_width="0dp"
+                android:layout_height="300dp"
+                android:layout_marginTop="8dp"
+                android:contentDescription="@string/readMe2_7_Img_TapRightFlankRight"
+                app:layout_constraintEnd_toEndOf="@+id/RMstep1_Img_StartScreen"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="@+id/RMstep1_Img_StartScreen"
+                app:layout_constraintTop_toBottomOf="@+id/RMstep2_7"
+                app:srcCompat="@drawable/tap_right_flank_right" />
+
+            <TextView
+                android:id="@+id/RMstep2_8"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/readMe2_8"
+                app:layout_constraintEnd_toEndOf="@+id/RMstep2_7"
+                app:layout_constraintStart_toStartOf="@+id/RMstep2_7"
+                app:layout_constraintTop_toBottomOf="@+id/RMstep2_7_Img_TapRightFlankRight" />
+
+            <ImageView
+                android:id="@+id/RMstep2_8_Img_TapLeftFlankRight"
+                android:layout_width="0dp"
+                android:layout_height="300dp"
+                android:layout_marginTop="8dp"
+                android:contentDescription="@string/readMe2_8_Img_TapLeftFlankRight"
+                app:layout_constraintEnd_toEndOf="@+id/RMstep2_7_Img_TapRightFlankRight"
+                app:layout_constraintStart_toStartOf="@+id/RMstep2_7_Img_TapRightFlankRight"
+                app:layout_constraintTop_toBottomOf="@+id/RMstep2_8"
+                app:srcCompat="@drawable/tap_left_flank_right" />
+
+            <TextView
+                android:id="@+id/RMstep2_9"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/readMe2_9"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="@+id/RMstep2_8"
+                app:layout_constraintStart_toStartOf="@+id/RMstep2_8"
+                app:layout_constraintTop_toBottomOf="@+id/RMstep2_8_Img_TapLeftFlankRight" />
+
+            <TextView
+                android:id="@+id/RMstep2_9_1_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/readMe2_9_1_1"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="@+id/RMstep2_9_1_1_Img_CueLeft"
+                app:layout_constraintStart_toStartOf="@+id/RMstep2_9_1_1_Img_CueLeft"
+                app:layout_constraintTop_toBottomOf="@+id/RMstep2_9" />
+
+            <TextView
+                android:id="@+id/RMstep2_9_1_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/readMe2_9_1_2"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="@+id/RMstep2_9_1_2_Img_CatchTrial"
+                app:layout_constraintStart_toStartOf="@+id/RMstep2_9_1_2_Img_CatchTrial"
+                app:layout_constraintTop_toTopOf="@+id/RMstep2_9_1_1" />
+
+            <ImageView
+                android:id="@+id/RMstep2_9_1_1_Img_CueLeft"
+                android:layout_width="0dp"
+                android:layout_height="150dp"
+                android:contentDescription="@string/readMe2_9_1_1_Img_CueLeft"
+                app:layout_constraintEnd_toStartOf="@+id/RMstep2_9_1_2_Img_CatchTrial"
+                app:layout_constraintStart_toStartOf="@+id/RMstep2_8_Img_TapLeftFlankRight"
+                app:layout_constraintTop_toBottomOf="@id/RMstep2_9_1_1"
+                app:srcCompat="@drawable/cue_left" />
+
+            <ImageView
+                android:id="@+id/RMstep2_9_1_2_Img_CatchTrial"
+                android:layout_width="0dp"
+                android:layout_height="150dp"
+                android:contentDescription="@string/readMe2_9_1_2_Img_CatchTrial"
+                app:layout_constraintEnd_toEndOf="@+id/RMstep2_8_Img_TapLeftFlankRight"
+                app:layout_constraintStart_toEndOf="@+id/RMstep2_9_1_1_Img_CueLeft"
+                app:layout_constraintTop_toBottomOf="@id/RMstep2_9_1_2"
+                app:srcCompat="@drawable/catch_trial" />
+
+            <TextView
+                android:id="@+id/RMstep3"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:text="@string/readMe3"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="@+id/RMstep2_9"
+                app:layout_constraintStart_toStartOf="@+id/RMstep2_9"
+                app:layout_constraintTop_toBottomOf="@+id/RMstep2_9_1_1_Img_CueLeft" />
+
+            <TextView
+                android:id="@+id/RMstep3_1_1_1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/readMe3_1_1_1"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="@+id/RMstep3_1_1_1_Img_RelaxStage"
+                app:layout_constraintStart_toStartOf="@+id/RMstep3_1_1_1_Img_RelaxStage"
+                app:layout_constraintTop_toBottomOf="@+id/RMstep3" />
+
+            <TextView
+                android:id="@+id/RMstep3_1_1_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/readMe3_1_1_2"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="@+id/RMstep3_1_1_2_Img_TrialStage"
+                app:layout_constraintStart_toStartOf="@+id/RMstep3_1_1_2_Img_TrialStage"
+                app:layout_constraintTop_toTopOf="@+id/RMstep3_1_1_1" />
+
+            <ImageView
+                android:id="@+id/RMstep3_1_1_1_Img_RelaxStage"
+                android:layout_width="0dp"
+                android:layout_height="150dp"
+                android:contentDescription="@string/readMe3_1_1_1_Img_RelaxStage"
+                app:layout_constraintEnd_toStartOf="@+id/RMstep3_1_1_2_Img_TrialStage"
+                app:layout_constraintStart_toStartOf="@+id/RMstep3"
+                app:layout_constraintTop_toBottomOf="@+id/RMstep3_1_1_1"
+                app:srcCompat="@drawable/relax_stage" />
+
+            <ImageView
+                android:id="@+id/RMstep3_1_1_2_Img_TrialStage"
+                android:layout_width="0dp"
+                android:layout_height="150dp"
+                android:contentDescription="@string/readMe3_1_1_2_Img_TrialStage"
+                app:layout_constraintEnd_toEndOf="@+id/RMstep3"
+                app:layout_constraintStart_toEndOf="@+id/RMstep3_1_1_1_Img_RelaxStage"
+                app:layout_constraintTop_toBottomOf="@+id/RMstep3_1_1_2"
+                app:srcCompat="@drawable/trial_stage" />
+
+            <TextView
+                android:id="@+id/RMstep4"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:text="@string/readMe4"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="@+id/RMstep3"
+                app:layout_constraintStart_toStartOf="@+id/RMstep3"
+                app:layout_constraintTop_toBottomOf="@+id/RMstep3_1_1_1_Img_RelaxStage" />
+
+            <TextView
+                android:id="@+id/RMstep4_1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/readMe4_1"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="@+id/RMstep4"
+                app:layout_constraintStart_toStartOf="@+id/RMstep4"
+                app:layout_constraintTop_toBottomOf="@+id/RMstep4" />
+
+            <TextView
+                android:id="@+id/RMstep4_2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/readMe4_2"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="@+id/RMstep4_1"
+                app:layout_constraintStart_toStartOf="@+id/RMstep4_1"
+                app:layout_constraintTop_toBottomOf="@+id/RMstep4_1" />
+
+            <ImageView
+                android:id="@+id/RMstep4_2_Img_OneResult"
+                android:layout_width="0dp"
+                android:layout_height="550dp"
+                android:layout_marginTop="8dp"
+                android:contentDescription="@string/readMe4_2_Img_OneResult"
+                app:layout_constraintEnd_toEndOf="@+id/RMstep2_8_Img_TapLeftFlankRight"
+                app:layout_constraintStart_toStartOf="@+id/RMstep2_8_Img_TapLeftFlankRight"
+                app:layout_constraintTop_toBottomOf="@+id/RMstep4_2"
+                app:srcCompat="@drawable/one_result" />
+
+            <TextView
+                android:id="@+id/RMstep4_3"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/readMe4_3"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="@+id/RMstep4_2"
+                app:layout_constraintStart_toStartOf="@+id/RMstep4_2"
+                app:layout_constraintTop_toBottomOf="@+id/RMstep4_2_Img_OneResult" />
+
+            <TextView
+                android:id="@+id/RMstep4_4"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/readMe4_4"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="@+id/RMstep4_3"
+                app:layout_constraintStart_toStartOf="@+id/RMstep4_3"
+                app:layout_constraintTop_toBottomOf="@+id/RMstep4_3" />
+
+            <ImageView
+                android:id="@+id/RMstep4_4_Img_AllResults"
+                android:layout_width="0dp"
+                android:layout_height="550dp"
+                android:layout_marginTop="8dp"
+                android:contentDescription="@string/readMe4_4_Img_AllResults"
+                app:layout_constraintEnd_toEndOf="@+id/RMstep4_2_Img_OneResult"
+                app:layout_constraintStart_toStartOf="@+id/RMstep4_2_Img_OneResult"
+                app:layout_constraintTop_toBottomOf="@+id/RMstep4_4"
+                app:srcCompat="@drawable/all_results" />
+
+            <TextView
+                android:id="@+id/aboutUs"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/aboutUs"
+                android:textSize="24sp"
+                app:layout_constraintEnd_toEndOf="@+id/RMstep4_4"
+                app:layout_constraintStart_toStartOf="@+id/RMstep4_4"
+                app:layout_constraintTop_toBottomOf="@+id/RMstep4_4_Img_AllResults" />
+
+            <TextView
+                android:id="@+id/aboutUs_1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/aboutUs_1"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="@+id/aboutUs"
+                app:layout_constraintStart_toStartOf="@+id/aboutUs"
+                app:layout_constraintTop_toBottomOf="@+id/aboutUs" />
+
+            <TextView
+                android:id="@+id/aboutUs_2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/aboutUs_2"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="@+id/aboutUs_1"
+                app:layout_constraintStart_toStartOf="@+id/aboutUs_1"
+                app:layout_constraintTop_toBottomOf="@+id/aboutUs_1" />
+
+
+
+
+        </android.support.constraint.ConstraintLayout>
     </ScrollView>
 
 </android.support.constraint.ConstraintLayout>
